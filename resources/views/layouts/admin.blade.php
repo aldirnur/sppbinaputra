@@ -102,12 +102,14 @@
             </li>
         @endif
 
-        <li class="nav-item">
-            <a class="nav-link btn-logout" href="{{route('users')}}">
-                <i class="fas fa-fw fa-user"></i>
-                <span>User</span>
-            </a>
-        </li>
+        @if(in_array(auth()->user()->level, [1]))
+            <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('users')}}">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>User</span>
+                </a>
+            </li>
+        @endif
 
         @if(in_array(auth()->user()->level, [1,2]))
             <li class="nav-item">

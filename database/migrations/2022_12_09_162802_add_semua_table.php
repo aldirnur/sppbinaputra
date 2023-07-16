@@ -26,6 +26,7 @@ class AddSemuaTable extends Migration
             $table->string('no_tlp');
             $table->string('nama_wali');
             $table->string('agama');
+            $table->string('angkatan', 4);
             $table->timestamps();
         });
 

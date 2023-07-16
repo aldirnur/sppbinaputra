@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Jurusan;
 use App\Models\Siswa;
+use App\Models\Spp;
+use App\Models\Tagihan;
 use Illuminate\Http\Request;
 
 class SekolahController extends Controller
@@ -78,6 +80,7 @@ class SekolahController extends Controller
             'nama_wali'=>'required',
             'kelas'=>'required|max:200',
             'alamat' =>'max:200',
+            'angkatan' => 'required|digits:4|max:' . (date('Y')+1)
         ];
 
         $customMessages = [
@@ -91,7 +94,10 @@ class SekolahController extends Controller
             'nis.required' => 'Nis Harus Diisi',
             'nisn.required' => 'Nisn Harus Diisi',
             'nis.unique' => 'Nis Sudah Ada',
-            'nisn.unique' => 'Nisn Sudah Ada'
+            'nisn.unique' => 'Nisn Sudah Ada',
+            'angkatan.required' => 'Angkatan Harus Diisi',
+            'angkatan.digits' => 'Input Tahun Angkatan Harus 4 Angka Saja',
+            'angkatan.max' => 'Maximal Input Tahun Yaitu ' . date('Y')
         ];
 
         $this->validate($request, $rules, $customMessages);
@@ -102,24 +108,68 @@ class SekolahController extends Controller
         }
         $code = date("Y") . $random;
 
-        Siswa::create([
-            'nis' => $request->nis,
-            'nisn' => $request->nisn,
-            'nama' => $request->nama,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'kelas' => $request->kelas,
-            'alamat' => $request->alamat,
-            'tgl_lahir' => $request->tgl,
-            'no_tlp' => $request->no_tlp,
-            'nama_wali' => $request->nama_wali,
-            'jur_id' => $request->jurusan,
-            'pin' => $request->pin,
-            'agama' => $request->agama,
-        ]);
-        $notification = array(
-            'message'=>"Siswa Berhasil Ditambahkan",
-            'alert-type'=>'success',
-        );
+        $checkDataSpp = Spp::where('tahun_ajaran', $request->angkatan)->first();
+        if ($checkDataSpp) {
+            $siswa = Siswa::create([
+                'nis' => $request->nis,
+                'nisn' => $request->nisn,
+                'nama' => $request->nama,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'kelas' => $request->kelas,
+                'alamat' => $request->alamat,
+                'tgl_lahir' => $request->tgl,
+                'no_tlp' => $request->no_tlp,
+                'nama_wali' => $request->nama_wali,
+                'jur_id' => $request->jurusan,
+                'pin' => $request->pin,
+                'agama' => $request->agama,
+                'angkatan' => $request->angkatan
+            ]);
+            $tagihan = New Tagihan();
+            $bulanSekarang = intval(date('m'));
+            $jumlahBulanTahunIni = 12 - $bulanSekarang + 1; 
+            $jumlahBulan =  12;
+            $bulanList = $data = [];
+            if ($jumlahBulan > $jumlahBulanTahunIni) {
+                for ($i = $bulanSekarang; $i <= 12; $i++) {
+                    $namaBulan = date('F', mktime(0, 0, 0, $i, 1)); 
+                    $bulanList[] = $namaBulan;
+                }
+                $bulanAwalTahun = $jumlahBulan - $jumlahBulanTahunIni;
+                for ($i = 1; $i <= $bulanAwalTahun; $i++) {
+                    $namaBulan = date('F', mktime(0, 0, 0, $i, 1));
+                    $bulanList[] = $namaBulan;
+                    $data = $bulanList;
+                }
+            } else {
+                $data = [];
+                for ($i = $bulanSekarang; $i <= 12; $i++) {
+                    $namaBulan = date('F', mktime(0, 0, 0, $i, 1));
+                    $bulanList[] = $namaBulan;
+                }
+                
+                for ($i = 0; $i < $jumlahBulan; $i++) {
+                    $namaBulan = date('F', mktime(0, 0, 0, $i, 1)); 
+                    $data[] = $bulanList[$i % 12];
+                }
+            }
+
+            $tagihan->jumlah = 12;
+            $tagihan->id_spp = $checkDataSpp->id_spp;
+            $tagihan->id_siswa = $siswa->id_siswa;
+            $tagihan->bulan = json_encode($data);
+            $tagihan->save();
+            $notification = array(
+                'message'=>"Siswa Berhasil Ditambahkan",
+                'alert-type'=>'success',
+            );
+        } else {
+            $notification = array(
+                'message'=>"Data Siswa Gagal Di Buat, Angkatan " . $request->angkatan . ' Belum Memiliki Data SPP' ,
+                'alert-type'=>'danger',
+            );
+        }
+        
         return redirect()->route('siswa')->with($notification);
     }
     /**

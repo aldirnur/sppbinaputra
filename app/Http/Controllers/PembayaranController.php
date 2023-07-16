@@ -187,6 +187,26 @@ class PembayaranController extends Controller
         $id = $request->id;
         $jumlah = $request->jumlah;
         $tagihan = Tagihan::where('id_siswa', $id)->first();
+        $bulan = json_decode($tagihan->bulan);
+
+        $bulan = array_map(function ($value, $index) {
+            return $value;
+        }, $bulan, array_keys($bulan));
+
+        array_unshift($bulan,"");
+        unset($bulan[0]);
+
+       
+        $result = [];
+        for ($i = 1; $i <= $jumlah; $i++) {
+            if (isset($bulan[$i])) {
+                $result[] = $bulan[$i];
+            }
+        }
+        $resultFinal =  implode(',', $result);
+        
+
+
         $nominal_tagihan = 0;
         if ($tagihan) {
             $nominal_tagihan = (isset($tagihan->spp->nominal_spp) ? $tagihan->spp->nominal_spp : 0) * $jumlah  ;
@@ -199,7 +219,7 @@ class PembayaranController extends Controller
         } else {
             return response()->json(['status' => 'failed', 'nom' => '0', 'message' => 'Maaf, Anda Tidak Memiliki Tagihan. SIlahkan Hubungi Petugas!']);
         }
-        return response()->json(['status' => 'success', 'nom' => $nominal_tagihan]);
+        return response()->json(['status' => 'success', 'nom' => $nominal_tagihan , 'bulan' => $resultFinal]);
     }
 
     public function cekToken(Request $request)
