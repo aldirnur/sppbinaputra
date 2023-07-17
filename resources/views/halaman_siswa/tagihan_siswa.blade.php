@@ -75,12 +75,13 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="" class=" table table-hover table-center mb-0">
+                        <table id="datatable-export" class=" table table-hover table-center mb-0">
                             <thead>
                                 <tr>
                                     <th>Nama Siswa</th>
                                     <th>Nominal Spp</th>
                                     <th>Jumlah Bulan</th>
+                                    <th>Bulan</th>
                                     <th>Jumlah Tagihan</th>
                                     <th>Status</th>
                                     {{-- <th class="action-btn">Action</th> --}}
@@ -98,6 +99,18 @@
                                     </td>
                                     <td>{{isset($item->spp->nominal_spp) ? $item->spp->nominal_spp : 0}}</td>
                                     <td>{{$item->jumlah}}</td>
+                                    <td>
+                                        @php ($bulan = json_decode($item->bulan))@endphp
+                                        
+                                        @php ($namaBulan = $bulan) @endphp
+                                        @foreach ($bulan as $index => $value)
+                                            @php ($nama = $namaBulan[$index % 12]) @endphp
+                                            {{$nama}}
+                                            @if ($index != count($bulan) - 1)
+                                                ,
+                                            @endif
+                                        @endforeach
+                                    </td>
                                     <td>{{$total}}</td>
                                     @if ($item->status == 1)
                                         <td><span class="btn btn-sm bg-success-light">Lunas</span></td>

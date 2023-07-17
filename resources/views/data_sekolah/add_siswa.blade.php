@@ -110,6 +110,12 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Angkatan<span class="text-danger">*</span></label>
+                            <input type="number" placeholder="YYYY" min="1999" name="angkatan" >
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -208,6 +214,10 @@
 <!-- End of Main Content -->
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    document.querySelector("input[type=number]")
+    .oninput = e => console.log(new Date(e.target.valueAsNumber, 0, 1))
+ </script>
     <script type="text/javascript">
         $(".body").keyup(function(){
             var tunggakan = parseInt($("#tunggakan").val())

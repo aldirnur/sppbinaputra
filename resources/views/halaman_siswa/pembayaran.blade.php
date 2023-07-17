@@ -112,8 +112,15 @@
 
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>Bulan<span class="text-danger">*</span></label>
+                            <label>Jumlah<span class="text-danger">*</span></label>
                             <input class="form-control" type="number" id = "jumlah" name="Bulan" value="0"  onchange="getTagihan()"> <i class="fe fe-image"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Bulan</label>
+                            <input class="form-control" type="text" id="bulan" name="bulan" readonly> <i class="fe fe-image"></i>
                         </div>
                     </div>
 
@@ -181,9 +188,10 @@ console.log(id);
             },
             success: function(data){
                 if (data.status == 'success') {
+                    console.log(data.bulan)
                     $("#nominal").val(data.nom);
+                    $("#bulan").val(data.bulan);
                 } else {
-                    console.log('test');
                     Snackbar.show({
                     text: data.message,
                     pos: 'top-right',
