@@ -217,11 +217,13 @@ class PembayaranController extends Controller
                 return response()->json(['status' => 'failed', 'nom' => $tagihan->jumlah, 'message' => 'Maaf, Jumlah Bulan Yang Anda Masukan Lebih,  Sisa Tagihan Anda Sebanyak ' . $tagihan->jumlah . ' Bulan']);
             }
         } else {
-            return response()->json(['status' => 'failed', 'nom' => '0', 'message' => 'Maaf, Anda Tidak Memiliki Tagihan. SIlahkan Hubungi Petugas!']);
+            return response()->json(['status' => 'failed', 'nom' => '0', 'message' => 'Maaf, Anda Tidak Memiliki Tagihan. Silahkan Hubungi Petugas!']);
         }
+
+        $nominal_tagihan = number_format($nominal_tagihan,2, ',', '.');
         return response()->json(['status' => 'success', 'nom' => $nominal_tagihan , 'bulan' => $resultFinal]);
     }
-
+    
     public function cekToken(Request $request)
     {
         $rules = [
@@ -267,7 +269,7 @@ class PembayaranController extends Controller
         $tagihan = Tagihan::where('id_siswa', $id)->first();
         $transaksi = [];
         if ($tagihan) {
-            $transaksi = Transaksi::whereNull('token')->where('tag_id', $tagihan->tag_id)->orderBy('created_at', 'desc')->get();
+            $transaksi = Transaksi::where('tag_id', $tagihan->tag_id)->orderBy('created_at', 'desc')->get();
         }
 
         $menu = 'Pembayaran';

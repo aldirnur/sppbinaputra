@@ -106,7 +106,7 @@
 
                                             <td>{{$item->no_transaksi}}</td>
                                             <td>{{$item->tgl}}</td>
-                                            <td>{{$item->nominal_transaksi}}</td>
+                                            <td>Rp. {{number_format($item->nominal_transaksi,2, ',', '.')}}</td>
                                             <td><a href="#generate_report" data-toggle="modal" onclick="getBukti('{{$item->bukti_transaksi}}');">{{$item->bukti_transaksi}}</a></td>
                                             <td>
                                                 {{$item->keterangan}}

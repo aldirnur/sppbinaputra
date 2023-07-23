@@ -97,7 +97,7 @@
                                         <td>
                                             {{$item->tgl}}
                                         </td>
-                                        <td>{{$item->nominal_kas}}</td>
+                                        <td>{{number_format($item->nominal_kas,2, ',', '.')}}</td>
                                         <td>{{$item->notes}}</td>
                                         <td>{{number_format($tot_saldo,2, ',', '.')}}</td>
                                     </tr>

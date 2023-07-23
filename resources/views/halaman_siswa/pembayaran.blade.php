@@ -88,32 +88,41 @@
                             <input class="form-control" type="text" id="nis" name="nama" value="{{$siswa->nama}}" readonly>
                         </div>
                     </div>
+                    
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>NISN</label>
-                            <input class="form-control" type="number" id="nis" name="nisn" value="{{$siswa->nisn}}" readonly>
+                            <label>Kelas</label>
+                            <input class="form-control" type="varchar" id="kelas" name="kelas" value="{{$siswa->kelas}}" readonly>
                         </div>
                     </div>
-                    <div class="col-lg-12">
+
+                    
+                    <!-- <div class="col-lg-12">
                         <div class="form-group">
                             <label>NIS</label>
                             <input class="form-control" type="number" id="nis" name="nis" value="{{$siswa->nis}}" readonly>
                         </div>
-                    </div>
+                    </div> -->
 
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Virtual Account</label>
+                            <input class="form-control" type="varchar" id="nis" name="nisn" value="001-999-{{$siswa->nisn}}" readonly>
+                        </div>
+                    </div>
 
 
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Nominal Tagihan<span class="text-danger">*</span></label>
-                            <input class="form-control" type="number" id="nominal" name="nominal" value="0" readonly>
+                            <input class="form-control" type="text" id="nominal" name="nominal" value="0" readonly>
                         </div>
                     </div>
 
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>Jumlah<span class="text-danger">*</span></label>
-                            <input class="form-control" type="number" id = "jumlah" name="Bulan" value="0"  onchange="getTagihan()"> <i class="fe fe-image"></i>
+                            <label>Jumlah Bulan<span class="text-danger">*</span></label>
+                            <input class="form-control" type="number" id="jumlah" name="Bulan" value="0"  onchange="getTagihan()"> <i class="fe fe-image"></i>
                         </div>
                     </div>
 
@@ -151,13 +160,12 @@
 <!-- End of Main Content -->
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript">
+<script type="text/javascript">
 
 function getTagihan() {
     id =  $("#id_siswa").val();
     jumlah =  $("#jumlah").val();
 
-console.log(id);
     event.preventDefault();
     if (jumlah > 0) {
         $('#btn_submit').removeClass('btn btn-danger submit-btn');
@@ -169,10 +177,17 @@ console.log(id);
         $('#btn_submit').removeClass('btn btn-primary submit-btn');
         $('#btn_submit').addClass('btn btn-danger submit-btn');
         $('#btn_submit').prop("disabled", true);
+
+        Snackbar.show({
+            text: "Maaf , Jumlah Bulan Tidak boleh Kurang dari 0",
+            pos: 'top-right',
+            actionTextColor: '#fff',
+            backgroundColor: '#e7515a',
+        });
+        $("#nominal").val(0);
+        $("#jumlah").val(0);
     }
 
-
-    console.log('{{ csrf_token() }}');
         $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -188,8 +203,9 @@ console.log(id);
             },
             success: function(data){
                 if (data.status == 'success') {
-                    console.log(data.bulan)
-                    $("#nominal").val(data.nom);
+                    if (jumlah > 0) {
+                        $("#nominal").val(data.nom);
+                    }
                     $("#bulan").val(data.bulan);
                 } else {
                     Snackbar.show({

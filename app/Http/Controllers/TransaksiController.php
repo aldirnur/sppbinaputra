@@ -18,7 +18,7 @@ class TransaksiController extends Controller
     public function index()
     {
         $title = "Transaksi";
-        $transaksi = Transaksi::whereNull('token')->orderBy('created_at', 'desc')->get();
+        $transaksi = Transaksi::orderBy('created_at', 'desc')->get();
         $menu = 'Pembayaran';
 
         return view('data_keuangan.transaksi',compact(
@@ -256,6 +256,35 @@ class TransaksiController extends Controller
                     $tagihan = Tagihan::find($transaksi->tag_id);
                     $nominal_tagihan = (isset($tagihan->spp->nominal_spp) ? $tagihan->spp->nominal_spp : 0) * $tagihan->jumlah;
                     $sisa_tagihan = ($nominal_tagihan - $transaksi->nominal_transaksi ) / $tagihan->spp->nominal_spp;
+
+                    $bulanSekarang = intval(date('m'));
+                    $jumlahBulanTahunIni = 12 - $bulanSekarang - 1; 
+                    $jumlahBulan =  $sisa_tagihan;
+                    $bulanList = $data = [];
+                    if ($jumlahBulan > $jumlahBulanTahunIni) {
+                        for ($i = $bulanSekarang; $i <= 12; $i++) {
+                            $namaBulan = date('F', mktime(0, 0, 0, $i, 1)); 
+                            $bulanList[] = $namaBulan;
+                        }
+                        $bulanAwalTahun = $jumlahBulan - $jumlahBulanTahunIni;
+                        for ($i = 1; $i <= $bulanAwalTahun; $i++) {
+                            $namaBulan = date('F', mktime(0, 0, 0, $i, 1));
+                            $bulanList[] = $namaBulan;
+                            $data = $bulanList;
+                        }
+                    } else {
+                        $data = [];
+                        for ($i = $bulanSekarang; $i <= 12; $i++) {
+                            $namaBulan = date('F', mktime(0, 0, 0, $i, 1));
+                            $bulanList[] = $namaBulan;
+                        }
+                        
+                        for ($i = 0; $i < $jumlahBulan; $i++) {
+                            $namaBulan = date('F', mktime(0, 0, 0, $i, 1)); 
+                            $data[] = $bulanList[$i % 12];
+                        }
+                    }
+                    $tagihan->bulan = json_encode($data);
                     $tagihan->jumlah = $sisa_tagihan;;
                     $tagihan->save();
 

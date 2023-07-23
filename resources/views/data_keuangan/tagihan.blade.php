@@ -85,7 +85,7 @@
                             <thead>
                                 <tr>
                                     <th>Nama Siswa</th>
-                                    <th>Nominal Spp</th>
+                                    <th>Nominal SPP</th>
                                     <th>Jumlah Bulan</th>
                                     <th>Bulan</th>
                                     <th>Jumlah Tagihan</th>
@@ -103,7 +103,7 @@
                                     <td>
                                         {{isset($item->siswa->nama) ? $item->siswa->nama : ''}}
                                     </td>
-                                    <td>{{isset($item->spp->nominal_spp) ? $item->spp->nominal_spp : 0}}</td>
+                                    <td>Rp. {{number_format($item->spp->nominal_spp,2, ',', '.')}}</td>
                                     <td>{{$item->jumlah}}</td>
                                     <td>
                                         @php ($bulan = json_decode($item->bulan))@endphp
@@ -116,7 +116,7 @@
                                             @endif
                                         @endforeach
                                     </td>
-                                    <td>{{$total}}</td>
+                                    <td>Rp. {{number_format($total,2, ',', '.')}}</td>
                                     @if ($item->status == 1)
                                         <td><span class="btn btn-sm bg-success-light">Lunas</span></td>
                                     @else
@@ -198,7 +198,7 @@
                                     <label>SPP <span class="text-danger">*</span></label>
                                     <select class="select2 form-select form-control" name="spp">
                                         @foreach ($spp as $sp)
-                                            <option value="{{$sp->id_spp}}">Rp. {{$sp->nominal_spp}}</option>
+                                            <option value="{{$sp->id_spp}}"></option>
                                         @endforeach
                                     </select>
                                 </div>
