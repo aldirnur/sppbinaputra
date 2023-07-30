@@ -8,6 +8,7 @@ use App\Models\Tagihan;
 use App\Models\Transaksi;
 use Exception;
 use Illuminate\Support\Facades\Hash;
+use App\PaymentMethod;
 
 class PembayaranController extends Controller
 {
@@ -24,6 +25,7 @@ class PembayaranController extends Controller
         $siswa = Siswa::where('nisn', $request->nisn)->where('pin', $request->pin)->first();
         $tagihan = 0;
         $transaksi = [];
+        $payment_method = PaymentMethod::where('status', 1)->get();
         if ($siswa) {
             $tagihan = Tagihan::where('id_siswa', $siswa->id_siswa)->first();
             if ($tagihan) {
@@ -37,7 +39,7 @@ class PembayaranController extends Controller
         }
         // dd($siswa);
         return view('halaman_siswa.pembayaran',compact(
-            'title','siswa','nisn'
+            'title','siswa','nisn', 'payment_method'
         ));
     }
 
@@ -49,7 +51,6 @@ class PembayaranController extends Controller
      */
     public function store(Request $request, $id_siswa)
     {
-        // dd($request->all());
         $rules = [
             'file'=>'required',
         ];
@@ -88,6 +89,7 @@ class PembayaranController extends Controller
 
             $code = date("d") . $random;
             $transaksi = New Transaksi();
+            $transaksi->pm_id = $request->payment_method;
             $transaksi->no_transaksi = $code;
             $transaksi->status_transaksi = 2;
             $transaksi->tgl = date('Y-m-d');
@@ -97,10 +99,6 @@ class PembayaranController extends Controller
             $transaksi->tag_id = $cek_tagihan->tag_id;
             $transaksi->token = $otp;
             $transaksi->save();
-
-           
-
-            // dd($transaksi->tagihan->siswa->no_tlp);
 
             if ($transaksi->token != null) {
                 try {

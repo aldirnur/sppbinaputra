@@ -99,7 +99,7 @@ class KeuanganController extends Controller
 
         $this->validate($request, $rules, $customMessages);
         $tagihan = New Tagihan();
-        $bulanSekarang = intval(date('m'));
+        $bulanSekarang = 6;
         $jumlahBulanTahunIni = 12 - $bulanSekarang + 1; 
         $jumlahBulan =  $request->jumlah;
         $bulanList = $data = [];
@@ -126,6 +126,8 @@ class KeuanganController extends Controller
                 $data[] = $bulanList[$i % 12];
             }
         }
+        $test = json_encode($data);
+
 
         $tagihan->jumlah = $request->jumlah;
         $tagihan->id_spp = $request->spp;

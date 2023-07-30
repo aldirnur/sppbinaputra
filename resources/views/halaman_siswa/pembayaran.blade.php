@@ -97,20 +97,18 @@
                     </div>
 
                     
-                    <!-- <div class="col-lg-12">
-                        <div class="form-group">
-                            <label>NIS</label>
-                            <input class="form-control" type="number" id="nis" name="nis" value="{{$siswa->nis}}" readonly>
-                        </div>
-                    </div> -->
-
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>Virtual Account</label>
-                            <input class="form-control" type="varchar" id="nis" name="nisn" value="001-999-{{$siswa->nisn}}" readonly>
+                            <label>Metode Pembayaran <span class="text-danger">*</span></label>
+                            <select class="form-control" name="payment_method" onclick="changePm(this.value)">
+                                @foreach ($payment_method as $pm )
+                                    <option value="{{$pm->pm_id}}">{{$pm->nama}} - {{$pm->no_account}}</option>
+                                @endforeach
+                            </select>
+                            <div id="myDiv">
+                            </div>
                         </div>
                     </div>
-
 
                     <div class="col-lg-12">
                         <div class="form-group">
@@ -220,6 +218,46 @@ function getTagihan() {
             }
         });
     }
+
+function changePm (val) {
+    $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                }
+            });
+        $.ajax({
+            url: '/get_pm',
+            type: 'get',
+            dataType: 'JSON',
+            data: {
+                id:val
+            },
+            success: function(data){
+                if (data.status == 'success') {
+                    var myDiv = document.getElementById("myDiv");
+                    console.log(data.text);
+                    var textArray = data.text.split(" ");
+                    myDiv.innerHTML = "";
+                    for (var i = 0; i < textArray.length; i++) {
+                        var paragraph = document.createElement("p");
+                        paragraph.textContent = textArray[i];
+                        myDiv.appendChild(paragraph);
+                    }
+                    
+                } else {
+                    Snackbar.show({
+                    text: data.message,
+                    pos: 'top-right',
+                    actionTextColor: '#fff',
+                    backgroundColor: '#e7515a',
+                });
+
+                }
+            }
+        });
+    var test = $("#desc"+val).val();
+    console.log(test);
+}
 
 </script>
 

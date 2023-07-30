@@ -198,14 +198,14 @@
                                     <label>SPP <span class="text-danger">*</span></label>
                                     <select class="select2 form-select form-control" name="spp">
                                         @foreach ($spp as $sp)
-                                            <option value="{{$sp->id_spp}}"></option>
+                                            <option value="{{$sp->id_spp}}">{{$sp->nominal_spp}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <label>Jumlah <span class="text-danger">*</span></label><br>
-                                <input type="number" name="jumlah" required="required">
+                                <input type="number" name="jumlah" required="required" value="12" readonly>
                             </div>
                         </div>
                         <br>

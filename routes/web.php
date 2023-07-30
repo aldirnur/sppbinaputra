@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +43,7 @@ Route::get('tagihan-siswa/{id}',[KeuanganController::class,'tagihan_siswa'])->na
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::put('/profile', 'ProfileController@update')->name('profile.update');
 Route::get('/pembayaran',[PembayaranController::class,'index']);
+Route::get('/get_pm',[PaymentMethodController::class,'getTagihan']);
 Route::get('/get_tagihan',[PembayaranController::class,'getTagihan']);
 // Route::get('pembayaran',[PembayaranController::class,'index'])->name('pembayaran');
 Route::post('/pembayaran/{id}',[PembayaranController::class,'store'])->name('pembayaran');
@@ -64,7 +66,9 @@ Route::group(['middleware'=>['auth']],function (){
     Route::get('logout',[LogoutController::class,'index'])->name('logout');
 
 
-   
+    Route::get('payment-method',[PaymentMethodController::class,'index'])->name('payment');
+    Route::post('payment-method/store',[PaymentMethodController::class,'store'])->name('add-payment');
+    Route::get('payment-method/{product}',[PaymentMethodController::class,'show'])->name('edit-payment');
 
     Route::get('keuangan',[KeuanganController::class,'index'])->name('keuangan');
     Route::get('kategori/create',[KeuanganController::class,'create'])->name('add-kategori');

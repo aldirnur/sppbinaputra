@@ -126,7 +126,7 @@ class SekolahController extends Controller
                 'angkatan' => $request->angkatan
             ]);
             $tagihan = New Tagihan();
-            $bulanSekarang = intval(date('m'));
+            $bulanSekarang = 6;
             $jumlahBulanTahunIni = 12 - $bulanSekarang + 1; 
             $jumlahBulan =  12;
             $bulanList = $data = [];

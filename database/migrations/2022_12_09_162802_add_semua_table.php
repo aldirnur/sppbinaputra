@@ -68,6 +68,7 @@ class AddSemuaTable extends Migration
             $table->string('status_transaksi')->comment('1. Diterima, 2.Verifikasi, 3. Ditolak')->default(0);
             $table->text('keterangan')->nullable();
             $table->string('bukti_transaksi');
+            $table->integer('pm_id');
             $table->string('token')->nullable();
             $table->timestamps();
         });

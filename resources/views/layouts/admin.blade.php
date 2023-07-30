@@ -51,7 +51,7 @@
     <hr class="sidebar-divider">
 
         <!-- Nav Item - Charts -->
-        @if(in_array(auth()->user()->level, [1,3]))
+        @if(in_array(auth()->user()->level, [3]))
             <li class="nav-item">
                 <a class="nav-link btn-logout" href="{{route('dashboard')}}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -86,7 +86,9 @@
                     <span>Data Tagihan</span>
                 </a>
             </li>
+        @endif
 
+        @if(in_array(auth()->user()->level, [1]))
             <li class="nav-item">
                 <a class="nav-link btn-logout" href="{{route('siswa')}}">
                     <i class="fas fa-fw fa-users"></i>
@@ -100,9 +102,6 @@
                     <span>Data Jurusan</span>
                 </a>
             </li>
-        @endif
-
-        @if(in_array(auth()->user()->level, [1]))
             <li class="nav-item">
                 <a class="nav-link btn-logout" href="{{route('users')}}">
                     <i class="fas fa-fw fa-user"></i>
@@ -121,6 +120,12 @@
         @endif
         <li class="nav-item">
             <a class="nav-link btn-logout" href="{{route('logout')}}" >
+                <i class="fas fa-fw fa-credit-card"></i>
+                <span>Metode Pembayaran</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link btn-logout" href="{{route('payment')}}" >
                 <i class="fas fa-fw fa-power-off"></i>
                 <span>Logout</span>
             </a>

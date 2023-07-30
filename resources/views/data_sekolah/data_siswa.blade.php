@@ -91,6 +91,7 @@
                                     <th>Nama Wali</th>
                                     <th>Agama</th>
                                     <th>Pin</th>
+                                    <th>Status</th>
                                     <th class="action-btn">Action</th>
                                 </tr>
                             </thead>
@@ -111,6 +112,7 @@
                                     <td>{{$item->nama_wali}}</td>
                                     <td>{{$item->agama}}</td>
                                     <td>{{$item->pin}}</td>
+                                    <td>{{$item->status == 1 ? 'Aktiv' : 'Tidak Aktif'}}</td>
                                     <td>
                                         <div class="actions">
                                             <a onclick="preLoad();" class="btn btn-sm btn-primary shadow-sm" href="{{route('edit-siswa',$item->id_siswa)}}">

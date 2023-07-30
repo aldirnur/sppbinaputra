@@ -110,6 +110,15 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Status <span class="text-danger">*</span></label>
+                            <select class="form-control" name="status">
+                                <option value="1" {{$siswa->status == 1 ? 'selected' : ''}}>Aktif </option>
+                                <option value="2" {{$siswa->status == 2 ? 'selected' : ''}}>Tidak Aktif</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
 
