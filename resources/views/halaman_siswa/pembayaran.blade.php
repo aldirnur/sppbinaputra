@@ -100,16 +100,21 @@
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Metode Pembayaran <span class="text-danger">*</span></label>
-                            <select class="form-control" name="payment_method" onclick="changePm(this.value)">
-                                @foreach ($payment_method as $pm )
-                                    <option value="{{$pm->pm_id}}">{{$pm->nama}} - {{$pm->no_account}}</option>
-                                @endforeach
+                            <select class="form-control" onchange="getTerm(this.value)" name="payment_method">
+                                <option value="1">Pilih Metode Pembayaran</option>
+                                <option value="1">Dompet Digital</option>
+                                <option value="2">Transfer Bank</option>
                             </select>
-                            <div id="myDiv">
-                            </div>
+                            <br>
+                            <a href="#generate_report" data-toggle="modal">Tata Cara Pembayaran</a>
                         </div>
                     </div>
-
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>No Pembayaran</label>
+                            <input class="form-control" type="text" id="nominal" name="nominal" value="001-{{$siswa->nisn}}" readonly>
+                        </div>
+                    </div>
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Nominal Tagihan<span class="text-danger">*</span></label>
@@ -133,7 +138,7 @@
 
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>Bukti Pembayaran<span class="text-danger">*</span></label>
+                            <label>Bukti Bayar<span class="text-danger">*</span></label>
                             <input class="form-control" type="file" name="file" value="0"> <i class="fe fe-image"></i>
                         </div>
                     </div>
@@ -155,11 +160,35 @@
 <!-- /.container-fluid -->
 
 </div>
+<div class="modal fade" id="generate_report" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tata Cara Pembayaran</h5>
+                <button type="button" class="close" onclick="location.reload();" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="bukti">
+            </div>
+        </div>
+    </div>
+</div>
 <!-- End of Main Content -->
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
-
+    function getTerm(val) {
+        if (val == 1) {
+            var bukti ='<p> Dompet Digital<p>'+
+                    '<p>Pilih Pembayaran';
+        } else {
+            var bukti ='<p> Rekening<p>'+
+                    '<p>Pilih Pembayaran';
+        }
+        
+            $('#bukti').append(bukti);
+    }
 function getTagihan() {
     id =  $("#id_siswa").val();
     jumlah =  $("#jumlah").val();

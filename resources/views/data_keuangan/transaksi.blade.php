@@ -80,7 +80,7 @@
                             <thead class="text-center thead-light">
                                 <tr>
                                 <tr>
-                                    <th scope="col" >Nama Siswa</th>
+                                    <th scope="col">Nama Siswa</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Kode Transaksi</th>
                                     <th scope="col">Tanggal Transaksi</th>

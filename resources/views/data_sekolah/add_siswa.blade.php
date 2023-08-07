@@ -110,44 +110,45 @@
                             </select>
                         </div>
                     </div>
-                    <!-- <div class="col-lg-12">
+                    <div class="col-lg-12">
                         <div class="form-group">
                             <label>Angkatan<span class="text-danger">*</span></label>
                             <input type="number" placeholder="YYYY" min="2015" name="angkatan" >
                         </div>
-                    </div> -->
+                    </div>
+        </div>
 
-                    <div class="col-lg-12">
+                    <!-- <div class="col-lg-12">
                         <div class="form-group">
                             <label>Angkatan <span class="text-danger">*</span></label>
                             <select class="form-control" name="angkatan" type="number">
-                                <option value="1">2015 </option>
-                                <option value="2">2016 </option>
-                                <option value="3">2017 </option>
-                                <option value="4">2018 </option>
-                                <option value="5">2019 </option>
-                                <option value="6">2020 </option>
-                                <option value="7">2021 </option>
-                                <option value="8">2022 </option>
-                                <option value="9">2023 </option>
-                                <option value="10">2024 </option>
-                                <option value="11">2025 </option>
-                                <option value="12">2026 </option>
-                                <option value="13">2027 </option>
-                                <option value="14">2028 </option>
-                                <option value="15">2029 </option>
-                                <option value="16">2030 </option>
+                                <option value="1">2015</option>
+                                <option value="2">2016</option>
+                                <option value="3">2017</option>
+                                <option value="4">2018</option>
+                                <option value="5">2019</option>
+                                <option value="6">2020</option>
+                                <option value="7">2021</option>
+                                <option value="8">2022</option>
+                                <option value="9">2023</option>
+                                <option value="10">2024</option>
+                                <option value="11">2025</option>
+                                <option value="12">2026</option>
+                                <option value="13">2027</option>
+                                <option value="14">2028</option>
+                                <option value="15">2029</option>
+                                <option value="16">2030</option>
                             </select>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="service-fields mb-3">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>No Telfon <span class="text-danger">*</span></label>
+                            <label>No HP <span class="text-danger">*</span></label>
                             <input type="number" name="no_tlp" value="" class="form-control">
                         </div>
                     </div>
