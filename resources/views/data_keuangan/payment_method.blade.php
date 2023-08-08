@@ -52,7 +52,7 @@
                                     <td>
                                         {{$item->no_account}} 
                                     </td>
-                                    <td>{{$item->status == 1 ? 'Aktiv' : 'Tidak Aktif'}}</td>
+                                    <td>{{$item->status == 1 ? 'Aktif' : 'Tidak Aktif'}}</td>
                                     <td>
                                         <div class="actions">
                                             <a class="btn btn-sm btn-primary shadow-sm" href="{{route('edit-spp',$item->pm_id)}}">

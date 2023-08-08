@@ -118,14 +118,14 @@
                 </a>
             </li>
         @endif
-        <li class="nav-item">
-            <a class="nav-link btn-logout" href="{{route('logout')}}" >
+        <!-- <li class="nav-item">
+            <a class="nav-link btn-logout" href="{{route('payment')}}" >
                 <i class="fas fa-fw fa-credit-card"></i>
                 <span>Metode Pembayaran</span>
             </a>
-        </li>
+        </li> -->
         <li class="nav-item">
-            <a class="nav-link btn-logout" href="{{route('payment')}}" >
+            <a class="nav-link btn-logout" href="{{route('logout')}}" >
                 <i class="fas fa-fw fa-power-off"></i>
                 <span>Logout</span>
             </a>
