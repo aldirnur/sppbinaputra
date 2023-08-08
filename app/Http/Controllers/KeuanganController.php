@@ -92,9 +92,11 @@ class KeuanganController extends Controller
     {
         $rules = [
             'jumlah'=>'required',
+            'spp'=>'required',
         ];
         $customMessages = [
             'jumlah.required' => 'Jumlah Tagihan Harus Diisi',
+            'spp.required' => 'Pastikan data yang anda inputkan memiliki Spp',
         ];
 
         $this->validate($request, $rules, $customMessages);

@@ -186,22 +186,19 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Siswa <span class="text-danger">*</span></label>
-                                    <select class="select2 form-select form-control" name="siswa">
+                                    <select class="select2 form-select form-control" name="siswa" onchange="getSpp(this.value)">
+                                        <option value="0">Silahkan pilih siswa</option>
                                         @foreach ($siswa as $sw)
                                             <option value="{{$sw->id_siswa}}">{{$sw->nis}} - {{$sw->nama}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label>SPP <span class="text-danger">*</span></label>
-                                    <select class="select2 form-select form-control" name="spp">
-                                        @foreach ($spp as $sp)
-                                            <option value="{{$sp->id_spp}}">{{$sp->nominal_spp}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            <div class="col-12">
+                                <label>SPP <br>
+                                <input type="number" id="nominal" name="nominal" value="0" readonly>
+                                <input type="hidden" id="id_spp" name="spp"  readonly>
+                                <br>
                             </div>
                             <div class="col-12">
                                 <label>Jumlah <span class="text-danger">*</span></label><br>
@@ -216,3 +213,39 @@
         </div>
     </div>
 @endsection
+<script>
+function getSpp(val) {
+    console.log(val)
+    event.preventDefault();
+        $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                }
+            });
+        $.ajax({
+            url: '/get_spp',
+            type: 'get',
+            dataType: 'JSON',
+            data: {
+                id:val
+            },
+            success: function(data) {
+                if (data.status == 'success') {
+                    $("#nominal").val(data.nom);
+                    $("#id_spp").val(data.id);
+                } else {
+                    Snackbar.show({
+                    text: data.message,
+                    pos: 'top-right',
+                    actionTextColor: '#fff',
+                    backgroundColor: '#e7515a',
+                });
+                    $("#nominal").val(data.nom);
+                    $("#id_spp").val('');
+
+                }
+            }
+        });
+}
+
+</script>

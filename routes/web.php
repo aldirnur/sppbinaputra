@@ -45,6 +45,7 @@ Route::put('/profile', 'ProfileController@update')->name('profile.update');
 Route::get('/pembayaran',[PembayaranController::class,'index']);
 Route::get('/get_pm',[PaymentMethodController::class,'getTagihan']);
 Route::get('/get_tagihan',[PembayaranController::class,'getTagihan']);
+Route::get('/get_spp',[PembayaranController::class,'getSpp']);
 // Route::get('pembayaran',[PembayaranController::class,'index'])->name('pembayaran');
 Route::post('/pembayaran/{id}',[PembayaranController::class,'store'])->name('pembayaran');
 Route::post('add-token',[PembayaranController::class,'cekToken'])->name('add-token');
