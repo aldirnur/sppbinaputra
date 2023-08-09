@@ -272,7 +272,7 @@ function changePm (val) {
                         paragraph.textContent = textArray[i];
                         myDiv.appendChild(paragraph);
                     }
-                    
+                     
                 } else {
                     Snackbar.show({
                     text: data.message,

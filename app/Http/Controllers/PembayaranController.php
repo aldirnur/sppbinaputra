@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Siswa;
+use App\Models\Spp;
 use App\Models\Tagihan;
 use App\Models\Transaksi;
 use Exception;
@@ -220,6 +221,57 @@ class PembayaranController extends Controller
 
         $nominal_tagihan = number_format($nominal_tagihan,2, ',', '.');
         return response()->json(['status' => 'success', 'nom' => $nominal_tagihan , 'bulan' => $resultFinal]);
+    }
+
+    public function getSpp(Request $request)
+    {
+        $id = $request->id;
+        $siswa = Siswa::find($id);
+
+        $spp = Spp::where('tahun_ajaran', $siswa->angkatan)->first();
+
+        if ($spp ) {
+            $nominal_tagihan = $spp->nominal_spp;
+        } else {
+            $nominal_tagihan = 0;
+            return response()->json(['status' => 'failed', 'nom' => 0, 'message' => 'Maaf, Data Spp Tidak Ada']);
+        }
+
+        // $jumlah = $request->jumlah;
+        // $tagihan = Tagihan::where('id_siswa', $id)->first();
+        // $bulan = json_decode($tagihan->bulan);
+
+        // $bulan = array_map(function ($value, $index) {
+        //     return $value;
+        // }, $bulan, array_keys($bulan));
+
+        // array_unshift($bulan,"");
+        // unset($bulan[0]);
+
+       
+        // $result = [];
+        // for ($i = 1; $i <= $jumlah; $i++) {
+        //     if (isset($bulan[$i])) {
+        //         $result[] = $bulan[$i];
+        //     }
+        // }
+        // $resultFinal =  implode(',', $result);
+        
+        // $nominal_tagihan = 0;
+        // if ($tagihan) {
+        //     $nominal_tagihan = (isset($tagihan->spp->nominal_spp) ? $tagihan->spp->nominal_spp : 0) * $jumlah  ;
+        //     if ($tagihan->jumlah == 0) {
+        //         return response()->json(['status' => 'failed', 'nom' => $tagihan->jumlah, 'message' => 'Maaf, Anda Sudah Tidak Memiliki Tagihan']);
+        //     }
+        //     if ($jumlah > $tagihan->jumlah ) {
+        //         return response()->json(['status' => 'failed', 'nom' => $tagihan->jumlah, 'message' => 'Maaf, Jumlah Bulan Yang Anda Masukan Lebih,  Sisa Tagihan Anda Sebanyak ' . $tagihan->jumlah . ' Bulan']);
+        //     }
+        // } else {
+        //     return response()->json(['status' => 'failed', 'nom' => '0', 'message' => 'Maaf, Anda Tidak Memiliki Tagihan. Silahkan Hubungi Petugas!']);
+        // }
+
+        // $nominal_tagihan = number_format($nominal_tagihan,2, ',', '.');
+        return response()->json(['status' => 'success', 'nom' => $nominal_tagihan , 'id' => $spp->id_spp]);
     }
     
     public function cekToken(Request $request)
