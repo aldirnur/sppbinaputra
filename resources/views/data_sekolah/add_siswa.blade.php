@@ -120,8 +120,8 @@
 
                     <!-- <div class="col-lg-12">
                         <div class="form-group">
-                            <label>Angkatan <span class="text-danger">*</span></label>
-                            <select class="form-control" name="angkatan" type="number">
+                            <label>Angkatan<span class="text-danger">*</span></label>
+                            <select class="form-control" name="tahun_ajaran" type="number">
                                 <option value="1">2015</option>
                                 <option value="2">2016</option>
                                 <option value="3">2017</option>
@@ -206,10 +206,22 @@
                     </div>
                     <div class="col-lg-12">
                         <label>Pin</label>
-                        <input type="text" maxlength="6" name="pin" value="" placeholder="123456" class="form-control">
+                        <input type="text" maxlength="6" name="pin" value="" class="form-control">
                     </div>
                 </div>
             </div>
+
+            <div class="service-fields mb-3">
+                <div class="row">
+                    <div class="col-12">
+                            <label>Status<span class="text-danger">*</span></label>
+                            <select class="form-control" name="status">
+                                <option value="1">Aktif</option>
+                                <option value="2">Tidak Aktif</option>
+                            </select>
+                        </div>
+                    </div>
+        </div>
 
             <div class="service-fields mb-3">
                 <div class="row">

@@ -161,6 +161,10 @@
 
             <div class="service-fields mb-3">
                 <div class="row">
+                <div class="col-lg-12">
+                        <label>Angkatan</label>
+                        <input type="text" name="angkatan" value="{{$siswa->angkatan}}" class="form-control">
+                    </div>
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Kelas <span class="text-danger">*</span></label>
