@@ -95,7 +95,7 @@ Route::group(['middleware'=>['auth']],function (){
     Route::post('transaksi/{transaksi}',[TransaksiController::class,'update']);
 
     Route::get('/siswa/export_excel', [SekolahController::class,'export_excel']);
-    Route::post('/siswa/import_excel', [SekolahController::class,'import_excel']);
+    Route::post('/siswa/import_excel', [SekolahController::class,'import_excel'])->name('import-siswa');
     Route::get('siswa',[SekolahController::class,'index'])->name('siswa');
     Route::get('jurusan',[SekolahController::class,'index_jurusan'])->name('jurusan');
     Route::post('add-jurusan',[SekolahController::class,'store'])->name('add-jurusan');

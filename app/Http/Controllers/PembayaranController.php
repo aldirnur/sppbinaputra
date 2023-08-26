@@ -90,11 +90,10 @@ class PembayaranController extends Controller
 
             $code = date("d") . $random;
             $transaksi = New Transaksi();
-            $transaksi->pm_id = $request->payment_method;
             $transaksi->no_transaksi = $code;
             $transaksi->status_transaksi = 2;
             $transaksi->tgl = date('Y-m-d');
-            $transaksi->nominal_transaksi = $request->nominal;
+            $transaksi->nominal_transaksi = $request->nominal_transaksi;
             $transaksi->keterangan = $request->keterangan ? : 'Pembayaran Spp';
             $transaksi->bukti_transaksi = $imageName;
             $transaksi->tag_id = $cek_tagihan->tag_id;
@@ -219,8 +218,9 @@ class PembayaranController extends Controller
             return response()->json(['status' => 'failed', 'nom' => '0', 'message' => 'Maaf, Anda Tidak Memiliki Tagihan. Silahkan Hubungi Petugas!']);
         }
 
+        $nominal_masuk = $nominal_tagihan;
         $nominal_tagihan = number_format($nominal_tagihan,2, ',', '.');
-        return response()->json(['status' => 'success', 'nom' => $nominal_tagihan , 'bulan' => $resultFinal]);
+        return response()->json(['status' => 'success', 'nom' => $nominal_tagihan , 'bulan' => $resultFinal, 'nominal' => $nominal_masuk]);
     }
 
     public function getSpp(Request $request)

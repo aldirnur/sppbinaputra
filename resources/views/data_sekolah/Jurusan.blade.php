@@ -82,6 +82,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Nama Jurusan</th>
+                                    <th>Type</th>
                                     <th class="action-btn">Action</th>
                                 </tr>
                             </thead>
@@ -92,6 +93,7 @@
                                     <td>
                                         {{$item->nama_jurusan}}
                                     </td>
+                                    <td>{{$item->type}}</td>
                                     <td>
                                         <div class="actions">
                                             <a onclick="preLoad();" class="btn btn-sm btn-primary shadow-sm"href="{{route('edit-jurusan',$item->jur_id)}}">
@@ -106,9 +108,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 
     <div class="modal fade" id="generate_report" aria-hidden="true" role="dialog">
@@ -128,6 +128,12 @@
                                 <div class="form-group">
                                     <label>Nama Jurusan<span class="text-danger">*</span></label>
                                     <input class="form-control" type="text" name="nama_jurusan">
+                                    <label>Type Kelas <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="type">
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
