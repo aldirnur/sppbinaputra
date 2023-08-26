@@ -84,7 +84,7 @@ class SekolahController extends Controller
             'nama_wali'=>'required',
             'kelas'=>'required|max:200',
             'alamat' =>'max:200',
-            'angkatan' => 'required|digits:4|max:' . (date('Y')+1)
+            // 'angkatan' => 'required|digits:4|max:' . (date('Y')+1)
         ];
 
         $customMessages = [

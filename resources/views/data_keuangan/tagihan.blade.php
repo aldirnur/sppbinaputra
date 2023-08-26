@@ -189,7 +189,7 @@
                                     <select class="select2 form-select form-control" name="siswa" onchange="getSpp(this.value)">
                                         <option value="0">Silahkan pilih siswa</option>
                                         @foreach ($siswa as $sw)
-                                            <option value="{{$sw->id_siswa}}">{{$sw->nis}} - {{$sw->nama}}</option>
+                                            <option value="{{$sw->id_siswa}}">{{$sw->nis}} - {{$sw->nama}} - {{$sw->nominal_spp}}</option>
                                         @endforeach
                                     </select>
                                 </div>
