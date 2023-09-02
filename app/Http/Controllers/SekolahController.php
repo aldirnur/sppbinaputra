@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SiswaExport;
+use App\Imports\SiswaImport;
 use App\Models\Jurusan;
 use App\Models\Siswa;
 use App\Models\Spp;
 use App\Models\Tagihan;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SekolahController extends Controller
 {
@@ -60,6 +63,7 @@ class SekolahController extends Controller
         ]);
         Jurusan::create([
             'nama_jurusan'=>$request->nama_jurusan,
+            'type'=>$request->type,
         ]);
         $notification = array(
             'message'=>"Jurusan Berhasil Ditambahkan",
@@ -126,7 +130,7 @@ class SekolahController extends Controller
                 'angkatan' => $request->angkatan
             ]);
             $tagihan = New Tagihan();
-            $bulanSekarang = 6;
+            $bulanSekarang = date('m');
             $jumlahBulanTahunIni = 12 - $bulanSekarang + 1; 
             $jumlahBulan =  12;
             $bulanList = $data = [];

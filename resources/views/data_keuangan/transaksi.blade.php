@@ -113,9 +113,11 @@
                                             </td>
                                             <td>
                                                 <div class="actions">
-                                                    <a class="btn btn-sm btn-primary shadow-sm" href="{{route('edit-transaksi',$item->trans_id)}}">
-                                                        <i class="fe fe-pencil"></i> Edit
-                                                    </a>
+                                                    @if ($item->status_transaksi != 1)
+                                                        <a class="btn btn-sm btn-primary shadow-sm" href="{{route('edit-transaksi',$item->trans_id)}}">
+                                                            <i class="fe fe-pencil"></i> Edit
+                                                        </a>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>

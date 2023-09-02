@@ -79,21 +79,21 @@
         <form method="post" enctype="multipart/form-data" id="update_service" action="/pembayaran/{{$siswa->id_siswa}}">
             @csrf
             <input type="hidden" name="id_siswa" id="id_siswa" value="{{$siswa->id_siswa}}">
+            <input type="hidden" name="nominal_transaksi" id="nominal_transaksi">
             <div class="service-fields mb-3">
-                <div class="row">
+                <div class="row" style="display:block" id="section-one">
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Nama</label>
-
                             <input class="form-control" type="text" id="nis" name="nama" value="{{$siswa->nama}}" readonly>
                         </div>
                     </div>
-                    
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Tingkat</label>
                             <input class="form-control" type="varchar" id="kelas" name="kelas" value="{{$siswa->kelas}}" readonly>
                         </div>
+<<<<<<< HEAD
                     </div>
 
                     <div class="col-lg-12">
@@ -120,26 +120,62 @@
                             </select>
                             <br>
                             <a href="#generate_report" data-toggle="modal">Tata Cara Pembayaran</a>
-                        </div>
-                    </div>
+=======
+                    </div>        
                     <div class="col-lg-12">
                         <div class="form-group">
+                            <label>Angkatan</label>
+                            <input class="form-control" type="varchar" id="kelas" name="kelas" value="{{$siswa->angkatan}}" readonly>
+                        </div>
+                    </div>                    
+                    
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Nominal Tagihan<span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" id="nominal" name="nominal" value="0" readonly>
+>>>>>>> c528d25bb1f2d21b07bb211fcc06d98b622c749f
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+<<<<<<< HEAD
                             <label>No Pembayaran</label>
                             <input class="form-control" type="text" id="no" name="no" value="001-{{$siswa->nisn}}" readonly>
                         </div>
                     </div> -->
 
-                    <div class="col-lg-12">
-                        <div class="form-group">
+=======
                             <label>Jumlah Bulan<span class="text-danger">*</span></label>
                             <input class="form-control" type="number" id="jumlah" name="Bulan" value="0"  onchange="getTagihan()"> <i class="fe fe-image"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="display:none" id="section-two">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>No Pembayaran</label>
+                            <input class="form-control" type="text" id="nominal" name="no_" value="001-{{$siswa->nisn}}" readonly>
+                        </div>
+                    </div>
+>>>>>>> c528d25bb1f2d21b07bb211fcc06d98b622c749f
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Jumlah Pembayaran<span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" id="jmlh_pembayaran" name="jmlh_pembayaran" value="0" readonly>
                         </div>
                     </div>
 
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>Bulan</label>
-                            <input class="form-control" type="text" id="bulan" name="bulan" readonly> <i class="fe fe-image"></i>
+                            <label>Metode Pembayaran <span class="text-danger">*</span></label>
+                            <select class="form-control" onchange="getTerm(this.value)" name="payment_method">
+                                <option value="1">Pilih Metode Pembayaran</option>
+                                <option value="1">Dompet Digital</option>
+                                <option value="2">Transfer Bank</option>
+                            </select>
+                            <br>
+                            <a href="#generate_report" data-toggle="modal">Tata Cara Pembayaran</a>
                         </div>
                     </div>
 
@@ -159,8 +195,14 @@
                     </div> -->
                 </div>
             </div>
+            
             <div class="submit-section">
+<<<<<<< HEAD
                 <button class="btn btn-danger submit-btn" type="submit" name="form_submit" id="btn_submit" value="submit" disabled>Checkout</button>
+=======
+                <button class="btn btn-danger submit-btn" type="button" name="form_submit" id="btn_next" onclick="NextPage()" value="Next" disabled>Lanjutkan Pembayaran</button>
+                <button class="btn btn-danger submit-btn" type="submit" style="display:none" id="btn_submit" value="submit" disabled>Bayar</button>
+>>>>>>> c528d25bb1f2d21b07bb211fcc06d98b622c749f
             </div>
         </form>
     </div>
@@ -180,7 +222,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Tata Cara Pembayaran</h5>
-                <button type="button" class="close" onclick="location.reload();" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close"  data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -193,6 +235,7 @@
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
+<<<<<<< HEAD
     function getTerm(val) {
         if (val == 1) {
             var bukti ='<h3><p>Pembayaran Dompet Digital<p></h3>'+
@@ -204,22 +247,51 @@
         }
         
             $('#bukti').append(bukti);
+=======
+function getTerm(val) {
+    if (val == 1) {
+        var bukti ='<p> Dompet Digital<p>'+
+                '<p>Pilih Pembayaran';
+    } else {
+        var bukti ='<p> Rekening<p>'+
+                '<p>Pilih Pembayaran';
+>>>>>>> c528d25bb1f2d21b07bb211fcc06d98b622c749f
     }
+    
+        $('#bukti').append(bukti);
+}
+
+function NextPage() {
+    $("#btn_submit").css("display", "block");
+    $("#btn_next").css("display", "none");
+    $("#section-two").css("display", "block");
+    $("#section-one").css("display", "none");
+    
+}
 function getTagihan() {
     id =  $("#id_siswa").val();
     jumlah =  $("#jumlah").val();
+    console.log(id)
 
     event.preventDefault();
     if (jumlah > 0) {
         $('#btn_submit').removeClass('btn btn-danger submit-btn');
         $('#btn_submit').addClass('btn btn-primary submit-btn');
         $('#btn_submit').prop("disabled", false);
+
+        $('#btn_next').removeClass('btn btn-danger submit-btn');
+        $('#btn_next').addClass('btn btn-primary submit-btn');
+        $('#btn_next').prop("disabled", false);
     }
 
     if (jumlah < 0) {
         $('#btn_submit').removeClass('btn btn-primary submit-btn');
         $('#btn_submit').addClass('btn btn-danger submit-btn');
         $('#btn_submit').prop("disabled", true);
+
+        $('#btn_next').removeClass('btn btn-primary submit-btn');
+        $('#btn_next').addClass('btn btn-danger submit-btn');
+        $('#btn_next').prop("disabled", true);
 
         Snackbar.show({
             text: "Maaf , Jumlah Bulan Tidak boleh Kurang dari 0",
@@ -247,8 +319,14 @@ function getTagihan() {
             success: function(data){
                 if (data.status == 'success') {
                     if (jumlah > 0) {
+<<<<<<< HEAD
                         $("#nominall").val(data.nom);
                         $("#nominal").val(data.nomin_ori);
+=======
+                        $("#jmlh_pembayaran").val(data.nom);
+                        $("#nominal").val(data.nom);
+                        $("#nominal_transaksi").val(data.nominal);
+>>>>>>> c528d25bb1f2d21b07bb211fcc06d98b622c749f
                     }
                     $("#bulan").val(data.bulan);
                 } else {
@@ -259,7 +337,7 @@ function getTagihan() {
                     backgroundColor: '#e7515a',
                 });
                     $("#jumlah").val(data.nom);
-
+                    $("#jmlh_pembayaran").val(data.nom);
                 }
             }
         });
