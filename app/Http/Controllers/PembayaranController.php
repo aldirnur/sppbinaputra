@@ -218,9 +218,9 @@ class PembayaranController extends Controller
         } else {
             return response()->json(['status' => 'failed', 'nom' => '0', 'message' => 'Maaf, Anda Tidak Memiliki Tagihan. Silahkan Hubungi Petugas!']);
         }
-
+        $nominal = $nominal_tagihan;
         $nominal_tagihan = number_format($nominal_tagihan,2, ',', '.');
-        return response()->json(['status' => 'success', 'nom' => $nominal_tagihan , 'bulan' => $resultFinal]);
+        return response()->json(['status' => 'success', 'nom' => $nominal_tagihan , 'bulan' => $resultFinal , 'nomin_ori' => $nominal]);
     }
 
     public function getSpp(Request $request)

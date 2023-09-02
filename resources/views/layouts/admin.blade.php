@@ -103,6 +103,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('jurusan')}}">
+                    <i class="fas fa-fw fa-flag"></i>
+                    <span>Data Kelas</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link btn-logout" href="{{route('users')}}">
                     <i class="fas fa-fw fa-user"></i>
                     <span>User</span>

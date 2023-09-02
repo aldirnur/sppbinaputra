@@ -91,13 +91,26 @@
                     
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>Kelas</label>
+                            <label>Tingkat</label>
                             <input class="form-control" type="varchar" id="kelas" name="kelas" value="{{$siswa->kelas}}" readonly>
                         </div>
                     </div>
 
-                    
                     <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Jurusan</label>
+                            <input class="form-control" type="varchar" id="kelas" name="kelas" value="{{$siswa->jur_id}}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Kelas</label>
+                            <input class="form-control" type="varchar" id="kelas" name="kelas" value="{{$siswa->kelas}}" readonly>
+                        </div>
+                    </div>
+                    
+                    <!-- <div class="col-lg-12">
                         <div class="form-group">
                             <label>Metode Pembayaran <span class="text-danger">*</span></label>
                             <select class="form-control" onchange="getTerm(this.value)" name="payment_method">
@@ -112,15 +125,9 @@
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>No Pembayaran</label>
-                            <input class="form-control" type="text" id="nominal" name="nominal" value="001-{{$siswa->nisn}}" readonly>
+                            <input class="form-control" type="text" id="no" name="no" value="001-{{$siswa->nisn}}" readonly>
                         </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div class="form-group">
-                            <label>Nominal Tagihan<span class="text-danger">*</span></label>
-                            <input class="form-control" type="text" id="nominal" name="nominal" value="0" readonly>
-                        </div>
-                    </div>
+                    </div> -->
 
                     <div class="col-lg-12">
                         <div class="form-group">
@@ -138,14 +145,22 @@
 
                     <div class="col-lg-12">
                         <div class="form-group">
+                            <label>Nominal Tagihan<span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" id="nominall" name="nominal" value="0" readonly>
+                            <input class="form-control" type="hidden" id="nominal" name="nominal" value="0" readonly>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-lg-12">
+                        <div class="form-group">
                             <label>Bukti Bayar<span class="text-danger">*</span></label>
                             <input class="form-control" type="file" name="file" value="0"> <i class="fe fe-image"></i>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="submit-section">
-                <button class="btn btn-danger submit-btn" type="submit" name="form_submit" id="btn_submit" value="submit" disabled>Bayar</button>
+                <button class="btn btn-danger submit-btn" type="submit" name="form_submit" id="btn_submit" value="submit" disabled>Checkout</button>
             </div>
         </form>
     </div>
@@ -180,11 +195,12 @@
 <script type="text/javascript">
     function getTerm(val) {
         if (val == 1) {
-            var bukti ='<p> Dompet Digital<p>'+
-                    '<p>Pilih Pembayaran';
+            var bukti ='<h3><p>Pembayaran Dompet Digital<p></h3>'+
+                    '<p>Masuk dan Login ke aplikasi dompet digital yang diinginkan. <p>Pastikan juga saldo dompet digital anda mencukupi sesuai dengan total tagihan dalam virtual account.<p>Pada laman awal klik menu “send atau kirim”, Kemudian pilih “send to bank”.<p>Pilih “add new bank account”,Pada jenis bank, pilih “Bank yang sesuai”.<p>Kemudian pada bank account number “isi nomor virtual account yang tertera”.<p>Pada laman selanjutnya “isi nominal” transfer anda.<p>Jika sudah sesuai, centang “persetujuan ketentuan & syarat”, kemudian tekan “confirm”.<p>Masukan “PIN" anda dan ikuti Langkah selanjutnya hingga bukti transaksi keluar. ';
         } else {
-            var bukti ='<p> Rekening<p>'+
-                    '<p>Pilih Pembayaran';
+            var bukti ='<h3><p>Pembayaran Rekening<p></h3>'+
+                    '<p>Masukkan kartu ATM dan PIN Bank Kamu. <p> Pilih menu TRANSAKSI LAINNYA > TRANSFER > KE REKENING VIRTUAL ACCOUNT. <p>Masukkan [no. VA yang tertera pada Akun masing-masing] sebagai rekening tujuan. <p>Masukkan jumlah yang ingin dibayar sesuai yang tertera pada tagihan yang diterima. <p>Jumlah pembayaran harus sama dengan jumlah tagihan yang harus dibayar. <p>Perbedaan jumlah pembayaran tidak akan diproses. <p>Ikuti instruksi untuk menyelesaikan transaksi.'
+                    ;
         }
         
             $('#bukti').append(bukti);
@@ -231,7 +247,8 @@ function getTagihan() {
             success: function(data){
                 if (data.status == 'success') {
                     if (jumlah > 0) {
-                        $("#nominal").val(data.nom);
+                        $("#nominall").val(data.nom);
+                        $("#nominal").val(data.nomin_ori);
                     }
                     $("#bulan").val(data.bulan);
                 } else {
