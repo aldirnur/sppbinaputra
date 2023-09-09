@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Exports\SiswaExport;
 use App\Imports\SiswaImport;
 use App\Models\Jurusan;
+use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\Spp;
 use App\Models\Tagihan;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -44,9 +46,10 @@ class SekolahController extends Controller
     public function create(){
         $title= "Add Siswa";
         $jurusan = Jurusan::get();
+        $kelas = Kelas::get();
         $menu = 'Siswa';
         return view('data_sekolah.add_siswa',compact(
-            'title','jurusan', 'menu'
+            'title','jurusan', 'menu' , 'kelas'
         ));
     }
 
@@ -187,8 +190,9 @@ class SekolahController extends Controller
         $title = "edit Siswa";
         $jurusan = Jurusan::get();
         $siswa = Siswa::find($id);
+        $kelas = Kelas::get();
         return view('data_sekolah.edit_siswa',compact(
-            'title','siswa','jurusan'
+            'title','siswa','jurusan', 'kelas'
         ));
     }
 
@@ -307,34 +311,6 @@ class SekolahController extends Controller
         return back()->with($notification);
     }
 
-    public function tentang()
-    {
-        $title ="Tentang Sekolah";
-        $tentang = TentangSekolah::get();
-        return view('sekolah.tentang-sekolah',compact('title','tentang'));
-    }
-
-    public function detail_tentang(Request $request,$id)
-    {
-        $title = "Edit Tentang Sekolah";
-        $akreditasi = [1 => 'A', 2 => 'B', 3 => 'C', 4 => 'D'];
-        $tentang = TentangSekolah::find($id);
-        return view('sekolah.edit-sekolah',compact(
-            'title','tentang','akreditasi'
-        ));
-    }
-
-    public function update_tentang(Request $request, $id)
-    {
-        $tentang = TentangSekolah::find($id);
-        $tentang->update($request->all());
-        $notification = array(
-            'message'=>"Tentang Sekolah Berhasil Di Rubah",
-            'alert-type'=>'success',
-        );
-        return redirect()->route('tentang')->with($notification);
-    }
-
     public function destroy($id)
     {
         $title = "edit Siswa";
@@ -361,6 +337,67 @@ class SekolahController extends Controller
             }
 
         return redirect()->route('siswa')->with($notification);
+    }
+
+    public function index_kelas()
+    {
+        $title = "Kelas";
+        $jurusan = Kelas::get();
+        $menu = 'Siswa';
+        return view('data_sekolah.data-kelas',compact(
+            'title','jurusan','menu'
+        ));
+    }
+
+    public function store_kelas(Request $request)
+    {
+        $this->validate($request,[
+            'nama_kelas'=>'required',
+        ]);
+        Kelas::create([
+            'nama_kelas'=>$request->nama_kelas,
+            'type'=>$request->type,
+        ]);
+        $notification = array(
+            'message'=>"Data Kelas Berhasil Ditambahkan",
+            'alert-type'=>'success',
+        );
+        return redirect()->route('kelas')->with($notification);
+    }
+
+    public function update_kelas(Request $request, $id)
+    {
+
+        $rules = [
+            'nama_kelas'=>'required',
+        ];
+
+        $customMessages = [
+            'nama_kelas.required' => 'Nama Kelas Harus Diisi',
+        ];
+        $this->validate($request, $rules, $customMessages);
+
+        $jurusan = Kelas::find($id);
+        if ($jurusan) {
+            $jurusan->nama_kelas = $request->nama_kelas;
+            $jurusan->type = $request->type;
+            $jurusan->save();
+        }
+
+        $notification = array(
+            'message'=>"Jurusan Berhasil Di Ubah",
+            'alert-type'=>'success',
+        );
+        return redirect()->route('kelas')->with($notification);
+    }
+
+    public function show_kelas(Request $request,$id)
+    {
+        $title = "Edit Kelas";
+        $jurusan = Kelas::find($id);
+        return view('data_sekolah.edit-kelas',compact(
+            'title','jurusan'
+        ));
     }
 }
 

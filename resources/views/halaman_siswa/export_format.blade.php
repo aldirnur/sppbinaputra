@@ -6,7 +6,7 @@
             <td style="background-color:#E78F5E; text-align:center; vertical-align:center;">Nisn</td>
             <td style="background-color:#E78F5E; text-align:center; vertical-align:center;">Nama</td>
             <td style="background-color:#E78F5E; text-align:center; vertical-align:center;">Jenis Kelamin (1. Laki - Laki, 2 Perempuan)</td>
-            <td style="background-color:#E78F5E; text-align:center; vertical-align:center;">Kelas</td>
+            <td style="background-color:#E78F5E; text-align:center; vertical-align:center;">ID Kelas</td>
             <td style="background-color:#E78F5E; text-align:center; vertical-align:center;">Alamat</td>
             <td style="background-color:#E78F5E; text-align:center; vertical-align:center;">Tanggal Lahir (Y-m-d)</td>
             <td style="background-color:#E78F5E; text-align:center; vertical-align:center;">No Telpon</td>

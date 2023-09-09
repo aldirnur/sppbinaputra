@@ -76,7 +76,7 @@
     <!-- card -->
     <div class="card shadow mb-4 py-4 px-4">
 
-        <form method="post" enctype="multipart/form-data" action="{{route('edit-siswa',$siswa)}}">
+        <form method="post" enctype="multipart/form-data" action="{{route('update-siswa',$siswa)}}">
             @csrf
             <div class="service-fields mb-3">
                 <div class="row">
@@ -169,9 +169,9 @@
                         <div class="form-group">
                             <label>Kelas <span class="text-danger">*</span></label>
                             <select class="form-control" name="kelas">
-                                <option value="X" {{$siswa->kelas == 'X' ? 'selected' : ''}}>X</option>
-                                <option value="XI" {{$siswa->kelas == 'XI' ? 'selected' : ''}}>XI</option>
-                                <option value="XII" {{$siswa->kelas == 'XII' ? 'selected' : ''}} >XII</option>
+                                @foreach ($kelas as $kls )
+                                    <option value="{{$kls->id}}" {{$kls->id == $siswa->kelas ? 'selected' : ''}}>{{$kls->nama_kelas}} - {{$kls->type}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

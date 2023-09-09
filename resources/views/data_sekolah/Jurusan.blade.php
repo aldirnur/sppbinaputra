@@ -82,7 +82,6 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Nama Jurusan</th>
-                                    <th>Type</th>
                                     <th class="action-btn">Action</th>
                                 </tr>
                             </thead>
@@ -93,7 +92,6 @@
                                     <td>
                                         {{$item->nama_jurusan}}
                                     </td>
-                                    <td>{{$item->type}}</td>
                                     <td>
                                         <div class="actions">
                                             <a onclick="preLoad();" class="btn btn-sm btn-primary shadow-sm"href="{{route('edit-jurusan',$item->jur_id)}}">

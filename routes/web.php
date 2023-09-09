@@ -103,12 +103,19 @@ Route::group(['middleware'=>['auth']],function (){
     Route::post('add-siswa',[SekolahController::class,'store_sekolah']);
     Route::get('siswa/{siswa}',[SekolahController::class,'show'])->name('edit-siswa');
     Route::get('jurusan/{jurusan}',[SekolahController::class,'show_jurusan'])->name('edit-jurusan');
-    Route::post('siswa/{siswa}',[SekolahController::class,'update']);
+    Route::post('siswa /{siswa}',[SekolahController::class,'update'])->name('update-siswa');
+    Route::get('jurusan',[SekolahController::class,'index_jurusan'])->name('jurusan');
+    Route::post('add-jurusan',[SekolahController::class,'store'])->name('add-jurusan');
     Route::put('jurusan/{id}',[SekolahController::class,'update_jurusan']);
     Route::get('tentang',[SekolahController::class,'tentang'])->name('tentang');
     Route::get('tentang/{id}',[SekolahController::class,'detail_tentang'])->name('edit-tentang');
     Route::post('tentang/{id}',[SekolahController::class,'update_tentang']);
     Route::get('delete-siswa/{id}',[SekolahController::class,'destroy']);
+    Route::get('data-kelas',[SekolahController::class,'index_kelas'])->name('kelas');
+    Route::post('add-kelas',[SekolahController::class,'store_kelas'])->name('add-kelas');
+    Route::put('data-kelas/{id}',[SekolahController::class,'update_kelas']);
+    Route::get('data-kelas/{kelas}',[SekolahController::class,'show_kelas'])->name('edit-kelas');
+
 
 
 

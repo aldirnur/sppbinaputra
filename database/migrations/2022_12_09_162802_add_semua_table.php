@@ -20,7 +20,7 @@ class AddSemuaTable extends Migration
             $table->string('nama');
             $table->boolean('jenis_kelamin')->comment('1. Laki Laki, 2. Perempuan')->nullable();
             $table->integer('jur_id')->nullable();
-            $table->string('kelas');
+            $table->integer('kelas');
             $table->text('alamat');
             $table->date('tgl_lahir');
             $table->string('no_tlp');
@@ -40,12 +40,12 @@ class AddSemuaTable extends Migration
             $table->timestamps();
         });
 
-        // Schema::create('kategori_keuangan', function (Blueprint $table) {
-        //     $table->bigIncrements('id_kategori');
-        //     $table->string('type')->comment('1. Pemasukan, 2. Pengeluaran');
-        //     $table->string('nama_kategori');
-        //     $table->timestamps();
-        // });
+        Schema::create('kelas', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('type')->nullable();
+            $table->string('nama_kelas');
+            $table->timestamps();
+        });
 
         Schema::create('jurusan', function (Blueprint $table) {
             $table->Increments('jur_id');

@@ -81,7 +81,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link btn-logout" href="{{route('tagihan')}}">
+                <a class="nav-link btn-logout" href="{{route('tagihan', '?tahun=2023')}}">
                     <i class="fas fa-fw fa-credit-card"></i>
                     <span>Data Tagihan</span>
                 </a>
@@ -100,6 +100,13 @@
                 <a class="nav-link btn-logout" href="{{route('jurusan')}}">
                     <i class="fas fa-fw fa-flag"></i>
                     <span>Data Jurusan</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('kelas')}}">
+                    <i class="fas fa-fw fa-flag"></i>
+                    <span>Data Kelas</span>
                 </a>
             </li>
             <li class="nav-item">

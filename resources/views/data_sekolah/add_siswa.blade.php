@@ -186,11 +186,11 @@
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Kelas <span class="text-danger">*</span></label>
-                            <select class="form-control" name="kelas">
-                                <option value="X">X</option>
-                                <option value="XI">XI</option>
-                                <option value="XII">XII</option>
-                            </select>
+                            @foreach ($kelas as $kls )
+                                <select class="form-control" name="kelas">
+                                    <option value="{{$kls->id}}">{{$kls->nama_kelas}}</option>
+                                </select>
+                            @endforeach
                         </div>
                     </div>
                     <div class="col-lg-12">
