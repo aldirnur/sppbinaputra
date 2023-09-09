@@ -217,10 +217,16 @@ class PembayaranController extends Controller
         } else {
             return response()->json(['status' => 'failed', 'nom' => '0', 'message' => 'Maaf, Anda Tidak Memiliki Tagihan. Silahkan Hubungi Petugas!']);
         }
+<<<<<<< HEAD
+        $nominal = $nominal_tagihan;
+        $nominal_tagihan = number_format($nominal_tagihan,2, ',', '.');
+        return response()->json(['status' => 'success', 'nom' => $nominal_tagihan , 'bulan' => $resultFinal , 'nomin_ori' => $nominal]);
+=======
 
         $nominal_masuk = $nominal_tagihan;
         $nominal_tagihan = number_format($nominal_tagihan,2, ',', '.');
         return response()->json(['status' => 'success', 'nom' => $nominal_tagihan , 'bulan' => $resultFinal, 'nominal' => $nominal_masuk]);
+>>>>>>> c528d25bb1f2d21b07bb211fcc06d98b622c749f
     }
 
     public function getSpp(Request $request)

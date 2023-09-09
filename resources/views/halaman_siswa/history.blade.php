@@ -80,12 +80,14 @@
                             <thead class="text-center thead-light">
                                 <tr>
                                 <tr>
-                                    <th scope="col">Nama Siswa</th>
-                                    <th scope="col">Status</th>
                                     <th scope="col">Kode Transaksi</th>
+                                    <th scope="col">Nama Siswa</th>
+                                    <th scope="col">Kelas</th>
                                     <th scope="col">Tanggal Transaksi</th>
+                                    <th scope="col">Bulan yang Dibayarkan</th>
                                     <th scope="col">Nominal</th>
                                     <th scope="col">Bukti Transaksi</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Notes</th>
                                     {{-- <th class="action-btn">Action</th> --}}
                                 </tr>
