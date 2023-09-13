@@ -59,9 +59,12 @@ class KeuanganController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function tagihan(){
+    public function tagihan(Request $request){
         $title = "Tagihan";
-        $tagihan = Tagihan::get();
+        $tahun = $request->tahun;
+        $tagihan = Tagihan::whereHas('spp', function ($q) use ($request) {
+            $q->where('tahun_ajaran', $request->tahun);
+        })->get();
         $siswa = Siswa::whereNotExists(function ($query) {
             $query->select(DB::raw(1))
                 ->from('tagihan')
@@ -71,7 +74,7 @@ class KeuanganController extends Controller
         $menu = 'Pembayaran';
 
         return view('data_keuangan.tagihan',compact(
-            'title','tagihan','spp','siswa','menu',
+            'title','tagihan','spp','siswa','menu','tahun'
         ));
     }
 

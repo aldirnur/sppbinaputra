@@ -2,7 +2,7 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Data Tagihan') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Data Tagihan')}} {{$tahun}}</h1>
 
     @if (session('success'))
         <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -24,59 +24,15 @@
     @endif
 
     <div class="row">
-
-        {{-- <div class="col-lg-4 order-lg-2">
-
-            <div class="card shadow mb-4">
-                <div class="card-profile-image mt-4">
-                    <figure class="rounded-circle avatar avatar font-weight-bold" style="font-size: 60px; height: 180px; width: 180px;" data-initial=""></figure>
-                </div>
-                <div class="card-body">
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="text-center">
-                                <h5 class="font-weight-bold"></h5>
-                                <p>Administrator</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card-profile-stats">
-                                <span class="heading">22</span>
-                                <span class="description">Friends</span>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card-profile-stats">
-                                <span class="heading">10</span>
-                                <span class="description">Photos</span>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card-profile-stats">
-                                <span class="heading">89</span>
-                                <span class="description">Comments</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div> --}}
-
         <div class="container-fluid">
-
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
                     {{-- <h6 class="m-0 font-weight-bold text-primary">Data Siswa</h6> --}}
 
                     <div class="col-sm-12 col">
-                    <a class="btn btn-sm btn-primary shadow-sm"  href="#generate_report" data-toggle="modal"><i class="fas fa-plus fa-sm"></i> Import Tagihan</a>
-                    <a class="btn btn-sm btn-primary shadow-sm"  href="#add-tagihan" data-toggle="modal"><i class="fas fa-plus fa-sm"></i>  Tambah Tagihan</a>
-                    <a class="btn btn-sm btn-primary shadow-sm"  onclick="location.reload()" href="#" data-toggle="modal"><i class="fas fa-fw fa-comments"></i>  Send Notfikasi Tagihan</a>
+                        <a class="btn btn-sm btn-primary shadow-sm"  href="#generate_report" data-toggle="modal"><i class="fas fa-plus fa-sm"></i> Import Tagihan</a>
+                        <a class="btn btn-sm btn-primary shadow-sm"  href="#add-tagihan" data-toggle="modal"><i class="fas fa-plus fa-sm"></i>  Tambah Tagihan</a>
+                        <a class="btn btn-sm btn-primary shadow-sm"  onclick="location.reload()" href="#" data-toggle="modal"><i class="fas fa-fw fa-comments"></i>  Send Notfikasi Tagihan</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -140,9 +96,10 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
+        @foreach ($spp  as $sp )
+            <a class="btn btn-sm btn-primary shadow-sm" href="{{route('tagihan', '?tahun=' . $sp->tahun_ajaran)}}"><i class="fa-solid fa-bars-staggered"></i>{{$sp->tahun_ajaran}}</a>
+        @endforeach
     </div>
     <div class="modal fade" id="generate_report" aria-hidden="true" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -215,7 +172,6 @@
 @endsection
 <script>
 function getSpp(val) {
-    console.log(val)
     event.preventDefault();
         $.ajaxSetup({
                 headers: {
