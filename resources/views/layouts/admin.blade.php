@@ -58,6 +58,12 @@
                     <span>Dashboard</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('siswa')}}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Data Siswa</span>
+                </a>
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link btn-logout" href="{{route('transaksi')}}">
@@ -117,6 +123,13 @@
         @endif
 
         @if(in_array(auth()->user()->level, [1,2]))
+            <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('siswa')}}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Data Siswa</span>
+                </a>
+            </li>
+
             <li class="nav-item">
                 <a class="nav-link btn-logout" href="{{route('reports')}}">
                     <i class="fas fa-fw fa-book"></i>

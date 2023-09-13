@@ -187,7 +187,9 @@
                         <div class="form-group">
                             <label>Kelas <span class="text-danger">*</span></label>
                             <select class="form-control" name="kelas">
-                                <option value="X">X</option>
+                                <option value="X A">X A</option>
+                                <option value="X B">X B</option>
+                                <option value="X C">X C</option>
                                 <option value="XI">XI</option>
                                 <option value="XII">XII</option>
                             </select>

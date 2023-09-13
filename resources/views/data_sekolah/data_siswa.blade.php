@@ -72,13 +72,10 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Data Siswa</h6>
-<<<<<<< HEAD
-                    <a class="btn btn-sm btn-primary shadow-sm" href="{{route('add-siswa')}}"><i class="fas fa-plus fa-sm"></i> Export Siswa</a>
-                    <a class="btn btn-sm btn-primary shadow-sm" href="{{route('add-siswa')}}"><i class="fas fa-plus fa-sm"></i> Tambah Siswa</a>
-=======
-                    <a href="#generate_report" data-toggle="modal" class="btn btn-primary float-right mt-2">Import Siswa</a>
-                    <a class="btn btn-sm btn-primary shadow-sm" href="/siswa/import_excel"><i class="fas fa-download fa-sm"></i> Tambah Siswa</a>
->>>>>>> c528d25bb1f2d21b07bb211fcc06d98b622c749f
+                    @if(in_array(auth()->user()->level, [1]))
+                        <a href="#generate_report" data-toggle="modal" class="btn btn-primary float-right mt-2">Import Siswa</a>
+                        <a class="btn btn-sm btn-primary shadow-sm" href="{{route('add-siswa')}}"><i class="fas fa-download fa-sm"></i> Tambah Siswa</a>
+                    @endif
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -125,13 +122,15 @@
                                     <td>{{$item->status == 1 ? 'Aktif' : 'Tidak Aktif'}}</td>
                                     <td>
                                         <div class="actions">
-                                            <a onclick="preLoad();" class="btn btn-sm btn-primary shadow-sm" href="{{route('edit-siswa',$item->id_siswa)}}">
-                                                <i class="fe fe-pencil"></i> Edit
-                                            </a>
+                                            @if(in_array(auth()->user()->level, [1]))
+                                                <a onclick="preLoad();" class="btn btn-sm btn-primary shadow-sm" href="{{route('edit-siswa',$item->id_siswa)}}">
+                                                    <i class="fe fe-pencil"></i> Edit
+                                                </a>
 
-                                            <a onclick="preLoad();" class="btn btn-sm btn-danger shadow-sm" href="/delete-siswa/{{$item->id_siswa}}">
-                                                <i class="fe fe-trash"></i> Delete
-                                            </a>
+                                                <a onclick="preLoad();" class="btn btn-sm btn-danger shadow-sm" href="/delete-siswa/{{$item->id_siswa}}">
+                                                    <i class="fe fe-trash"></i> Delete
+                                                </a>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
