@@ -55,6 +55,10 @@
                                             <a onclick="preLoad();" class="btn btn-sm btn-primary shadow-sm"href="{{route('edit-kelas',$item->id)}}">
                                                 <i class="fas fa-pencil fa-sm"></i> Edit
                                             </a>
+
+                                            <a onclick="preLoad();" class="btn btn-sm btn-danger shadow-sm" href="/delete-siswa/{{$item->id_siswa}}">
+                                                    <i class="fe fe-trash"></i> Delete
+                                                </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -91,9 +95,11 @@
                                     <br>
                                     <label>Type Kelas <span class="text-danger">*</span></label>
                                     <select class="form-control" name="type">
-                                        <option value="A">A</option>
-                                        <option value="B">B</option>
-                                        <option value="C">C</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
                                     </select>
                                 </div>
                             </div>

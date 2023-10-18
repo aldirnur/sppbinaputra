@@ -92,6 +92,7 @@
             <div class="submit-section">
                 <button onclick="preLoad();" class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Simpan</button>
             </div>
+            
         </form>
 
     </div>

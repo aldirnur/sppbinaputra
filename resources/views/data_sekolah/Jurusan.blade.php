@@ -97,6 +97,10 @@
                                             <a onclick="preLoad();" class="btn btn-sm btn-primary shadow-sm"href="{{route('edit-jurusan',$item->jur_id)}}">
                                                 <i class="fas fa-pencil fa-sm"></i> Edit
                                             </a>
+
+                                            <a onclick="preLoad();" class="btn btn-sm btn-danger shadow-sm" href="/delete-jurusan/{{$item->jur_id}}">
+                                                    <i class="fe fe-trash"></i> Delete
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -126,12 +130,8 @@
                                 <div class="form-group">
                                     <label>Nama Jurusan<span class="text-danger">*</span></label>
                                     <input class="form-control" type="text" name="nama_jurusan">
-                                    <label>Type Kelas <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="type">
-                                        <option value="A">A</option>
-                                        <option value="B">B</option>
-                                        <option value="C">C</option>
-                                    </select>
+                                    
+                                    
                                 </div>
                             </div>
                         </div>

@@ -43,9 +43,11 @@
                                     <br>
                                     <label>Type Kelas <span class="text-danger">*</span></label>
                                     <select class="form-control" name="type">
-                                        <option value="A" {{$jurusan->type == 'A' ? 'selected' : ''}}>A</option>
-                                        <option value="B" {{$jurusan->type == 'B' ? 'selected' : ''}}>B</option>
-                                        <option value="C" {{$jurusan->type == 'C' ? 'selected' : ''}}>C</option>
+                                        <option value="1" {{$jurusan->type == '1' ? 'selected' : ''}}>1</option>
+                                        <option value="2" {{$jurusan->type == '2' ? 'selected' : ''}}>2</option>
+                                        <option value="3" {{$jurusan->type == '3' ? 'selected' : ''}}>3</option>
+                                        <option value="4" {{$jurusan->type == '4' ? 'selected' : ''}}>4</option>
+                                        <option value="5" {{$jurusan->type == '5' ? 'selected' : ''}}>5</option>
                                     </select>
                                 </div> 
                             </div>

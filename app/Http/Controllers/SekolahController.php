@@ -318,7 +318,7 @@ class SekolahController extends Controller
         $tagihan = Tagihan::where('id_siswa', $id)->first();
         $transaksi = null;
         if ($tagihan) {
-            $transaksi = Transaksi::where('id_tagihan', $tagihan->id_tagihan)->first();
+            $transaksi = Transaksi::where('tag_id', $tagihan->id_tagihan)->first();
         }
         if ($siswa && !$transaksi) {
             if ($tagihan) {

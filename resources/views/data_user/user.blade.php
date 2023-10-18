@@ -138,8 +138,8 @@
                         <div class="row form-row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>Full Name</label>
-                                    <input type="text" name="name" class="form-control" placeholder="John Doe">
+                                    <label>Nama</label>
+                                    <input type="text" name="name" class="form-control" >
                                 </div>
                             </div>
                             <div class="col-12">
@@ -150,7 +150,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>Level</label>
+                                    <label>Jabatan</label>
                                     <div class="form-group">
                                         <select class="select2 form-select form-control edit_role" name="level">
                                             @foreach ($level as $key => $lvl)

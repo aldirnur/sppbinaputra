@@ -26,6 +26,12 @@
                       <hr>
                       <h1 class="h4 text-gray-900">Login Admin</h1><br>
                     </div>
+                    @if(session('login_error'))
+                        <div class="alert alert-danger">
+                            {{ session('login_error') }}
+                        </div>
+                    @endif
+
                     <form class="user" method="post" action="{{route('login')}}">
                         @csrf
                       <div class="form-group">

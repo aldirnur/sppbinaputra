@@ -12,7 +12,7 @@ class Jurusan extends Model
     protected $table = 'jurusan';
     protected $primaryKey = 'jur_id';
     protected $fillable = [
-        'jur_id','nama_jurusan', 'type'
+        'jur_id','nama_jurusan'
     ];
 
     public function siswa(){

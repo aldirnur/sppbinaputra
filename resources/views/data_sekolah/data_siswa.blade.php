@@ -71,18 +71,13 @@
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
-<<<<<<< HEAD
                     <h6 class="m-0 font-weight-bold text-primary">Data Siswa</h6>
                     @if(in_array(auth()->user()->level, [1]))
-                        <a href="#generate_report" data-toggle="modal" class="btn btn-primary float-right mt-2">Import Siswa</a>
-                        <a class="btn btn-sm btn-primary shadow-sm" href="{{route('add-siswa')}}"><i class="fas fa-download fa-sm"></i> Tambah Siswa</a>
+                        <div class="col-sm-12 col">
+                            <a href="#generate_report" data-toggle="modal" class="btn btn-sm btn-primary shadow-sm"> <i class="fas fa-plus fa-sm"></i>Import Siswa</a>
+                            <a class="btn btn-sm btn-primary shadow-sm" href="{{route('add-siswa')}}"><i class="fas fa-download fa-sm"></i> Tambah Siswa</a>
+                        </div>
                     @endif
-=======
-                    <div class="col-sm-12 col">
-                        <a href="#generate_report" data-toggle="modal" class="btn btn-sm btn-primary shadow-sm"> <i class="fas fa-plus fa-sm"></i>Import Siswa</a>
-                        <a class="btn btn-sm btn-primary shadow-sm" href="/siswa/import_excel"><i class="fas fa-download fa-sm"></i> Tambah Siswa</a>
-                    </div>
->>>>>>> 1970d0b7f972b3731f40b0073d51ce32f41e2947
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -95,9 +90,9 @@
                                     <!-- <th>Jenis Kelamin</th> -->
                                     <!-- <th>Tanggal lahir</th> -->
                                     <!-- <th>Alamat</th> -->
-                                    <th>Tingkat</th>
+                                    <!-- <th>Tingkat</th> -->
                                     <th>Kelas</th>
-                                    <th>Jurusan</th>
+                                    <!-- <th>Jurusan</th> -->
                                     <th>Angkatan</th>
                                     <!-- <th>Nama Wali</th> -->
                                     <th>No Telfon</th>
@@ -117,16 +112,10 @@
                                     <td>{{$item->nama}}</td>
                                     <!-- <td>{{$item->jenis_kelamin == 1 ? 'Laki-Laki' : 'Perempuan'}}</td>
                                     <td>{{$item->tgl_lahir}}</td>
-<<<<<<< HEAD
                                     <td>{{$item->alamat}}</td>
-                                    <td>{{$item->no_tlp}}</td>
-                                    <td>{{isset($item->namakelas) ? $item->namakelas->nama_kelas : ''}} {{isset($item->namakelas) ? $item->namakelas->type : ''}}</td>
-=======
-                                    <td>{{$item->alamat}}</td> -->
-                                    <td>{{$item->kelas}}</td>
-                                    <td>{{$item->kelas}}</td>
->>>>>>> 28fa59057d4ac5fbe524d7a1f9b2b30ef00ec6e1
-                                    <td>{{isset($item->jurusan->nama_jurusan) ? $item->jurusan->nama_jurusan : '' }}</td>
+                                    <td>{{$item->no_tlp}}</td> -->
+                                    <td>{{isset($item->namakelas) ? $item->namakelas->nama_kelas : ''}} {{isset($item->jurusan) ? $item->jurusan->nama_jurusan : ''}} {{isset($item->namakelas) ? $item->namakelas->type : ''}}</td>
+                                    <!-- <td>{{isset($item->jurusan->nama_jurusan) ? $item->jurusan->nama_jurusan : '' }}</td> -->
                                     <td>{{$item->angkatan}}</td>
                                     <!-- <td>{{$item->nama_wali}}</td> -->
                                     <td>{{$item->no_tlp}}</td>
