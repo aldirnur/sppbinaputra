@@ -110,13 +110,17 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-12">
+                    <div class="col-lg-2">
                         <div class="form-group">
                             <label>Angkatan<span class="text-danger">*</span></label>
-                            <input type="number" placeholder="YYYY" min="2015" name="angkatan" >
+                            <select class="form-control" name="angkatan">
+                                @foreach ($spp as $sp )
+                                    <option value="{{$sp->tahun_ajaran}}">{{$sp->tahun_ajaran}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
-        </div>
+                </div>
 
                     <!-- <div class="col-lg-12">
                         <div class="form-group">

@@ -99,7 +99,9 @@
                                     <!-- <th>Agama</th> -->
                                     <!-- <th>Pin</th> -->
                                     <th>Status</th>
-                                    <th class="action-btn">Action</th>
+                                    @if(in_array(auth()->user()->level, [1]))
+                                        <th class="action-btn">Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>

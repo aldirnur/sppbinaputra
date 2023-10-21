@@ -123,13 +123,14 @@
             </li>
         @endif
 
-        <!-- @if(in_array(auth()->user()->level, [1,2]))
+        @if(in_array(auth()->user()->level, [1,2]))
             <li class="nav-item">
                 <a class="nav-link btn-logout" href="{{route('siswa')}}">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Data Siswa</span>
                 </a>
-            </li> -->
+            </li> 
+            
 
             <li class="nav-item">
                 <a class="nav-link btn-logout" href="{{route('reports')}}">
@@ -404,6 +405,23 @@
     $(document).ready(function() {
 
     });
+    $(document).on('click', '.btn-danger', function() {
+        var itemId = $(this).data('id');
+        $('#deleteId').val(itemId);
+        $('#deleteItemId').text(itemId);
+        $('#deleteItemButton').attr('href', '/delete/' + itemId); 
+    });
+    function deleteData(type) {
+        console.log(type)
+        if (type == 'kelas') {
+            var itemId = $('#deleteId').val();
+            window.location = '/delete-kelas/'+itemId
+        } else {
+            var itemId = $('#deleteId').val();
+            window.location = '/delete-jurusan/'+itemId
+        }
+        
+    }
     @if(Session::has('message'))
         var type = "{{ Session::get('alert-type', 'info') }}";
         switch(type){

@@ -107,6 +107,7 @@ Route::group(['middleware'=>['auth']],function (){
     Route::get('jurusan',[SekolahController::class,'index_jurusan'])->name('jurusan');
     Route::post('add-jurusan',[SekolahController::class,'store'])->name('add-jurusan');
     Route::put('jurusan/{id}',[SekolahController::class,'update_jurusan']);
+    Route::get('delete-jurusan/{id}',[SekolahController::class,'delete_jurusan']);
     Route::get('tentang',[SekolahController::class,'tentang'])->name('tentang');
     Route::get('tentang/{id}',[SekolahController::class,'detail_tentang'])->name('edit-tentang');
     Route::post('tentang/{id}',[SekolahController::class,'update_tentang']);
@@ -115,6 +116,7 @@ Route::group(['middleware'=>['auth']],function (){
     Route::post('add-kelas',[SekolahController::class,'store_kelas'])->name('add-kelas');
     Route::put('data-kelas/{id}',[SekolahController::class,'update_kelas']);
     Route::get('data-kelas/{kelas}',[SekolahController::class,'show_kelas'])->name('edit-kelas');
+    Route::get('delete-kelas/{id}',[SekolahController::class,'delete_kelas'])->name('delete_kelas');
 
 
 

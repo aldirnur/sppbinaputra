@@ -97,10 +97,15 @@
                                             <a onclick="preLoad();" class="btn btn-sm btn-primary shadow-sm"href="{{route('edit-jurusan',$item->jur_id)}}">
                                                 <i class="fas fa-pencil fa-sm"></i> Edit
                                             </a>
-
-                                            <a onclick="preLoad();" class="btn btn-sm btn-danger shadow-sm" href="/delete-jurusan/{{$item->jur_id}}">
+                                            <?php 
+                                                $siswa = App\Models\Siswa::where('jur_id', $item->jur_id)->first();
+                                            ?>
+                                            @if(!$siswa)
+                                                <a onclick="preLoad();" class="btn btn-sm btn-danger shadow-sm" href="#" data-toggle="modal" data-target="#logoutModal" data-id="{{$item->jur_id}}">
                                                     <i class="fe fe-trash"></i> Delete
-                                            </a>
+                                                </a>
+                                            @endif
+                                            
                                         </div>
                                     </td>
                                 </tr>
@@ -137,6 +142,24 @@
                         </div>
                         <button onclick="preLoad();" type="submit" class="btn btn-primary btn-block">Simpan</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="hidden" id="deleteId">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Apakah Yakin Data Dihapus?') }}</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                {{-- <div class="modal-body">Klik Logout Jika Ingin Keluar.</div> --}}
+                <div class="modal-footer">
+                    <button class="btn btn-link" type="button" data-dismiss="modal">{{ __('Tidak') }}</button>
+                    <a class="btn btn-danger" href="#" onclick="deleteData('jurusan')">{{ __('Ya') }}</a>
                 </div>
             </div>
         </div>

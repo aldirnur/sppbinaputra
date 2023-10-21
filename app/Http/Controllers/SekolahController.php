@@ -47,9 +47,10 @@ class SekolahController extends Controller
         $title= "Add Siswa";
         $jurusan = Jurusan::get();
         $kelas = Kelas::get();
+        $spp = Spp::get();
         $menu = 'Siswa';
         return view('data_sekolah.add_siswa',compact(
-            'title','jurusan', 'menu' , 'kelas'
+            'title','jurusan', 'menu' , 'kelas', 'spp'
         ));
     }
 
@@ -275,6 +276,19 @@ class SekolahController extends Controller
         return redirect()->route('jurusan')->with($notification);
     }
 
+    public function delete_jurusan(Request $request, $id) {
+        $jurusan = Jurusan::find($id);
+        if ($jurusan) {
+            $jurusan->delete();
+        }
+        $notification = array(
+            'message'=>"Jurusan Berhasil Di Hapus",
+            'alert-type'=>'success',
+        );
+
+        return redirect()->route('jurusan')->with($notification);
+    }
+
     public function export_excel()
 	{
 		return Excel::download(new SiswaExport, 'siswa.xlsx');
@@ -342,7 +356,7 @@ class SekolahController extends Controller
     public function index_kelas()
     {
         $title = "Kelas";
-        $jurusan = Kelas::get();
+        $jurusan = Kelas::with('siswa')->get();
         $menu = 'Siswa';
         return view('data_sekolah.data-kelas',compact(
             'title','jurusan','menu'
@@ -354,14 +368,24 @@ class SekolahController extends Controller
         $this->validate($request,[
             'nama_kelas'=>'required',
         ]);
-        Kelas::create([
-            'nama_kelas'=>$request->nama_kelas,
-            'type'=>$request->type,
-        ]);
-        $notification = array(
-            'message'=>"Data Kelas Berhasil Ditambahkan",
-            'alert-type'=>'success',
-        );
+
+        $kelas = Kelas::where('nama_kelas', $request->nama_kelas)->where('type', $request->type)->first();
+        if (!$kelas) {
+            Kelas::create([
+                'nama_kelas'=> $request->nama_kelas,
+                'type'=> $request->type,
+            ]);
+            $notification = array(
+                'message'=>"Data Kelas Berhasil Ditambahkan",
+                'alert-type'=>'success',
+            );
+        } else {
+            $notification = array(
+                'message'=>"Data Kelas Sudah ada",
+                'alert-type'=>'danger',
+            );
+        }
+        
         return redirect()->route('kelas')->with($notification);
     }
 
@@ -385,7 +409,7 @@ class SekolahController extends Controller
         }
 
         $notification = array(
-            'message'=>"Jurusan Berhasil Di Ubah",
+            'message'=>"Data Kelas Berhasil Di Ubah",
             'alert-type'=>'success',
         );
         return redirect()->route('kelas')->with($notification);
@@ -398,6 +422,19 @@ class SekolahController extends Controller
         return view('data_sekolah.edit-kelas',compact(
             'title','jurusan'
         ));
+    }
+
+    public function delete_kelas(Request $request, $id)
+    {
+       $kelas = Kelas::find($id);
+       if ($kelas) {
+        $kelas->delete();
+       }
+       $notification = array(
+            'message'=>"Data Kelas Berhasil Di Hapus",
+            'alert-type'=>'success',
+        );
+        return redirect()->route('kelas')->with($notification);
     }
 }
 
