@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportFormatTagihan;
 use App\Imports\ImportTagihan;
 use App\Models\Spp;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Excel;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SppController extends Controller
 {
@@ -131,15 +132,25 @@ class SppController extends Controller
         $file = $request->file('file');
 
         $nama_file = rand().$file->getClientOriginalName();
-
+      
         $file->move('file_tagihan',$nama_file);
-
-        Excel::import(new ImportTagihan, public_path('/file_tagihan/'.$nama_file));
-
-        $notification = array(
-            'message'=>"Data Siswa Berhasil Di Import",
-            'alert-type'=>'success',
-        );
+        try {
+            $test = Excel::import(new ImportTagihan, public_path('/file_tagihan/'.$nama_file));
+            if (!empty($test)) {
+                $notification = array(
+                    'message'=>"Data Tagihan Siswa Berhasil Di Import",
+                    'alert-type'=>'success',
+                );
+            } else {
+                $notification = array(
+                    'message'=>"Data Tagihan Siswa Sudah Ada",
+                    'alert-type'=>'danger',
+                );
+            }
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $msg = '';
+            
+        }
         return back()->with($notification);
 
         return redirect('/siswa');
