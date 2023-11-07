@@ -43,7 +43,8 @@ class SiswaImport implements ToModel, WithStartRow,WithValidation
                 'angkatan' => $row[10],
                 'agama' => $row[11],
                 'pin' => $row[12],
-                'id_jurusan' => $row[13]
+                'id_jurusan' => $row[13],
+                'status' => 1
             ]);
             $tagihan = New Tagihan();
             $bulanSekarang = date('m');
