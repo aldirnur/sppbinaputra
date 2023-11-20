@@ -66,11 +66,7 @@ class KeuanganController extends Controller
             $q->where('tahun_ajaran', $request->tahun);
         })->get();
         
-        $siswa = Siswa::whereNotExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('tagihan')
-                ->whereRaw('tagihan.id_siswa = siswa.id_siswa');
-        })->get();
+        $siswa = Siswa::get();
         $spp = Spp::get();
         $menu = 'Pembayaran';
 
@@ -104,46 +100,56 @@ class KeuanganController extends Controller
         ];
 
         $this->validate($request, $rules, $customMessages);
-        $tagihan = New Tagihan();
-        $bulanSekarang = 6;
-        $jumlahBulanTahunIni = 12 - $bulanSekarang + 1; 
-        $jumlahBulan =  $request->jumlah;
-        $bulanList = $data = [];
-        if ($jumlahBulan > $jumlahBulanTahunIni) {
-            for ($i = $bulanSekarang; $i <= 12; $i++) {
-                $namaBulan = date('F', mktime(0, 0, 0, $i, 1)); 
-                $bulanList[] = $namaBulan;
+        $cekTagihan = Tagihan::where('id_siswa', $request->siswa)->where('id_spp', $request->spp)->first();
+
+        if (!$cekTagihan) {
+
+            $tagihan = New Tagihan();
+            $bulanSekarang = 6;
+            $jumlahBulanTahunIni = 12 - $bulanSekarang + 1; 
+            $jumlahBulan =  $request->jumlah;
+            $bulanList = $data = [];
+            if ($jumlahBulan > $jumlahBulanTahunIni) {
+                for ($i = $bulanSekarang; $i <= 12; $i++) {
+                    $namaBulan = date('F', mktime(0, 0, 0, $i, 1)); 
+                    $bulanList[] = $namaBulan;
+                }
+                $bulanAwalTahun = $jumlahBulan - $jumlahBulanTahunIni;
+                for ($i = 1; $i <= $bulanAwalTahun; $i++) {
+                    $namaBulan = date('F', mktime(0, 0, 0, $i, 1));
+                    $bulanList[] = $namaBulan;
+                    $data = $bulanList;
+                }
+            } else {
+                $data = [];
+                for ($i = $bulanSekarang; $i <= 12; $i++) {
+                    $namaBulan = date('F', mktime(0, 0, 0, $i, 1));
+                    $bulanList[] = $namaBulan;
+                }
+                
+                for ($i = 0; $i < $jumlahBulan; $i++) {
+                    $namaBulan = date('F', mktime(0, 0, 0, $i, 1)); 
+                    $data[] = $bulanList[$i % 12];
+                }
             }
-            $bulanAwalTahun = $jumlahBulan - $jumlahBulanTahunIni;
-            for ($i = 1; $i <= $bulanAwalTahun; $i++) {
-                $namaBulan = date('F', mktime(0, 0, 0, $i, 1));
-                $bulanList[] = $namaBulan;
-                $data = $bulanList;
-            }
+            $test = json_encode($data);
+    
+    
+            $tagihan->jumlah = $request->jumlah;
+            $tagihan->id_spp = $request->spp;
+            $tagihan->id_siswa = $request->siswa;
+            $tagihan->bulan = json_encode($data);
+            $tagihan->save();
+            $notification=array(
+                'message'=>"Tagihan Berhasil Ditambahkan ",
+                'alert-type'=>'success',
+            );
         } else {
-            $data = [];
-            for ($i = $bulanSekarang; $i <= 12; $i++) {
-                $namaBulan = date('F', mktime(0, 0, 0, $i, 1));
-                $bulanList[] = $namaBulan;
-            }
-            
-            for ($i = 0; $i < $jumlahBulan; $i++) {
-                $namaBulan = date('F', mktime(0, 0, 0, $i, 1)); 
-                $data[] = $bulanList[$i % 12];
-            }
+            $notification=array(
+                'message'=>"Tagihan Sudah Ada ",
+                'alert-type'=>'danger',
+            );
         }
-        $test = json_encode($data);
-
-
-        $tagihan->jumlah = $request->jumlah;
-        $tagihan->id_spp = $request->spp;
-        $tagihan->id_siswa = $request->siswa;
-        $tagihan->bulan = json_encode($data);
-        $tagihan->save();
-        $notification=array(
-            'message'=>"Tagihan Berhasil Ditambahkan ",
-            'alert-type'=>'success',
-        );
         return redirect()->route('tagihan')->with($notification);
     }
 

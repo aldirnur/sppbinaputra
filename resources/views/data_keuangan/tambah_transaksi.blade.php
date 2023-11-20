@@ -199,7 +199,7 @@
                 },
                 success: function(data){
                     if (data.status == 'success') {
-                        $("#nominal").val(data.nom);
+                        $("#nominal").val(data.nomin_ori);
                     } else {
                         Snackbar.show({
                         text: "Maaf, Jumlah Bulan Yang Anda Masukan Lebih,  Sisa Tagihan Anda Sebanyak " +data.nom + " Bulan",
@@ -207,7 +207,7 @@
                         actionTextColor: '#fff',
                         backgroundColor: '#e7515a',
                     });
-                        $("#jumlah").val(data.nom);
+                        $("#jumlah").val(data.nomin_ori);
                     }
                 }
             });

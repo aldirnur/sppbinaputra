@@ -98,7 +98,7 @@
             </div>
         </div>
         @foreach ($spp  as $sp )
-            <a class="btn btn-sm btn-primary shadow-sm" href="{{route('tagihan', '?tahun=' . $sp->tahun_ajaran)}}"><i class="fa-solid fa-bars-staggered"></i>{{$sp->tahun_ajaran}}</a>
+            <a class="btn btn-sm btn-primary shadow-sm" href="{{route('tagihan', 'tahun=' . $sp->tahun_ajaran)}}"><i class="fa-solid fa-bars-staggered"></i>{{$sp->tahun_ajaran}}</a>
         @endforeach
     </div>
     <div class="modal fade" id="generate_report" aria-hidden="true" role="dialog">
