@@ -150,12 +150,12 @@
                         </div>
                     </div>
 
-                    <!-- <div class="col-lg-12">
+                    <div class="col-lg-12">
                         <div class="form-group">
                             <label>Bukti Bayar<span class="text-danger">*</span></label>
                             <input class="form-control" type="file" name="file" value="0"> <i class="fe fe-image"></i>
                         </div>
-                    </div> -->
+                    </div> 
                 </div>
             </div>
             
@@ -265,8 +265,10 @@ function getTagihan() {
                 if (data.status == 'success') {
                     if (jumlah > 0) {
                         $("#jmlh_pembayaran").val(data.nom);
-                        $("#nominal").val(data.nom);
-                        $("#nominal_transaksi").val(data.nominal);
+                        $("#nominal").val(data.nomin_ori);
+                        $("#nominall").val(data.nom);
+                        
+                        $("#nominal_transaksi").val(data.nomin_ori);
                     }
                     $("#bulan").val(data.bulan);
                 } else {
