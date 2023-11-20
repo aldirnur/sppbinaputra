@@ -95,10 +95,10 @@
         @endif
 
         @if(in_array(auth()->user()->level, [1]))
-            <li class="nav-item">
-                <a class="nav-link btn-logout" href="{{route('siswa')}}">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Data Siswa</span>
+        <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('dashboard')}}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
                 </a>
             </li>
 
@@ -123,7 +123,17 @@
             </li>
         @endif
 
+        @if(in_array(auth()->user()->level, [2]))
+        <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('dashboard')}}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            @endif
+
         @if(in_array(auth()->user()->level, [1,2]))
+        
             <li class="nav-item">
                 <a class="nav-link btn-logout" href="{{route('siswa')}}">
                     <i class="fas fa-fw fa-users"></i>
@@ -139,6 +149,8 @@
                 </a>
             </li>
         @endif
+
+        
         <!-- <li class="nav-item">
             <a class="nav-link btn-logout" href="{{route('payment')}}" >
                 <i class="fas fa-fw fa-credit-card"></i>

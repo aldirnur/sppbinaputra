@@ -126,7 +126,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>No Telfon <span class="text-danger">*</span></label>
+                            <label>No Telepon <span class="text-danger">*</span></label>
                             <input type="number" name="no_tlp" value="{{$siswa->no_tlp}}" class="form-control">
                         </div>
                     </div>

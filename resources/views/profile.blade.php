@@ -53,20 +53,28 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="form-group focused">
-                                        <label class="form-control-label" for="last_name">Kelas</label>
-                                        <input type="text" id="last_name" class="form-control" name="last_name" placeholder="Last name" value="{{$siswa->kelas}}" readonly>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="email">No Telepon</label>
                                         <input type="email" id="email" class="form-control" name="email"  value="{{$siswa->no_tlp}}" readonly>
                                     </div>
                                 </div>
+                                
+                            </div>
+
+                            <div class="row">
+                            <div class="col-lg-6">
+                                    <div class="form-group focused">
+                                        <label class="form-control-label" for="last_name">Jurusan</label>
+                                        <input type="text" id="last_name" class="form-control" name="last_name" placeholder="jurusan" value="{{$siswa->jurusan->nama_jurusan}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group focused">
+                                        <label class="form-control-label" for="last_name">Kelas</label>
+                                        <input type="text" id="last_name" class="form-control" name="last_name" placeholder="Kelas" value="{{$siswa->namakelas->nama_kelas}} - {{$siswa->namakelas->type}}" readonly>
+                                    </div>
+                                </div>
+                                
                             </div>
 
                             <div class="row">

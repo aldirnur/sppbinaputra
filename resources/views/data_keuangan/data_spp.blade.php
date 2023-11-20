@@ -49,7 +49,7 @@
                                     <td>
                                         {{$item->tahun_ajaran}} / {{$item->tahun_ajaran + 1}} 
                                     </td>
-                                    <td>{{number_format($item->nominal_spp,2, ',', '.')}}</td>
+                                    <td>{{number_format($item->nominal_spp,0, ',', '.')}}</td>
                                     <td>
                                         <div class="actions">
                                             <a class="btn btn-sm btn-primary shadow-sm" href="{{route('edit-spp',$item->id_spp)}}">

@@ -90,10 +90,16 @@
                     </div>
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>Tingkat</label>
-                            <input class="form-control" type="varchar" id="kelas" name="kelas" value="{{$siswa->kelas}}" readonly>
+                            <label>Kelas</label>
+                            <input class="form-control" type="varchar" id="kelas" name="kelas" value="{{$siswa->namakelas->nama_kelas}} - {{$siswa->namakelas->type}}" readonly>
                         </div>
-                    </div>        
+                    </div>  
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Jurusan</label>
+                            <input class="form-control" type="varchar" id="kelas" name="kelas" value="{{$siswa->jurusan->nama_jurusan}}" readonly>
+                        </div>
+                    </div>     
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Angkatan</label>
