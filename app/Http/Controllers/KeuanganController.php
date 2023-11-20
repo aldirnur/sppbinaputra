@@ -65,6 +65,7 @@ class KeuanganController extends Controller
         $tagihan = Tagihan::whereHas('spp', function ($q) use ($request) {
             $q->where('tahun_ajaran', $request->tahun);
         })->get();
+        
         $siswa = Siswa::whereNotExists(function ($query) {
             $query->select(DB::raw(1))
                 ->from('tagihan')

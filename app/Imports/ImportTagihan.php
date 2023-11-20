@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Siswa;
+use App\Models\Spp;
 use App\Models\Tagihan;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -30,10 +31,11 @@ class ImportTagihan implements ToModel,WithStartRow
     {
 
         $siswa = Siswa::where('nis', $row[1])->first();
+        $spp = Spp::where('tahun_ajaran', $siswa->angkatan)->first();
 
         $bulanSekarang = intval(date('m'));
         $jumlahBulanTahunIni = 12 - $bulanSekarang + 1; 
-        $jumlahBulan =  $row[3];
+        $jumlahBulan =  $row[2];
         $bulanList = $data = [];
         if ($jumlahBulan > $jumlahBulanTahunIni) {
             for ($i = $bulanSekarang; $i <= 12; $i++) {
@@ -58,12 +60,25 @@ class ImportTagihan implements ToModel,WithStartRow
                 $data[] = $bulanList[$i % 12];
             }
         }
-        return new Tagihan([
-            'jumlah' => $row[3],
-            'id_siswa' => $siswa->id_siswa,
-            'id_spp' => $row[4],
-            'bulan' => json_encode($data)
-        ]);
+        $tagihan = Tagihan::where('id_siswa', $siswa->id_siswa)->first();
+        $tagihanArray = [];
+
+        if (!$tagihan) {
+            $tagihan = new Tagihan([
+                'jumlah' => $row[2],
+                'id_siswa' => $siswa->id_siswa,
+                'id_spp' => $spp->id_spp,
+                'bulan' => json_encode($data)
+            ]);
+
+            $tagihanArray[] = $tagihan;
+        }
+
+        if (empty($tagihanArray)) {
+            return [];
+        }
+
+        return $tagihanArray;
     }
 }
 

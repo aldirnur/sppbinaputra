@@ -131,7 +131,8 @@ class SekolahController extends Controller
                 'jur_id' => $request->jurusan,
                 'pin' => $request->pin,
                 'agama' => $request->agama,
-                'angkatan' => $request->angkatan
+                'angkatan' => $request->angkatan,
+                'status' => $request->status
             ]);
             $tagihan = New Tagihan();
             $bulanSekarang = date('m');
