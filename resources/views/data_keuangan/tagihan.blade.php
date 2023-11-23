@@ -153,8 +153,15 @@
                             </div>
                             <div class="col-12">
                                 <label>SPP <br>
-                                <input type="number" id="nominal" name="nominal" value="0" readonly>
-                                <input type="hidden" id="id_spp" name="spp"  readonly>
+                                {{-- <input type="number" id="nominal" name="nominal" value="0" readonly> --}}
+                                {{-- <input type="hidden" id="id_spp" name="spp"  readonly> --}}
+                                <select class="select2 form-select form-control" name="spp">
+                                    {{-- onchange="getSpp(this.value) --}}
+                                    <option value="0">Silahkan angkatan</option>
+                                    @foreach ($spp as $sp)
+                                        <option value="{{$sp->id_spp}}">{{$sp->tahun_ajaran}}</option>
+                                    @endforeach
+                                </select>
                                 <br>
                             </div>
                             <div class="col-12">
