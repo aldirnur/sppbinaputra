@@ -84,7 +84,7 @@
                                     <th scope="col">Nama Siswa</th>
                                     <th scope="col">Kelas</th>
                                     <th scope="col">Tanggal Transaksi</th>
-                                    <th scope="col">Bulan yang Dibayarkan</th>
+                                    <!-- <th scope="col">Bulan yang Dibayarkan</th> -->
                                     <th scope="col">Nominal</th>
                                     <th scope="col">Bukti Transaksi</th>
                                     <th scope="col">Status</th>
@@ -96,7 +96,12 @@
                                 <tbody>
                                     @foreach ($transaksi as $item)
                                         <tr>
+                                            <td>{{$item->no_transaksi}}</td>
                                             <td>{{isset($item->tagihan->siswa) ? $item->tagihan->siswa->nama : '-' }}</td>
+                                            <td>{{isset($item->tagihan->siswa) ? $item->tagihan->siswa->kelas : '-' }}</td>
+                                            <td>{{$item->tgl}}</td>
+                                            <td>Rp. {{number_format($item->nominal_transaksi,2, ',', '.')}}</td>
+                                            <td><a href="#generate_report" data-toggle="modal" onclick="getBukti('{{$item->bukti_transaksi}}');">{{$item->bukti_transaksi}}</a></td>
                                             {{-- <td>-</td> --}}
                                             @if ($item->status_transaksi == 1)
                                                 <td><span class="btn-sm bg-success-light">Diterima</span></td>
@@ -105,11 +110,6 @@
                                             @else
                                                 <td><span class="btn-sm bg-danger-light">Ditolak</span></td>
                                             @endif
-
-                                            <td>{{$item->no_transaksi}}</td>
-                                            <td>{{$item->tgl}}</td>
-                                            <td>Rp. {{number_format($item->nominal_transaksi,2, ',', '.')}}</td>
-                                            <td><a href="#generate_report" data-toggle="modal" onclick="getBukti('{{$item->bukti_transaksi}}');">{{$item->bukti_transaksi}}</a></td>
                                             <td>
                                                 {{$item->keterangan}}
                                             </td>
