@@ -93,13 +93,7 @@
                             <label>Kelas</label>
                             <input class="form-control" type="varchar" id="kelas" name="kelas" value="{{$siswa->namakelas->nama_kelas}} - {{$siswa->namakelas->type}}" readonly>
                         </div>
-                    </div>  
-                    <div class="col-lg-12">
-                        <div class="form-group">
-                            <label>Jurusan</label>
-                            <input class="form-control" type="varchar" id="kelas" name="kelas" value="{{$siswa->jurusan->nama_jurusan}}" readonly>
-                        </div>
-                    </div>     
+                    </div>        
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Angkatan</label>
@@ -202,11 +196,11 @@
 <script type="text/javascript">
 function getTerm(val) {
     if (val == 1) {
-        var bukti ='<p> Dompet Digital<p>'+
-                '<p>Pilih Pembayaran';
+        var bukti ='<p> Cara Menggunakan Dompet Digital<p>'+
+'<p>Buka aplikasi Dompet Digital. <p>Pilih menu transaksi dan pilih bank yang sesuai. <p>Masukan No Pembayaran yang sesuai. <p>Pilih metode pembayaran <p>Tap Bayar. <p>Tunggu pesan konfirmasi transaksi kamu. <p>Setelah disetujui, transaksi kamu berhasil!';
     } else {
-        var bukti ='<p> Rekening<p>'+
-                '<p>Pilih Pembayaran';
+        var bukti ='<p> Cara Menggunakan Mobile Banking<p>'+
+'<p>Buka aplikasi Mobile Banking. <p>Pilih menu transaksi dan pilih bank yang sesuai. <p>Masukan No Pembayaran yang sesuai. <p>Pilih metode pembayaran <p>Tap Bayar. <p>Tunggu pesan konfirmasi transaksi kamu. <p>Setelah disetujui, transaksi kamu berhasil!';
     }
     
         $('#bukti').append(bukti);
