@@ -203,7 +203,7 @@ function getTerm(val) {
 '<p>Buka aplikasi Mobile Banking. <p>Pilih menu transaksi dan pilih bank yang sesuai. <p>Masukan No Pembayaran yang sesuai. <p>Pilih metode pembayaran <p>Tap Bayar. <p>Tunggu pesan konfirmasi transaksi kamu. <p>Setelah disetujui, transaksi kamu berhasil!';
     }
     
-        $('#bukti').append(bukti);
+    $('#bukti').html(bukti);
 }
 
 function NextPage() {

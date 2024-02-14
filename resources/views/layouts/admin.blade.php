@@ -75,7 +75,7 @@
             <li class="nav-item">
                 <a class="nav-link btn-logout" href="{{route('keuangan')}}">
                     <i class="fas fa-fw fa-wallet"></i>
-                    <span>Data Keuangan</span>
+                    <span>Data Report</span>
                 </a>
             </li>
 
