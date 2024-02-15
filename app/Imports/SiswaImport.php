@@ -29,6 +29,7 @@ class SiswaImport implements ToModel, WithStartRow,WithValidation
     public function model(array $row)
     {
         $checkDataSpp = Spp::where('tahun_ajaran', $row[10])->first();
+        // dd($checkDataSpp);
         if ($checkDataSpp) {
             $siswa =  new Siswa([
                 'nis' => $row[1],
@@ -81,7 +82,7 @@ class SiswaImport implements ToModel, WithStartRow,WithValidation
             $tagihan->bulan = json_encode($data);
             $tagihan->save();
         } else {
-            return false;
+            return [];
         }
         return $siswa;
     }
@@ -98,7 +99,7 @@ class SiswaImport implements ToModel, WithStartRow,WithValidation
             '7' => 'required|date',
             // '8' => 'required|no_tlp',
             '9' => 'required|string',
-            '10' => 'required',
+            '10' => 'required|exists:spp,tahun_ajaran',
         ];
     }
 
@@ -114,7 +115,8 @@ class SiswaImport implements ToModel, WithStartRow,WithValidation
             '7.required' => 'Tanggal Lahir Tidak Boleh Kosong',
             // '8.required' => 'no telpon Tidak Boleh Kosong',
             '9.required' => 'Nama Ayah Tidak Boleh Kosong',
-            '10.required' => 'Nama Ibu Tidak Boleh Kosong',
+            '10.required' => 'Angkatan Tidak Boleh Kosong',
+            '10.exists' => 'Data Spp Tidak Ada Untuk Angkatan Tersebut. Periksa kembali data SPP nya',
 
             '3.string' => 'Format Nama Tidak Sesuai',
             '4.integer'=> 'Format Jenis Kelamin Tidak Sesuai',
