@@ -298,12 +298,12 @@ class SekolahController extends Controller
     public function import_excel(Request $request)
     {
         $file = $request->file('file');
+        // dd($file);
 
         $nama_file = rand().$file->getClientOriginalName();
         $file->move('file_siswa',$nama_file);
         try {
-            Excel::import(new SiswaImport, public_path('/file_siswa/'.$nama_file));
-
+            $test = Excel::import(new SiswaImport, public_path('/file_siswa/'.$nama_file));
             $notification = array(
                 'message'=>"Data Siswa Berhasil Di Import",
                 'alert-type'=>'success',

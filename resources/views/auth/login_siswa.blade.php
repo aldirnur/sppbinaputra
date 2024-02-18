@@ -29,7 +29,7 @@
                     <form class="user" action="/pembayaran" method="get">
                         @csrf
                         <div class="form-group">
-                            <input class="form-control" name="nisn" type="number" value="{{old('name')}}" placeholder="NISN"> <br>
+                            <input class="form-control" name="nis" type="number" value="{{old('name')}}" placeholder="NIS"> <br>
                             <input class="form-control" id="password" name="pin" type="password" value="{{old('pwd')}}" placeholder="PIN">
                         </div>
                       <div class="form-group">
