@@ -100,6 +100,7 @@ class SiswaImport implements ToModel, WithStartRow,WithValidation
             // '8' => 'required|no_tlp',
             '9' => 'required|string',
             '10' => 'required|exists:spp,tahun_ajaran',
+            '13' => 'required|exists:jurusan,jur_id',
         ];
     }
 
@@ -117,6 +118,7 @@ class SiswaImport implements ToModel, WithStartRow,WithValidation
             '9.required' => 'Nama Ayah Tidak Boleh Kosong',
             '10.required' => 'Angkatan Tidak Boleh Kosong',
             '10.exists' => 'Data Spp Tidak Ada Untuk Angkatan Tersebut. Periksa kembali data SPP nya',
+            '13.exists' => 'Data Jurusan Belum Tersedia',
 
             '3.string' => 'Format Nama Tidak Sesuai',
             '4.integer'=> 'Format Jenis Kelamin Tidak Sesuai',

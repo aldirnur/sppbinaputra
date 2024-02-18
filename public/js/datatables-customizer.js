@@ -5,6 +5,10 @@ $(document).ready(function (){
 
 	});
 
+    $('#datatable-siswa').DataTable( {
+
+	});
+
     $('#report-export').DataTable( {
 		dom: 'Bfrtip',
 		buttons: [

@@ -61,7 +61,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <div class="form-group">
                                         <label class="form-control-label" for="email">No Telepon</label>
                                         <input type="email" id="email" class="form-control" name="email"  value="{{$siswa->no_tlp}}" readonly>

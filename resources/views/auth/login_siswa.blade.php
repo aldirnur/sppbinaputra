@@ -30,7 +30,7 @@
                         @csrf
                         <div class="form-group">
                             <input class="form-control" name="nisn" type="number" value="{{old('name')}}" placeholder="NISN"> <br>
-                            <input class="form-control" id="password" name="pin" type="password" value="{{old('pwd')}}" placeholder="PIN">
+                            <input class="form-control" id="password" name="nis" type="password" value="{{old('nis')}}" placeholder="NIS">
                         </div>
                       <div class="form-group">
                           <label for="new_password"> <h6>&emsp;</h6></label>

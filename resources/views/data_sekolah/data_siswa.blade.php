@@ -81,11 +81,11 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="datatable-export" class="table table-hover table-center mb-0">
+                        <table id="datatable-siswa" class="table table-hover table-center mb-0">
                             <thead>
                                 <tr>
                                     <th>Nis</th>
-                                    <!-- <th>Nisn</th> -->
+                                   
                                     <th>Nama</th>
                                     <!-- <th>Jenis Kelamin</th> -->
                                     <!-- <th>Tanggal lahir</th> -->
@@ -106,38 +106,35 @@
                             </thead>
                             <tbody>
                                 @foreach ($siswa as $item)
-                                <tr>
-                                    <td>
-                                        {{$item->nis}}
-                                    </td>
-                                    <!-- <td>{{$item->nisn}}</td> -->
-                                    <td>{{$item->nama}}</td>
-                                    <!-- <td>{{$item->jenis_kelamin == 1 ? 'Laki-Laki' : 'Perempuan'}}</td>
-                                    <td>{{$item->tgl_lahir}}</td>
-                                    <td>{{$item->alamat}}</td>
-                                    <td>{{$item->no_tlp}}</td> -->
-                                    <td>{{isset($item->namakelas) ? $item->namakelas->nama_kelas : ''}} {{isset($item->jurusan) ? $item->jurusan->nama_jurusan : ''}} {{isset($item->namakelas) ? $item->namakelas->type : ''}}</td>
-                                    <!-- <td>{{isset($item->jurusan->nama_jurusan) ? $item->jurusan->nama_jurusan : '' }}</td> -->
-                                    <td>{{$item->angkatan}}</td>
-                                    <!-- <td>{{$item->nama_wali}}</td> -->
-                                    <td>{{$item->no_tlp}}</td>
-                                    <!-- <td>{{$item->agama}}</td> -->
-                                    <!-- <td>{{$item->pin}}</td> -->
-                                    <td>{{$item->status == 1 ? 'Aktif' : 'Tidak Aktif'}}</td>
-                                    <td>
-                                        <div class="actions">
-                                            @if(in_array(auth()->user()->level, [1]))
-                                                <a onclick="preLoad();" class="btn btn-sm btn-primary shadow-sm" href="{{route('edit-siswa',$item->id_siswa)}}">
-                                                    <i class="fe fe-pencil"></i> Edit
-                                                </a>
-
-                                                <a onclick="preLoad();" class="btn btn-sm btn-danger shadow-sm" href="/delete-siswa/{{$item->id_siswa}}">
-                                                    <i class="fe fe-trash"></i> Delete
-                                                </a>
-                                            @endif
-                                        </div>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            {{$item->nis}}
+                                        </td>
+                                    
+                                        <td>{{$item->nama}}</td>
+                                    
+                                        <td>{{isset($item->namakelas) ? $item->namakelas->nama_kelas : ''}} {{isset($item->jurusan) ? $item->jurusan->nama_jurusan : ''}} {{isset($item->namakelas) ? $item->namakelas->type : ''}}</td>
+                                    
+                                        <td>{{$item->angkatan}}</td>
+                                    
+                                        <td>{{$item->no_tlp}}</td>
+                                        
+                                        <td>{{$item->status == 1 ? 'Aktif' : 'Tidak Aktif'}}</td>
+                                        @if(in_array(auth()->user()->level, [1]))
+                                            <td>
+                                                <div class="actions">
+                                                    
+                                                        <a onclick="preLoad();" class="btn btn-sm btn-primary shadow-sm" href="{{route('edit-siswa',$item->id_siswa)}}">
+                                                            <i class="fe fe-pencil"></i> Edit
+                                                        </a>
+                                                        <a onclick="preLoad();" class="btn btn-sm btn-danger shadow-sm" href="/delete-siswa/{{$item->id_siswa}}">
+                                                            <i class="fe fe-trash"></i> Delete
+                                                        </a>
+                                                
+                                                </div>
+                                            </td>
+                                        @endif
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
