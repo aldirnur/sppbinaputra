@@ -40,7 +40,7 @@
                         <table id="datatable-export" class=" table table-hover table-center mb-0">
                             <thead>
                                 <tr>
-                                    {{-- <th>Nama Siswa</th> --}}
+                                    <th>Nama Siswa</th>
                                     <th>Nominal SPP</th>
                                     <th>Jumlah Bulan</th>
                                     <th>Bulan</th>
@@ -56,9 +56,9 @@
                                     $total = $nomin * $item->jumlah
                                 @endphp
                                     <tr>
-                                        {{-- <td>
+                                        <td>
                                             {{isset($item->siswa->nama) ? $item->siswa->nama : ''}}
-                                        </td> --}}
+                                        </td>
                                         <td>Rp. {{number_format($item->spp->nominal_spp,2, ',', '.')}}</td>
                                         <td>{{$item->jumlah}}</td>
                                         <td>
