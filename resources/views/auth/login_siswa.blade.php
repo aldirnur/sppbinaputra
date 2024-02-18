@@ -29,8 +29,13 @@
                     <form class="user" action="/pembayaran" method="get">
                         @csrf
                         <div class="form-group">
+<<<<<<< HEAD
                             <input class="form-control" name="nis" type="number" value="{{old('name')}}" placeholder="NIS"> <br>
                             <input class="form-control" id="password" name="pin" type="password" value="{{old('pwd')}}" placeholder="PIN">
+=======
+                            <input class="form-control" name="nisn" type="text" value="{{old('name')}}" placeholder="NISN"> <br>
+                            <input class="form-control" id="password" name="nis" type="password" value="{{old('nis')}}" placeholder="NIS">
+>>>>>>> 93a6f60fc47463e6c123b6dea4da621812a03b3f
                         </div>
                       <div class="form-group">
                           <label for="new_password"> <h6>&emsp;</h6></label>

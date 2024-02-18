@@ -23,7 +23,7 @@ class PembayaranController extends Controller
         // dd($request->all());
         $title = "pembayaran";
         $nisn = $request->nisn;
-        $siswa = Siswa::where('nisn', $request->nisn)->where('pin', $request->pin)->first();
+        $siswa = Siswa::where('nisn', $request->nisn)->where('nis', $request->nis)->first();
         $tagihan = 0;
         $transaksi = [];
         $payment_method = PaymentMethod::where('status', 1)->get();

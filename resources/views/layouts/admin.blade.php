@@ -26,7 +26,6 @@
 
 
     <link rel="stylesheet" href="{{asset('plugins/DataTables/datatables.css')}}">
-
 </head>
 <body id="page-top">
 

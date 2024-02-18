@@ -40,7 +40,7 @@
                         <table id="datatable-export" class=" table table-hover table-center mb-0">
                             <thead>
                                 <tr>
-                                    <th>Nama Siswa</th>
+                                    {{-- <th>Nama Siswa</th> --}}
                                     <th>Nominal SPP</th>
                                     <th>Jumlah Bulan</th>
                                     <th>Bulan</th>
@@ -55,42 +55,41 @@
                                     $nomin = isset($item->spp->nominal_spp) ? $item->spp->nominal_spp : 0;
                                     $total = $nomin * $item->jumlah
                                 @endphp
-                                <tr>
-                                    <td>
-                                        {{isset($item->siswa->nama) ? $item->siswa->nama : ''}}
-                                    </td>
-                                    <td>Rp. {{number_format($item->spp->nominal_spp,2, ',', '.')}}</td>
-                                    <td>{{$item->jumlah}}</td>
-                                    <td>
-                                        @php ($bulan = json_decode($item->bulan))@endphp
-                                        @php ($namaBulan = $bulan) @endphp
-                                        @foreach ($bulan as $index => $value)
-                                            @php ($nama = $namaBulan[$index % 12]) @endphp
-                                            {{$nama}}
-                                            @if ($index != count($bulan) - 1)
-                                                ,
-                                            @endif
-                                        @endforeach
-                                    </td>
-                                    <td>Rp. {{number_format($total,2, ',', '.')}}</td>
-                                    @if ($item->status == 1)
-                                        <td><span class="btn btn-sm bg-success-light">Lunas</span></td>
-                                    @else
-                                        <td><span class="btn btn-sm bg-danger-light">Belum Lunas</span></td>
-                                    @endif
-                                    <td>
-                                        <div class="actions">
-                                            <a class="btn btn-sm btn-primary shadow-sm" href="{{route('edit-tagihan',$item->tag_id)}}">
-                                                <i class="fe fe-pencil"></i> Edit
-                                            </a>
-                                            <a onclick="preLoad();" class="btn btn-sm btn-danger shadow-sm" href="/delete-tagihan/{{$item->tag_id}}">
-                                                <i class="fe fe-trash"></i> Delete
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        {{-- <td>
+                                            {{isset($item->siswa->nama) ? $item->siswa->nama : ''}}
+                                        </td> --}}
+                                        <td>Rp. {{number_format($item->spp->nominal_spp,2, ',', '.')}}</td>
+                                        <td>{{$item->jumlah}}</td>
+                                        <td>
+                                            @php ($bulan = json_decode($item->bulan))@endphp
+                                            @php ($namaBulan = $bulan) @endphp
+                                            @foreach ($bulan as $index => $value)
+                                                @php ($nama = $namaBulan[$index % 12]) @endphp
+                                                {{$nama}}
+                                                @if ($index != count($bulan) - 1)
+                                                    ,
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        <td>Rp. {{number_format($total,2, ',', '.')}}</td>
+                                        @if ($item->status == 1)
+                                            <td><span class="btn btn-sm bg-success-light">Lunas</span></td>
+                                        @else
+                                            <td><span class="btn btn-sm bg-danger-light">Belum Lunas</span></td>
+                                        @endif
+                                        <td>
+                                            <div class="actions">
+                                                <a class="btn btn-sm btn-primary shadow-sm" href="{{route('edit-tagihan',$item->tag_id)}}">
+                                                    <i class="fe fe-pencil"></i> Edit
+                                                </a>
+                                                <a onclick="preLoad();" class="btn btn-sm btn-danger shadow-sm" href="/delete-tagihan/{{$item->tag_id}}">
+                                                    <i class="fe fe-trash"></i> Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 @endforeach
-
                             </tbody>
                         </table>
                     </div>
