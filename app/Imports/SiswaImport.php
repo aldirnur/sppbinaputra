@@ -44,9 +44,10 @@ class SiswaImport implements ToModel, WithStartRow,WithValidation
                 'angkatan' => $row[10],
                 'agama' => $row[11],
                 'pin' => $row[12],
-                'id_jurusan' => $row[13],
+                'jur_id' => $row[13],
                 'status' => 1
             ]);
+            $siswa->save();
             $tagihan = New Tagihan();
             $bulanSekarang = date('m');
             $jumlahBulanTahunIni = 12 - $bulanSekarang + 1; 
@@ -91,7 +92,7 @@ class SiswaImport implements ToModel, WithStartRow,WithValidation
     {
         return [
             '1' => 'required|unique:siswa,nis',
-            '2' => 'required|unique:siswa,nisn',
+            // '2' => 'required|unique:siswa,nisn',
             '3'=> 'required|string',
             '4'=> 'required|integer',
             '5'=> 'required',
@@ -128,7 +129,7 @@ class SiswaImport implements ToModel, WithStartRow,WithValidation
             // '10.number' => 'Format Nama Ibu Tidak Sesuai',
 
             '1.unique' => 'Nis Sudah Terdaftar',
-            '2.unique' => 'Nisn SUdah Terdaftar'
+            '2.unique' => 'Nisn Sudah Terdaftar'
         ];
     }
 }
