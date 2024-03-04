@@ -285,7 +285,15 @@ class TransaksiController extends Controller
                             $data[] = $bulanList[$i % 12];
                         }
                     }
-                    $tagihan->bulan = json_encode($data);
+                    $arrayBulan = json_decode($tagihan->bulan, true);
+                    $nomorBulan = $tagihan->jumlah - $sisa_tagihan;
+                    if ($nomorBulan >= 1 && $nomorBulan <= count($arrayBulan)) {
+                        for ($ix = 1; $ix <= $nomorBulan; $ix++) {
+                            unset($arrayBulan[$nomorBulan - $ix]);
+                            $arrayBulan = array_values($arrayBulan);
+                        }
+                    }   
+                    $tagihan->bulan = json_encode($arrayBulan);
                     $tagihan->jumlah = $sisa_tagihan;;
                     $tagihan->save();
 

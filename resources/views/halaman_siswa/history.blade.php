@@ -98,7 +98,7 @@
                                         <tr>
                                             <td>{{$item->no_transaksi}}</td>
                                             <td>{{isset($item->tagihan->siswa) ? $item->tagihan->siswa->nama : '-' }}</td>
-                                            <td>{{isset($item->tagihan->siswa) ? $item->tagihan->siswa->kelas : '-' }}</td>
+                                            <td>{{$siswa->namakelas->nama_kelas}} {{$siswa->jurusan->nama_jurusan}} {{$siswa->namakelas->type}}</td>
                                             <td>{{$item->tgl}}</td>
                                             <td>Rp. {{number_format($item->nominal_transaksi,2, ',', '.')}}</td>
                                             <td><a href="#generate_report" data-toggle="modal" onclick="getBukti('{{$item->bukti_transaksi}}');">{{$item->bukti_transaksi}}</a></td>

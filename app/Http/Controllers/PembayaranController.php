@@ -20,10 +20,9 @@ class PembayaranController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($request->all());
         $title = "pembayaran";
         $nisn = $request->nisn;
-        $siswa = Siswa::where('nisn', $request->nisn)->where('nis', $request->nis)->first();
+        $siswa = Siswa::where('nis', $request->nis)->where('pin', $request->password)->first();
         $tagihan = 0;
         $transaksi = [];
         $payment_method = PaymentMethod::where('status', 1)->get();
@@ -36,7 +35,7 @@ class PembayaranController extends Controller
             //     return back()->with('error_kode',"Anda Belum Memiliki Tagihan , Silahkan Hubungi Admin!!");
             // }
         } else {
-            return back()->with('error_kode',"Kode Yang Anda Masukan Tidak Terdaftar!!");
+            return back()->with('login_error',"NIS atau Password Salah!!");
         }
         // dd($siswa);
         return view('halaman_siswa.pembayaran',compact(
@@ -154,7 +153,7 @@ class PembayaranController extends Controller
         $siswa->pin = $request->input('new_password');
         $siswa->save();
 
-        return redirect()->to('/profile/'.$siswa->nisn)->withSuccess('Pin Berhasil Di Perbarui.');
+        return redirect()->to('/profile/'.$siswa->nisn)->withSuccess('Password Berhasil Di Perbarui.');
         // return redirect()->route('profile')->withSuccess('Profile updated successfully.');
     }
 
@@ -280,7 +279,7 @@ class PembayaranController extends Controller
         ];
 
         $customMessages = [
-            'token.required' => 'Silahkan Masukan Token',
+            'token.required' => 'Silahkan Masukan Kode OTP',
         ];
 
         $this->validate($request, $rules, $customMessages);
@@ -300,7 +299,7 @@ class PembayaranController extends Controller
             );
         } else {
             $notification=array(
-                'message'=>"Maaf,Token Yang Anda Masukan Salah. Silahkan Lakukan Pembayaran Kembali",
+                'message'=>"Maaf,OTP Yang Anda Masukan Salah. Silahkan Lakukan Pembayaran Kembali",
                 'alert-type'=>'popup',
             );
 

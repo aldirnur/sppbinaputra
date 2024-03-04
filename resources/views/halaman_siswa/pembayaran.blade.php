@@ -91,7 +91,7 @@
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Kelas</label>
-                            <input class="form-control" type="varchar" id="kelas" name="kelas" value="{{$siswa->namakelas->nama_kelas}} - {{$siswa->namakelas->type}}" readonly>
+                            <input class="form-control" type="varchar" id="kelas" name="kelas" value="{{$siswa->namakelas->nama_kelas}} {{$siswa->jurusan->nama_jurusan}} {{$siswa->namakelas->type}}" readonly>
                         </div>
                     </div>        
                     <div class="col-lg-12">

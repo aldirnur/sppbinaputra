@@ -32,7 +32,7 @@
                     <div class="col-sm-12 col">
                         <a class="btn btn-sm btn-primary shadow-sm"  href="#generate_report" data-toggle="modal"><i class="fas fa-plus fa-sm"></i> Import Tagihan</a>
                         <a class="btn btn-sm btn-primary shadow-sm"  href="#add-tagihan" data-toggle="modal"><i class="fas fa-plus fa-sm"></i>  Tambah Tagihan</a>
-                        <a class="btn btn-sm btn-primary shadow-sm"  onclick="location.reload()" href="#" data-toggle="modal"><i class="fas fa-fw fa-comments"></i>  Send Notfikasi Tagihan</a>
+                        <!-- <a class="btn btn-sm btn-primary shadow-sm"  onclick="location.reload()" href="#" data-toggle="modal"><i class="fas fa-fw fa-comments"></i>  Send Notfikasi Tagihan</a> -->
                     </div>
                 </div>
                 <div class="card-body">

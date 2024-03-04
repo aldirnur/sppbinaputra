@@ -26,11 +26,16 @@
                       <hr>
                       <h1 class="h4 text-gray-900">Login Siswa</h1><br>
                     </div>
+                    @if(session('login_error'))
+                        <div class="alert alert-danger">
+                            {{ session('login_error') }}
+                        </div>
+                    @endif
                     <form class="user" action="/pembayaran" method="get">
                         @csrf
                         <div class="form-group">
-                            <input class="form-control" name="nisn" type="number" value="{{old('name')}}" placeholder="NISN"> <br>
-                            <input class="form-control" id="password" name="pin" type="password" value="{{old('pwd')}}" placeholder="PIN">
+                            <input class="form-control" name="nis" type="text" value="{{old('name')}}" placeholder="NIS"> <br>
+                            <input class="form-control" id="password" name="password" type="password" value="{{old('nis')}}" placeholder="Password">
                         </div>
                       <div class="form-group">
                           <label for="new_password"> <h6>&emsp;</h6></label>
