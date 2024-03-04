@@ -91,17 +91,17 @@ class TransaksiController extends Controller
         $cek_tagihan = Tagihan::where('id_siswa',  $request->siswa)->first();
         if ($cek_tagihan) {
             $image = $request->file('file');
-            $path = public_path('/img/payment/');
+            // $path = public_path('/img/payment/');
             $imageName = $image->getClientOriginalName();
-            $extensi = $image->getClientOriginalExtension();
-            $image->move(($path), $imageName);
-            if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
-                $notification=array(
-                    'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
-                    'alert-type'=>'danger',
-                );
-                return back()->with($notification);
-            }
+            // $extensi = $image->getClientOriginalExtension();
+            // $image->move(($path), $imageName);
+            // if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
+            //     $notification=array(
+            //         'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
+            //         'alert-type'=>'danger',
+            //     );
+            //     return back()->with($notification);
+            // }
 
             $code = date("d") . $random;
             $transaksi = New Transaksi();
@@ -285,7 +285,17 @@ class TransaksiController extends Controller
                             $data[] = $bulanList[$i % 12];
                         }
                     }
-                    $tagihan->bulan = json_encode($data);
+
+
+                    $arrayBulan = json_decode($tagihan->bulan, true);
+                    $nomorBulan = $tagihan->jumlah - $sisa_tagihan;
+                    if ($nomorBulan >= 1 && $nomorBulan <= count($arrayBulan)) {
+                        for ($ix = 1; $ix <= $nomorBulan; $ix++) {
+                            unset($arrayBulan[$nomorBulan - $ix]);
+                            $arrayBulan = array_values($arrayBulan);
+                        }
+                    }                     
+                    $tagihan->bulan = json_encode($arrayBulan);
                     $tagihan->jumlah = $sisa_tagihan;;
                     $tagihan->save();
 

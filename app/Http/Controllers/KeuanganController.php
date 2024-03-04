@@ -7,6 +7,7 @@ use App\Models\Siswa;
 use App\Models\Spp;
 use App\Models\Tagihan;
 use App\Models\Transaksi;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -319,5 +320,45 @@ class KeuanganController extends Controller
         return redirect()->route('tagihan')->with($notification);
     }
 
+    public function kirim($id)
+    {
+       
+        try {
+
+            $basic  = new \Vonage\Client\Credentials\Basic("4b93d4ff", "BgvlgENAvx9njK2T");
+            $client = new \Vonage\Client($basic);
+            // dd($basic);
+
+            $tagihan = Tagihan::with('siswa')->where('tag_id', $id)->first();
+            // dd($tagihan->siswa->no_tlp);
+    
+            $response = $client->sms()->send(
+                new \Vonage\SMS\Message\SMS($tagihan->siswa->no_tlp, 'SMKBINAPUTRA', 
+                'Kami ingatkan agar segera melakukan pembayaran
+                ')
+            );
+            $message = $response->current();
+           
+    
+        } catch (Exception $e) {
+            dd($e->getMessage());
+            $notification=array(
+                'message'=>"Maaf, Mengirim SMS Gagal",
+                'alert-type'=>'danger',
+            );
+            return back()->with($notification);
+        }
+
+        $notification=array(
+            'message'=>"Sukses, Mengirim SMS Berhasil Dilakukan",
+            'alert-type'=>'success',
+        );
+
+        return redirect()->route('tagihan')->with($notification);
+    }
+
+
+
+    
 
 }

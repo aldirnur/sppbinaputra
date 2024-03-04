@@ -84,6 +84,7 @@ Route::group(['middleware'=>['auth']],function (){
     Route::get('send-notif',[KeuanganController::class,'sendNotif']);
     Route::post('kategori/create',[KeuanganController::class,'store']);
     Route::get('delete-tagihan/{id}',[KeuanganController::class,'destroy']);
+    Route::get('kirim-tagihan/{id}',[KeuanganController::class,'kirim']);
     Route::post('kategori/{id}',[KeuanganController::class,'update']);
     Route::delete('kategori',[KeuanganController::class,'destroy']);
 
