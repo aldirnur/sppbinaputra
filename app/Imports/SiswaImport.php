@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\Spp;
 use App\Models\Tagihan;
@@ -21,6 +22,8 @@ class SiswaImport implements ToModel, WithStartRow,WithValidation
      * @return int
      */
 
+    private $failedValidations = [];
+
     public function startRow(): int
     {
         return 2;
@@ -28,69 +31,94 @@ class SiswaImport implements ToModel, WithStartRow,WithValidation
 
     public function model(array $row)
     {
-        $checkDataSpp = Spp::where('tahun_ajaran', $row[10])->first();
-        // dd($checkDataSpp);
-        if ($checkDataSpp) {
-            $siswa =  new Siswa([
-                'nis' => $row[1],
-                'nisn' => $row[2],
-                'nama' => $row[3],
-                'jenis_kelamin' => $row[4],
-                'kelas' => $row[5],
-                'alamat' => $row[6],
-                'tgl_lahir' => date('Y-m-d', strtotime($row[7])),
-                'no_tlp' => $row[8],
-                'nama_wali' => $row[9],
-                'angkatan' => $row[10],
-                'agama' => $row[11],
-                'pin' => $row[12],
-                'jur_id' => $row[13],
-                'status' => 1
-            ]);
-            $siswa->save();
-            $tagihan = New Tagihan();
-            $bulanSekarang = date('m');
-            $jumlahBulanTahunIni = 12 - $bulanSekarang + 1; 
-            $jumlahBulan =  12;
-            $bulanList = $data = [];
-            if ($jumlahBulan > $jumlahBulanTahunIni) {
-                for ($i = $bulanSekarang; $i <= 12; $i++) {
-                    $namaBulan = date('F', mktime(0, 0, 0, $i, 1)); 
-                    $bulanList[] = $namaBulan;
-                }
-                $bulanAwalTahun = $jumlahBulan - $jumlahBulanTahunIni;
-                for ($i = 1; $i <= $bulanAwalTahun; $i++) {
-                    $namaBulan = date('F', mktime(0, 0, 0, $i, 1));
-                    $bulanList[] = $namaBulan;
-                    $data = $bulanList;
-                }
-            } else {
-                $data = [];
-                for ($i = $bulanSekarang; $i <= 12; $i++) {
-                    $namaBulan = date('F', mktime(0, 0, 0, $i, 1));
-                    $bulanList[] = $namaBulan;
-                }
-                
-                for ($i = 0; $i < $jumlahBulan; $i++) {
-                    $namaBulan = date('F', mktime(0, 0, 0, $i, 1)); 
-                    $data[] = $bulanList[$i % 12];
-                }
-            }
-
-            $tagihan->jumlah = 12;
-            $tagihan->id_spp = $checkDataSpp->id_spp;
-            $tagihan->id_siswa = $siswa->id_siswa;
-            $tagihan->bulan = json_encode($data);
-            $tagihan->save();
+        
+        $kelas = Kelas::find($row[5]);
+        if ($kelas->nama_kelas == 'X') {
+            $loop = 3;
+        } elseif ($kelas->nama_kelas == 'XI') {
+            $loop = 2;
         } else {
-            return [];
+            $loop = 1;
         }
+        $angkatan = $row[10];
+        for ($ix = 1; $ix <= 3 ; $ix++) {
+            $checkDataSpp = Spp::where('tahun_ajaran', $angkatan)->first();
+            if (!$checkDataSpp) {
+                $this->failedValidations[] = [
+                    'row' => $row,
+                    'message' => 'Data SPP tidak tersedia untuk tahun ajaran ' . $angkatan
+                ];
+            }
+            $angkatan++;
+        }
+
+        $siswa =  new Siswa([
+            'nis' => $row[1],
+            'nisn' => $row[2],
+            'nama' => $row[3],
+            'jenis_kelamin' => $row[4],
+            'kelas' => $row[5],
+            'alamat' => $row[6],
+            'tgl_lahir' => date('Y-m-d', strtotime($row[7])),
+            'no_tlp' => $row[8],
+            'nama_wali' => $row[9],
+            'angkatan' => $row[10],
+            'agama' => $row[11],
+            'pin' => $row[12],
+            'jur_id' => $row[13],
+            'status' => 1
+        ]);
+        $siswa->save();
+        for ($ix = 1; $ix <= $loop ; $ix++) {
+            $checkDataSpp = Spp::where('tahun_ajaran', $angkatan)->first();
+            if ($checkDataSpp) {
+                $tagihan = New Tagihan();
+                $bulanSekarang = date('m');
+                $jumlahBulanTahunIni = 12 - $bulanSekarang + 1; 
+                $jumlahBulan =  12;
+                $bulanList = $data = [];
+                if ($jumlahBulan > $jumlahBulanTahunIni) {
+                    for ($i = $bulanSekarang; $i <= 12; $i++) {
+                        $namaBulan = date('F', mktime(0, 0, 0, $i, 1)); 
+                        $bulanList[] = $namaBulan;
+                    }
+                    $bulanAwalTahun = $jumlahBulan - $jumlahBulanTahunIni;
+                    for ($i = 1; $i <= $bulanAwalTahun; $i++) {
+                        $namaBulan = date('F', mktime(0, 0, 0, $i, 1));
+                        $bulanList[] = $namaBulan;
+                        $data = $bulanList;
+                    }
+                } else {
+                    $data = [];
+                    for ($i = $bulanSekarang; $i <= 12; $i++) {
+                        $namaBulan = date('F', mktime(0, 0, 0, $i, 1));
+                        $bulanList[] = $namaBulan;
+                    }
+                    
+                    for ($i = 0; $i < $jumlahBulan; $i++) {
+                        $namaBulan = date('F', mktime(0, 0, 0, $i, 1)); 
+                        $data[] = $bulanList[$i % 12];
+                    }
+                }
+    
+                $tagihan->jumlah = 12;
+                $tagihan->id_spp = $checkDataSpp->id_spp;
+                $tagihan->id_siswa = $siswa->id_siswa;
+                $tagihan->bulan = json_encode($data);
+                $tagihan->save();
+
+                $angkatan++;
+            } else {
+                return [];
+            }
+        }
+        
         return $siswa;
     }
 
     public function rules(): array
     {
-        return [
+        $rules =  [
             '1' => 'required|unique:siswa,nis',
             // '2' => 'required|unique:siswa,nisn',
             '3'=> 'required|string',
@@ -103,6 +131,12 @@ class SiswaImport implements ToModel, WithStartRow,WithValidation
             '10' => 'required|exists:spp,tahun_ajaran',
             '13' => 'required|exists:jurusan,jur_id',
         ];
+
+        foreach ($this->failedValidations as $validation) {
+            $rules['10'] = 'required|exists:spp,tahun_ajaran';
+        }
+
+        return $rules;
     }
 
     public function customValidationMessages()

@@ -116,8 +116,28 @@ class SekolahController extends Controller
         }
         $code = date("Y") . $random;
 
-        $checkDataSpp = Spp::where('tahun_ajaran', $request->angkatan)->first();
-        if ($checkDataSpp) {
+        $angkatan = $request->angkatan;
+        $found = true;
+
+        $kelas = Kelas::find($request->kelas);
+        if ($kelas->nama_kelas == 'X') {
+            $loop = 3;
+        } elseif ($kelas->nama_kelas == 'XI') {
+            $loop = 2;
+        } else {
+            $loop = 1;
+        }
+        for ($ix = 1; $ix <= $loop ; $ix++) {
+            $checkDataSpp = Spp::where('tahun_ajaran', $angkatan)->first();
+            if (!$checkDataSpp) {
+                $found =  false;
+            }
+            $angkatan++;
+        }
+        
+       
+        
+        if ($found) {
             $siswa = Siswa::create([
                 'nis' => $request->nis,
                 'nisn' => $request->nisn,
@@ -134,47 +154,57 @@ class SekolahController extends Controller
                 'angkatan' => $request->angkatan,
                 'status' => $request->status
             ]);
-            $tagihan = New Tagihan();
-            $bulanSekarang = date('m');
-            $jumlahBulanTahunIni = 12 - $bulanSekarang + 1; 
-            $jumlahBulan =  12;
-            $bulanList = $data = [];
-            if ($jumlahBulan > $jumlahBulanTahunIni) {
-                for ($i = $bulanSekarang; $i <= 12; $i++) {
-                    $namaBulan = date('F', mktime(0, 0, 0, $i, 1)); 
-                    $bulanList[] = $namaBulan;
+
+            $ankt = $request->angkatan;
+            for ($ix = 1; $ix <= $loop ; $ix++) {
+                $checkDataSpp = Spp::where('tahun_ajaran', $ankt)->first();
+                $tagihan = New Tagihan();
+
+                $bulanSekarang = date('m');
+                $jumlahBulanTahunIni = 12 - $bulanSekarang + 1; 
+                $jumlahBulan =  12;
+                $bulanList = $data = [];
+                if ($jumlahBulan > $jumlahBulanTahunIni) {
+                    for ($i = $bulanSekarang; $i <= 12; $i++) {
+                        $namaBulan = date('F', mktime(0, 0, 0, $i, 1)); 
+                        $bulanList[] = $namaBulan;
+                    }
+                    $bulanAwalTahun = $jumlahBulan - $jumlahBulanTahunIni;
+                    for ($i = 1; $i <= $bulanAwalTahun; $i++) {
+                        $namaBulan = date('F', mktime(0, 0, 0, $i, 1));
+                        $bulanList[] = $namaBulan;
+                        $data = $bulanList;
+                    }
+                } else {
+                    $data = [];
+                    for ($i = $bulanSekarang; $i <= 12; $i++) {
+                        $namaBulan = date('F', mktime(0, 0, 0, $i, 1));
+                        $bulanList[] = $namaBulan;
+                    }
+                    
+                    for ($i = 0; $i < $jumlahBulan; $i++) {
+                        $namaBulan = date('F', mktime(0, 0, 0, $i, 1)); 
+                        $data[] = $bulanList[$i % 12];
+                    }
                 }
-                $bulanAwalTahun = $jumlahBulan - $jumlahBulanTahunIni;
-                for ($i = 1; $i <= $bulanAwalTahun; $i++) {
-                    $namaBulan = date('F', mktime(0, 0, 0, $i, 1));
-                    $bulanList[] = $namaBulan;
-                    $data = $bulanList;
-                }
-            } else {
-                $data = [];
-                for ($i = $bulanSekarang; $i <= 12; $i++) {
-                    $namaBulan = date('F', mktime(0, 0, 0, $i, 1));
-                    $bulanList[] = $namaBulan;
-                }
+
+                $tagihan->jumlah = 12;
+                $tagihan->id_spp = $checkDataSpp->id_spp;
+                $tagihan->id_siswa = $siswa->id_siswa;
+                $tagihan->bulan = json_encode($data);
+                $tagihan->save();
+
+                $ankt++;
                 
-                for ($i = 0; $i < $jumlahBulan; $i++) {
-                    $namaBulan = date('F', mktime(0, 0, 0, $i, 1)); 
-                    $data[] = $bulanList[$i % 12];
-                }
             }
 
-            $tagihan->jumlah = 12;
-            $tagihan->id_spp = $checkDataSpp->id_spp;
-            $tagihan->id_siswa = $siswa->id_siswa;
-            $tagihan->bulan = json_encode($data);
-            $tagihan->save();
             $notification = array(
                 'message'=>"Siswa Berhasil Ditambahkan",
                 'alert-type'=>'success',
             );
         } else {
             $notification = array(
-                'message'=>"Data Siswa Gagal Di Buat, Angkatan " . $request->angkatan . ' Belum Memiliki Data SPP' ,
+                'message'=>"Data Siswa Gagal Di Buat, Data Belum Memiliki Data SPP.",
                 'alert-type'=>'danger',
             );
         }
@@ -298,12 +328,12 @@ class SekolahController extends Controller
     public function import_excel(Request $request)
     {
         $file = $request->file('file');
-        // dd($file);
 
         $nama_file = rand().$file->getClientOriginalName();
         $file->move('file_siswa',$nama_file);
         try {
             $test = Excel::import(new SiswaImport, public_path('/file_siswa/'.$nama_file));
+            
             $notification = array(
                 'message'=>"Data Siswa Berhasil Di Import",
                 'alert-type'=>'success',
@@ -321,6 +351,8 @@ class SekolahController extends Controller
 
             }
             // return back()->with('error', $msg);
+        } catch (\Exception $e) {
+           
         }
 
         return back()->with($notification);
