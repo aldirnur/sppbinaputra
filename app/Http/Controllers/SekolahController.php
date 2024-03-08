@@ -127,17 +127,9 @@ class SekolahController extends Controller
         } else {
             $loop = 1;
         }
-        for ($ix = 1; $ix <= $loop ; $ix++) {
-            $checkDataSpp = Spp::where('tahun_ajaran', $angkatan)->first();
-            if (!$checkDataSpp) {
-                $found =  false;
-            }
-            $angkatan++;
-        }
+        $checkDataSpp = Spp::where('tahun_ajaran', $request->angkatan)->first();
         
-       
-        
-        if ($found) {
+        if ($checkDataSpp) {
             $siswa = Siswa::create([
                 'nis' => $request->nis,
                 'nisn' => $request->nisn,
@@ -157,7 +149,7 @@ class SekolahController extends Controller
 
             $ankt = $request->angkatan;
             for ($ix = 1; $ix <= $loop ; $ix++) {
-                $checkDataSpp = Spp::where('tahun_ajaran', $ankt)->first();
+                $checkDataSpp = Spp::where('tahun_ajaran', $request->angkatan)->first();
                 $tagihan = New Tagihan();
 
                 $bulanSekarang = date('m');
@@ -192,6 +184,7 @@ class SekolahController extends Controller
                 $tagihan->id_spp = $checkDataSpp->id_spp;
                 $tagihan->id_siswa = $siswa->id_siswa;
                 $tagihan->bulan = json_encode($data);
+                $tagihan->angkatan = $ankt;
                 $tagihan->save();
 
                 $ankt++;
@@ -351,9 +344,7 @@ class SekolahController extends Controller
 
             }
             // return back()->with('error', $msg);
-        } catch (\Exception $e) {
-           
-        }
+        } 
 
         return back()->with($notification);
     }
