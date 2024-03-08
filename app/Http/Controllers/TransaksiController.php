@@ -91,17 +91,17 @@ class TransaksiController extends Controller
         $cek_tagihan = Tagihan::where('id_siswa',  $request->siswa)->first();
         if ($cek_tagihan) {
             $image = $request->file('file');
-            $path = public_path('/img/payment/');
+            // $path = public_path('/img/payment/');
             $imageName = $image->getClientOriginalName();
-            $extensi = $image->getClientOriginalExtension();
-            $image->move(($path), $imageName);
-            if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
-                $notification=array(
-                    'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
-                    'alert-type'=>'danger',
-                );
-                return back()->with($notification);
-            }
+            // $extensi = $image->getClientOriginalExtension();
+            // $image->move(($path), $imageName);
+            // if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
+            //     $notification=array(
+            //         'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
+            //         'alert-type'=>'danger',
+            //     );
+            //     return back()->with($notification);
+            // }
 
             $code = date("d") . $random;
             $transaksi = New Transaksi();

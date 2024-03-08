@@ -86,6 +86,9 @@
                                                 <a onclick="preLoad();" class="btn btn-sm btn-danger shadow-sm" href="/delete-tagihan/{{$item->tag_id}}">
                                                     <i class="fe fe-trash"></i> Delete
                                                 </a>
+                                                <a  class="btn btn-sm btn-success shadow-sm" href="/kirim-tagihan/{{$item->tag_id}}">
+                                                    <i class="fas fa-fw fa-comments"></i> Kirim Pemberitahuan
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>
