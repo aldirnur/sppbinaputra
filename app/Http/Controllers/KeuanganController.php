@@ -63,9 +63,7 @@ class KeuanganController extends Controller
     public function tagihan(Request $request){
         $title = "Tagihan";
         $tahun = $request->tahun;
-        $tagihan = Tagihan::whereHas('spp', function ($q) use ($request) {
-            $q->where('tahun_ajaran', $request->tahun);
-        })->get();
+        $tagihan = Tagihan::where('angkatan', $tahun)->get();
         
         $siswa = Siswa::get();
         $spp = Spp::get();

@@ -41,37 +41,29 @@ class SiswaImport implements ToModel, WithStartRow,WithValidation
             $loop = 1;
         }
         $angkatan = $row[10];
-        for ($ix = 1; $ix <= 3 ; $ix++) {
-            $checkDataSpp = Spp::where('tahun_ajaran', $angkatan)->first();
-            if (!$checkDataSpp) {
-                $this->failedValidations[] = [
-                    'row' => $row,
-                    'message' => 'Data SPP tidak tersedia untuk tahun ajaran ' . $angkatan
-                ];
-            }
-            $angkatan++;
-        }
 
-        $siswa =  new Siswa([
-            'nis' => $row[1],
-            'nisn' => $row[2],
-            'nama' => $row[3],
-            'jenis_kelamin' => $row[4],
-            'kelas' => $row[5],
-            'alamat' => $row[6],
-            'tgl_lahir' => date('Y-m-d', strtotime($row[7])),
-            'no_tlp' => $row[8],
-            'nama_wali' => $row[9],
-            'angkatan' => $row[10],
-            'agama' => $row[11],
-            'pin' => $row[12],
-            'jur_id' => $row[13],
-            'status' => 1
-        ]);
-        $siswa->save();
-        for ($ix = 1; $ix <= $loop ; $ix++) {
-            $checkDataSpp = Spp::where('tahun_ajaran', $angkatan)->first();
-            if ($checkDataSpp) {
+        $checkDataSpp = Spp::where('tahun_ajaran', $angkatan)->first();
+        if ($checkDataSpp) {
+            $siswa =  new Siswa([
+                'nis' => $row[1],
+                'nisn' => $row[2],
+                'nama' => $row[3],
+                'jenis_kelamin' => $row[4],
+                'kelas' => $row[5],
+                'alamat' => $row[6],
+                'tgl_lahir' => date('Y-m-d', strtotime($row[7])),
+                'no_tlp' => $row[8],
+                'nama_wali' => $row[9],
+                'angkatan' => $row[10],
+                'agama' => $row[11],
+                'pin' => $row[12],
+                'jur_id' => $row[13],
+                'status' => 1
+            ]);
+            $siswa->save();
+            for ($ix = 1; $ix <= $loop ; $ix++) {
+                
+               
                 $tagihan = New Tagihan();
                 $bulanSekarang = date('m');
                 $jumlahBulanTahunIni = 12 - $bulanSekarang + 1; 
@@ -105,13 +97,15 @@ class SiswaImport implements ToModel, WithStartRow,WithValidation
                 $tagihan->id_spp = $checkDataSpp->id_spp;
                 $tagihan->id_siswa = $siswa->id_siswa;
                 $tagihan->bulan = json_encode($data);
+                $tagihan->angkatan = $angkatan;
                 $tagihan->save();
 
                 $angkatan++;
-            } else {
-                return [];
+                
             }
         }
+
+        
         
         return $siswa;
     }
