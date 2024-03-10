@@ -184,7 +184,8 @@ class PembayaranController extends Controller
     {
         $id = $request->id;
         $jumlah = $request->jumlah;
-        $tagihan = Tagihan::where('id_siswa', $id)->first();
+        $siswa = Siswa::find($id);
+        $tagihan = Tagihan::where('id_siswa', $siswa->angkatan)->first();
         $bulan = json_decode($tagihan->bulan);
 
         $bulan = array_map(function ($value, $index) {
