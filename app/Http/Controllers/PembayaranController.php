@@ -184,24 +184,26 @@ class PembayaranController extends Controller
         $id = $request->id;
         $jumlah = $request->jumlah;
         $siswa = Siswa::find($id);
-        $tagihan = Tagihan::where('id_siswa', $siswa->angkatan)->first();
-        $bulan = json_decode($tagihan->bulan);
+        $tagihan = Tagihan::where('id_siswa', $id)->where('jumlah', '!=', 0)->first();
+        if ($tagihan) {
+            $bulan = json_decode($tagihan->bulan);
 
-        $bulan = array_map(function ($value, $index) {
-            return $value;
-        }, $bulan, array_keys($bulan));
+            $bulan = array_map(function ($value, $index) {
+                return $value;
+            }, $bulan, array_keys($bulan));
 
-        array_unshift($bulan,"");
-        unset($bulan[0]);
+            array_unshift($bulan,"");
+            unset($bulan[0]);
 
-       
-        $result = [];
-        for ($i = 1; $i <= $jumlah; $i++) {
-            if (isset($bulan[$i])) {
-                $result[] = $bulan[$i];
+        
+            $result = [];
+            for ($i = 1; $i <= $jumlah; $i++) {
+                if (isset($bulan[$i])) {
+                    $result[] = $bulan[$i];
+                }
             }
+            $resultFinal =  implode(',', $result);
         }
-        $resultFinal =  implode(',', $result);
         
 
 
