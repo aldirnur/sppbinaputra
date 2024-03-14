@@ -73,20 +73,20 @@ class PembayaranController extends Controller
         for($i = 0; $i < $limit; $i++) {
             $otp .= mt_rand(0, 9);
         }
-        $cek_tagihan = Tagihan::where('id_siswa',  $id_siswa)->first();
+        $cek_tagihan = Tagihan::where('id_siswa',  $id_siswa)->where('jumlah', '!=', 0)->first();
         if ($cek_tagihan) {
             $image = $request->file('file');
-            $path = public_path('/img/payment/');
-            $imageName = $image->getClientOriginalName();
-            $extensi = $image->getClientOriginalExtension();
-            $image->move(($path), $imageName);
-            if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
-                $notification=array(
-                    'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
-                    'alert-type'=>'danger',
-                );
-                return back()->with($notification);
-            }
+            // $path = public_path('/img/payment/');
+            // $imageName = $image->getClientOriginalName();
+            // $extensi = $image->getClientOriginalExtension();
+            // $image->move(($path), $imageName);
+            // if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
+            //     $notification=array(
+            //         'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
+            //         'alert-type'=>'danger',
+            //     );
+            //     return back()->with($notification);
+            // }
 
             $code = date("d") . $random;
             $transaksi = New Transaksi();
@@ -95,7 +95,7 @@ class PembayaranController extends Controller
             $transaksi->tgl = date('Y-m-d');
             $transaksi->nominal_transaksi = $request->nominal_transaksi;
             $transaksi->keterangan = $request->keterangan ? : 'Pembayaran Spp';
-            $transaksi->bukti_transaksi = $imageName;
+            $transaksi->bukti_transaksi = 'test';
             $transaksi->tag_id = $cek_tagihan->tag_id;
             $transaksi->token = $otp;
             $transaksi->save();
