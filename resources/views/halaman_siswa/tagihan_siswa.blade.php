@@ -96,7 +96,7 @@
                                 @endphp
                                 <tr>
                                 <td>
-                                        {{isset($item->siswa->angkatan) ? $item->siswa->angkatan : ''}}
+                                {{$item->angkatan}}
                                     </td>
                                     <td>
                                         {{isset($item->siswa->nama) ? $item->siswa->nama : ''}}

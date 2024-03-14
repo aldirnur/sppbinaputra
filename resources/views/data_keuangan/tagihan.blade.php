@@ -40,7 +40,7 @@
                         <table id="datatable-export" class=" table table-hover table-center mb-0">
                             <thead>
                                 <tr>
-                                    <th>Tahun Pembayaran</th>
+                                    <!-- <th>Tahun Pembayaran</th> -->
                                     <th>Nama Siswa</th>
                                     <th>Nominal SPP</th>
                                     <th>Jumlah Bulan</th>
@@ -57,7 +57,7 @@
                                     $total = $nomin * $item->jumlah
                                 @endphp
                                     <tr>
-                                        <td>{{$item->angkatan}}</td>
+                                        <!-- <td>{{$item->angkatan}}</td> -->
                                         <td>
                                             {{isset($item->siswa->nama) ? $item->siswa->nama : ''}}
                                         </td>
