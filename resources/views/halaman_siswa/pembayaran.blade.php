@@ -75,7 +75,7 @@
 
     <!-- card -->
     <div class="card shadow mb-4 py-4 px-4">
-
+        
         <form method="post" enctype="multipart/form-data" id="update_service" action="/pembayaran/{{$siswa->id_siswa}}">
             @csrf
             <input type="hidden" name="id_siswa" id="id_siswa" value="{{$siswa->id_siswa}}">
@@ -85,7 +85,8 @@
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Nama</label>
-                            <input class="form-control" type="text" id="nis" name="nama" value="{{$siswa->nama}}" readonly>
+                            <input type="hidden" id="nis" name="nis" value="{{$siswa->nis}}">
+                            <input class="form-control" type="text" id="nama" name="nama" value="{{$siswa->nama}}" readonly>
                         </div>
                     </div>
                     <div class="col-lg-12">
@@ -118,8 +119,16 @@
                 <div class="row" style="display:none" id="section-two">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>No Pembayaran</label>
-                            <input class="form-control" type="text" id="nominal" name="no_" value="001-{{$siswa->nisn}}" readonly>
+                            <label>Metode Pembayaran <span class="text-danger">*</span></label>
+                            <select class="form-control" id="payment_method" onchange="getCode(this.value)" name="payment_method">
+                                <option value="0">Pilih Metode Pembayaran</option>
+                                @foreach ($metodePembayaran as $metode)
+                                    <option value="{{$metode->id}}">{{$metode->type == 1 ? 'Bank Transfer' : 'Dompet Digital'}} - {{$metode->nama}}</option>
+                                @endforeach
+                                
+                            </select>
+                            <br>
+                            <a href="#generate_report" data-toggle="modal">Tata Cara Pembayaran</a>
                         </div>
                     </div>
                     <div class="col-lg-12">
@@ -131,25 +140,21 @@
 
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>Metode Pembayaran <span class="text-danger">*</span></label>
-                            <select class="form-control" onchange="getTerm(this.value)" name="payment_method">
-                                <option value="1">Pilih Metode Pembayaran</option>
-                                <option value="1">Dompet Digital</option>
-                                <option value="2">Transfer Bank</option>
-                            </select>
-                            <br>
-                            <a href="#generate_report" data-toggle="modal">Tata Cara Pembayaran</a>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12">
-                        <div class="form-group">
                             <label>Nominal Tagihan<span class="text-danger">*</span></label>
                             <input class="form-control" type="text" id="nominall" name="nominal" value="0" readonly>
                             <input class="form-control" type="hidden" id="nominal" name="nominal" value="0" readonly>
                         </div>
                     </div>
 
+                </div>
+                <div class="row"  style="display:none" id="section-three">
+                    <div class="col-lg-12">
+                        <h1><i> Silahkan Lakukan Konfirmasi Pembayaran</i></h1>
+                        <br>
+                        <h3>No Pembayaran : {{isset($transaksi) ? $transaksi->metodePembayaran->code : 0}} - {{isset($transaksi) ? $siswa->nis : 0}} </h3>
+                        <h3>Total Pembayaran : {{number_format(isset($transaksi) ? $transaksi->nominal_transaksi : 0)}} </h3>
+                        <h3>Batas Waktu Pembayaran : <span id="countdown"></span></h3>
+                    </div>
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Bukti Bayar<span class="text-danger">*</span></label>
@@ -160,7 +165,8 @@
             </div>
             
             <div class="submit-section">
-                <button class="btn btn-danger submit-btn" type="button" name="form_submit" id="btn_next" onclick="NextPage()" value="Next" disabled>Lanjutkan Pembayaran</button>
+                <button class="btn btn-danger submit-btn" type="button" name="form_submit" id="btn_next" onclick="NextPage(1)" value="Next" disabled>Selanjutnya</button>
+                <button class="btn btn-danger submit-btn" type="button" name="form_submit" style="display: none" id="btn_confirm" onclick="NextPage(2)" value="Next" disabled>Konfirmasi Pembayaran</button>
                 <button class="btn btn-danger submit-btn" type="submit" style="display:none" id="btn_submit" value="submit" disabled>Bayar</button>
             </div>
         </form>
@@ -194,25 +200,106 @@
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
-function getTerm(val) {
-    if (val == 1) {
-        var bukti ='<p> Dompet Digital<p>'+
-                '<p>Pilih Pembayaran';
-    } else {
-        var bukti ='<p> Rekening<p>'+
-                '<p>Pilih Pembayaran';
+var nis = $("#nis").val();
+var transaksi = '{{isset($transaksi->trans_id) ? $transaksi->trans_id : 0}}';
+
+if(transaksi != 0) {
+    NextPage(2)
+    let deadline = '{{ isset($transaksi) ? $transaksi->expired_pembayaran : 0 }}';
+    const deadlineTimestamp = new Date(deadline).getTime()/1000;
+
+    let countdown = setInterval(function() {
+      
+    const now = Math.floor(Date.now() / 1000);
+
+    const diff = deadlineTimestamp - now;
+
+    if(diff <= 0) {
+    clearInterval(countdown);
+    document.getElementById('countdown').innerHTML = 'expired!';
+    return;
     }
-    
-        $('#bukti').append(bukti);
+
+    const hours = Math.floor(diff / 3600);
+    const minutes = Math.floor((diff % 3600) / 60);
+    const seconds = Math.floor(diff % 60);
+
+    document.getElementById('countdown').innerHTML = 
+        hours + ' Jam ' + minutes + ' Menit ' + seconds + ' Detik';
+
+    }, 1000);
+
 }
 
-function NextPage() {
-    $("#btn_submit").css("display", "block");
-    $("#btn_next").css("display", "none");
-    $("#section-two").css("display", "block");
-    $("#section-one").css("display", "none");
-    
+const inputFile = document.querySelector('input[type="file"]');
+inputFile.addEventListener('change', function() {
+
+if (this.files.length > 0) { 
+    $('#btn_submit').removeClass('btn btn-danger submit-btn');
+    $('#btn_submit').addClass('btn btn-primary submit-btn');
+    $('#btn_submit').prop("disabled", false);
+} 
+
+});
+
+function NextPage(value) {
+    if (value == 1) {
+        $("#btn_submit").css("display", "none");
+        $("#btn_next").css("display", "none");
+        $("#btn_confirm").css("display", "block");
+        $("#section-two").css("display", "block");
+        $("#section-one").css("display", "none");
+        $("#section-three").css("display", "none");
+
+    } else {
+        $("#btn_submit").css("display", "none");
+        $("#btn_next").css("display", "none");
+        $("#btn_confirm").css("display", "none");
+        $("#section-two").css("display", "none");
+        $("#section-one").css("display", "none");
+        $("#section-three").css("display", "block");
+        $("#btn_submit").css("display", "block");
+
+        $.ajaxSetup({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+        });
+
+        
+        let id_siswa = $("#id_siswa").val();
+        let nominal_transaksi = $("#nominal").val();
+        let keterangan = $("#keterangan").val();
+        let payment_method = $("#payment_method").val();
+
+        console.log('id_siswa' + id_siswa);
+        console.log('nominal_transaksi' + nominal_transaksi);
+
+        $.ajax({
+            url: 'simpan_pembayaran',
+            method: 'GET',
+            data: {
+                id_siswa: id_siswa,
+                nominal_transaksi: nominal_transaksi,
+                payment_method : payment_method
+            },
+            success: function (data) {
+                if (data.status == 'success') {
+                    if (data.tipe == 'insert') {
+                        location.reload()
+                    }
+                } else {
+                    Snackbar.show({
+                        text: data.message,
+                        pos: 'top-right',
+                        actionTextColor: '#fff',
+                        backgroundColor: '#e7515a',
+                    });
+                        
+                }
+            }
+        });
+    }  
 }
+
 function getTagihan() {
     id =  $("#id_siswa").val();
     jumlah =  $("#jumlah").val();
@@ -323,6 +410,38 @@ function changePm (val) {
         });
     var test = $("#desc"+val).val();
     console.log(test);
+}
+
+function getCode(id) {
+    $.ajaxSetup({
+        headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        }
+    });
+
+    $.ajax({ 
+        url: '/get_code',
+        type: 'get',
+        dataType: 'JSON',
+        data: { 
+            id:id
+        },
+        success: function(data){
+            if (data.status =='success') {
+                $('#no_pembayaran').val(data.code + ' - '+ nis);
+                $('#btn_confirm').removeClass('btn btn-danger submit-btn');
+                $('#btn_confirm').addClass('btn btn-primary submit-btn');
+                $('#btn_confirm').prop("disabled", false);
+            } else {
+                Snackbar.show({
+                    text: data.message,
+                    pos: 'top-right',
+                    actionTextColor: '#fff',
+                    backgroundColor: '#e7515a',
+                });
+            }
+        }
+    });
+
 }
 
 </script>

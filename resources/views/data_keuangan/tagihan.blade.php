@@ -42,6 +42,8 @@
                                 <tr>
                                     <th>Tahun Pembayaran</th>
                                     <th>Nama Siswa</th>
+                                    <th>Kelas</th>
+                                    <th>Jurusan</th>
                                     <th>Nominal SPP</th>
                                     <th>Jumlah Bulan</th>
                                     <th>Bulan</th>
@@ -60,6 +62,12 @@
                                         <td>{{$item->angkatan}}</td>
                                         <td>
                                             {{isset($item->siswa->nama) ? $item->siswa->nama : ''}}
+                                        </td>
+                                        <td>
+                                            {{isset($item->siswa->namakelas) ? $item->siswa->namakelas->nama_kelas : ''}} - {{isset($item->siswa->namakelas) ? $item->siswa->namakelas->type : ''}} 
+                                        </td>
+                                        <td>
+                                            {{isset($item->siswa->jurusan) ? $item->siswa->jurusan->nama_jurusan : ''}}
                                         </td>
                                         <td>Rp. {{number_format($item->spp->nominal_spp,2, ',', '.')}}</td>
                                         <td>{{$item->jumlah}}</td>

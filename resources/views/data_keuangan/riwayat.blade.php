@@ -1,8 +1,8 @@
-@extends('layouts.app-siswa')
+@extends('layouts.admin')
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">{{ __('History Pembayaran') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Riwayat Pembayaran Siswa') }}</h1>
 
     @if (session('success'))
         <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -71,22 +71,20 @@
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Data Pembayaran</h6>
-                    {{-- <a class="btn btn-sm btn-primary shadow-sm" href="{{route('add-transaksi')}}"><i class="fas fa-user-plus fa-sm"></i> Tambah Transaksi</a> --}}
+                    <h6 class="m-0 font-weight-bold text-primary">Riwayat Pembayaran Siswa</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="datatable-export" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="datatable-siswa" width="100%" cellspacing="0">
                             <thead class="text-center thead-light">
                                 <tr>
                                 <tr>
-                                    <th scope="col">Kode Transaksi</th>
                                     <th scope="col">Nama Siswa</th>
-                                    <th scope="col">Kelas</th>
-                                    {{-- <th scope="col">Tanggal Transaksi</th> --}}
-                                    <th scope="col">Bulan yang Dibayarkan</th>
-                                    <th scope="col">Nominal</th>
-                                    <th scope="col">Status</th>
+                                    <th scope="col">Kode Transaksi</th>
+                                    <th scope="col">Tanggal Pembayaran</th>
+                                    <th scope="col">Jumlah Bulan</th>
+                                    <th scope="col">Jumlah Pembayaran</th>
+                                    <th scope="col">Sisa Tagihan</th>
                                     <th scope="col">Notes</th>
                                     {{-- <th class="action-btn">Action</th> --}}
                                 </tr>
@@ -94,23 +92,22 @@
                             <tbody>
                                 <tbody>
                                     @foreach ($transaksi as $item)
+
+                                        @php 
+                                            $jumlah = $item->getJumlahBulan($item->tag_id, $item->nominal_transaksi);
+                                            $sisa_tagihan = $item->getSisaTagihan($item->tag_id, $item->nominal_transaksi);
+                                        @endphp
                                         <tr>
+                                            <td>{{isset($item->tagihan->siswa) ? $item->tagihan->siswa->nama : '-' }}</td>
                                             <td>{{$item->no_transaksi}}</td>
-                                            <td>{{isset($item->siswa) ? $item->siswa->nama : '-' }}</td>
-                                            <td>{{isset($item->siswa) ? $item->siswa->namakelas->nama_kelas : '-' }}</td>
                                             <td>{{$item->tgl}}</td>
-                                            {{-- <td>{{$item->tagihan->j}}</td> --}}
+                                            <td>{{$jumlah}}</td>
                                             <td>Rp. {{number_format($item->nominal_transaksi,2, ',', '.')}}</td>
-                                            @if ($item->status_transaksi == 1)
-                                                <td><span class="btn-sm bg-success-light">Diterima</span></td>
-                                            @elseif ($item->status_transaksi == 2)
-                                                <td><span class="btn-sm bg-warning-light">Verifikasi</span></td>
-                                            @else
-                                                <td><span class="btn-sm bg-danger-light">Ditolak</span></td>
-                                            @endif
+                                            <td>Rp. {{number_format($sisa_tagihan,2, ',', '.')}}</td>
                                             <td>
                                                 {{$item->keterangan}}
                                             </td>
+                                            
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -121,7 +118,32 @@
             </div>
 
         </div>
-
     </div>
 
+<div class="modal fade" id="generate_report" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Bukti Transaksi</h5>
+                <button type="button" class="close" onclick="location.reload();" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="bukti">
+                @csrf
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function getBukti(val) {
+        console.log(val);
+        var bukti ='<img src="/img/payment/'+val+'" alt="" width="400" height="500">'
+            $('#bukti').append(bukti);
+            console.log(bukti);
+    }
+</script>
 @endsection

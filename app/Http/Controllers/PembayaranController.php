@@ -10,6 +10,7 @@ use App\Models\Transaksi;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use App\PaymentMethod;
+use Illuminate\Support\Facades\DB;
 
 class PembayaranController extends Controller
 {
@@ -20,27 +21,21 @@ class PembayaranController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($request->all());
+        
         $title = "pembayaran";
         $nisn = $request->nisn;
         $siswa = Siswa::where('nisn', $request->nisn)->where('nis', $request->nis)->first();
         $tagihan = 0;
         $transaksi = [];
-        $payment_method = PaymentMethod::where('status', 1)->get();
-        if ($siswa) {
-            $tagihan = Tagihan::where('id_siswa', $siswa->id_siswa)->first();
-            if ($tagihan) {
-                $transaksi = Transaksi::where('tag_id', $tagihan->tag_id)->whereNull('token')->get();
-            }
-            // if (!$tagihan) {
-            //     return back()->with('error_kode',"Anda Belum Memiliki Tagihan , Silahkan Hubungi Admin!!");
-            // }
-        } else {
-            return back()->with('error_kode',"Kode Yang Anda Masukan Tidak Terdaftar!!");
+        $metodePembayaran = DB::table('metode_pembayaran')->get();
+        $transaksi = Transaksi::with('metodePembayaran')->where('id_siswa', $siswa->id_siswa)->where('status_transaksi', 0)->whereDate('expired_pembayaran', '>=', now())->first();
+        $expiredTransaksi = Transaksi::where('id_siswa', $siswa->id_siswa)->where('status_transaksi', 0)->whereDate('expired_pembayaran', '<', now())->first();
+        if ($expiredTransaksi) {
+            $expiredTransaksi->delete();
         }
-        // dd($siswa);
+       
         return view('halaman_siswa.pembayaran',compact(
-            'title','siswa','nisn', 'payment_method'
+            'title','siswa','nisn', 'metodePembayaran', 'transaksi'
         ));
     }
 
@@ -74,31 +69,32 @@ class PembayaranController extends Controller
             $otp .= mt_rand(0, 9);
         }
         $cek_tagihan = Tagihan::where('id_siswa',  $id_siswa)->where('jumlah', '!=', 0)->first();
-        if ($cek_tagihan) {
+        if ($cek_tagihan) { 
             $image = $request->file('file');
-            // $path = public_path('/img/payment/');
-            // $imageName = $image->getClientOriginalName();
-            // $extensi = $image->getClientOriginalExtension();
-            // $image->move(($path), $imageName);
-            // if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
-            //     $notification=array(
-            //         'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
-            //         'alert-type'=>'danger',
-            //     );
-            //     return back()->with($notification);
-            // }
+            $path = public_path('/img/payment/');
+            $imageName = $image->getClientOriginalName();
+            $extensi = $image->getClientOriginalExtension();
+            $image->move(($path), $imageName);
+            if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
+                $notification=array(
+                    'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
+                    'alert-type'=>'danger',
+                );
+                return back()->with($notification);
+            }
 
-            $code = date("d") . $random;
-            $transaksi = New Transaksi();
-            $transaksi->no_transaksi = $code;
-            $transaksi->status_transaksi = 2;
-            $transaksi->tgl = date('Y-m-d');
-            $transaksi->nominal_transaksi = $request->nominal_transaksi;
-            $transaksi->keterangan = $request->keterangan ? : 'Pembayaran Spp';
-            $transaksi->bukti_transaksi = 'test';
-            $transaksi->tag_id = $cek_tagihan->tag_id;
-            $transaksi->token = $otp;
-            $transaksi->save();
+            $code = date("Ymd") . $random;
+            $transaksi = Transaksi::where('id_siswa', $id_siswa)->where('status_transaksi', 0)->whereDate('expired_pembayaran', '>=', now())->first();
+            if ($transaksi) {
+                $transaksi->no_transaksi = $code;
+                $transaksi->status_transaksi = 2;
+                $transaksi->tgl = date('Y-m-d');
+                $transaksi->bukti_transaksi = 'ok';
+                $transaksi->expired_token = now()->addMinute(5);
+                $transaksi->token = $otp;
+                $transaksi->save();
+            }
+            
 
             if ($transaksi->token != null) {
                 try {
@@ -120,22 +116,17 @@ class PembayaranController extends Controller
                 }
 
             }
-
+           
             $notification=array(
-                'message'=>"Maaf, Tagihan Anda Belum Terdaftar. Silahkan Hubungi Petugas",
-                'alert-type'=>'popup',
+                'message'=>"Silahkan Masukan Kode Token Yang Telah Dikirim Ke Nomor Anda",
+                'alert-type'=>'popup'
             );
-            // $notification=array(
-            //     'message'=>"Pembayaran Berhasil",
-            //     'alert-type'=>'success',
-            // );
         } else {
             $notification=array(
                 'message'=>"Maaf, Tagihan Anda Belum Terdaftar. Silahkan Hubungi Petugas",
                 'alert-type'=>'danger',
             );
         }
-
 
 
         return back()->with($notification);
@@ -160,11 +151,10 @@ class PembayaranController extends Controller
 
     public function profile($id, Request $request)
     {
-        // dd($request->all());
+        
         $title = "profile";
         $nisn = $id;
         $siswa = Siswa::where('nisn', $id)->first();
-        // dd($siswa);
         return view('profile',compact(
             'title','siswa', 'nisn'
         ));
@@ -287,27 +277,31 @@ class PembayaranController extends Controller
         ];
 
         $this->validate($request, $rules, $customMessages);
-        $cek_transaksi = Transaksi::where('token',   $request->token)->first();
+        $cek_transaksi = Transaksi::where('token', $request->token)->first();
         $hash = hash('sha512', $request->token);
         // dd($hash);
         if ($cek_transaksi) {
-            // $notification=array(
-            //     'message'=>"Maaf, Tagihan Anda Belum Terdaftar. Silahkan Hubungi Petugas",
-            //     'alert-type'=>'popup',
-            // );
-            $cek_transaksi->token = $hash;
-            $cek_transaksi->save();
-            $notification=array(
-                'message'=>"Pembayaran Berhasil, Hubungi Petugas Untuk Melakukan Verifikasi",
-                'alert-type'=>'success',
-            );
+            if ($cek_transaksi->expired_token > date('Y-m-d H:i:s')) {
+                $cek_transaksi->token = $hash;
+                $cek_transaksi->save();
+                $notification=array(
+                    'message'=>"Pembayaran Berhasil, Hubungi Petugas Untuk Melakukan Verifikasi",
+                    'alert-type'=>'success',
+                );
+            } else {
+                $notification=array(
+                    'message'=>"Maaf,Token Yang Anda Masukan Sudah Kadaluarsa. Silahkan Lakukan Refresh Halaman",
+                    'alert-type'=>'popup',
+                );
+
+                $cek_transaksi->expired_token = now()->addMinute(5);
+                $cek_transaksi->save();
+            }
         } else {
             $notification=array(
-                'message'=>"Maaf,Token Yang Anda Masukan Salah. Silahkan Lakukan Pembayaran Kembali",
+                'message'=>"Maaf,Token Yang Anda Masukan Salah. Silahkan Cek Kembali OTP Anda",
                 'alert-type'=>'popup',
             );
-
-            // $cek_transaksi->delete();
         }
 
         return back()->with($notification);
@@ -321,11 +315,76 @@ class PembayaranController extends Controller
         $tagihan = Tagihan::where('id_siswa', $id)->first();
         $transaksi = [];
         if ($tagihan) {
-            $transaksi = Transaksi::where('tag_id', $tagihan->tag_id)->orderBy('created_at', 'desc')->get();
+            $transaksi = Transaksi::with('siswa')->where('tag_id', $tagihan->tag_id)->orderBy('created_at', 'desc')->get();
         }
 
         $menu = 'Pembayaran';
         return view('halaman_siswa.history',compact(
+            'title','transaksi','menu', 'siswa', 'nisn'
+        ));
+    }
+
+    public function getCode(Request $request) {
+        $id = $request->id;
+        $metodePembayaran = DB::table('metode_pembayaran')->where('id', $id)->first();
+
+        if ($metodePembayaran) {
+            return response()->json(['status' => 'success', 'code' => $metodePembayaran->code]);
+        }
+    }
+
+    public function simpanPembayaran(Request $request) {
+
+        try {
+
+            $id_siswa = $request->id_siswa;
+            $nominal_transaksi = $request->nominal_transaksi;
+            $id_payment_method = $request->payment_method;
+            $cek_tagihan = Tagihan::where('id_siswa',  $id_siswa)->where('jumlah', '!=', 0)->first();
+            if ($cek_tagihan) { 
+                $cek_transaksi = Transaksi::where('id_siswa',  $id_siswa)->where('status_transaksi', 0)->first();
+                // $code = date("Ymd") . $random;
+                if (!$cek_transaksi) {
+                    $transaksi = New Transaksi();
+                    $transaksi->id_siswa = $id_siswa;
+                    $transaksi->no_transaksi = 0;
+                    $transaksi->metode_pembayaran_id = $id_payment_method;
+                    $transaksi->status_transaksi = 0;
+                    $transaksi->tgl = date('Y-m-d');
+                    $transaksi->nominal_transaksi = $nominal_transaksi;
+                    $transaksi->keterangan = $request->keterangan ? : 'Pembayaran Spp';
+                    $transaksi->bukti_transaksi = 'test';
+                    $transaksi->tag_id = $cek_tagihan->tag_id;
+                    $transaksi->expired_pembayaran = now()->addHours(24);
+                    $transaksi->token = '-';
+                    $transaksi->save();
+                } else {
+                    return response()->json(['status' => 'success','tipe' => 'update']);
+                }
+
+                return response()->json(['status' =>'success', 'tipe' => 'insert']);
+            } else {
+                return response()->json(['status' =>'failed', 'message' => 'Maaf , Proses Konfirmasi Pembayaran Gagal, Silahkan Hubungi Admin']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'failed','message' => $e->getMessage()]);
+        }
+
+    }
+
+    public function dataPembayaran($id)
+    {
+        $title = "Transaksi";
+        $siswa = Siswa::find($id);
+        $nisn = $siswa->nisn;
+        $tagihan = Tagihan::where('id_siswa', $id)->first();
+        $transaksi = [];
+        if ($tagihan) {
+            $transaksi = Transaksi::with('siswa')->where('id_siswa', $id)->where('status_transaksi', 1)->orderBy('created_at', 'desc')->get();
+        }
+
+        $menu = 'Pembayaran';
+        return view('halaman_siswa.riwayat_pembayaran',compact(
             'title','transaksi','menu', 'siswa', 'nisn'
         ));
     }

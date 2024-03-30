@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kelas;
 use App\Models\Keuangan;
 use App\Models\Siswa;
 use App\Models\Tagihan;
 use App\Models\Transaksi;
+use Dotenv\Result\Success;
 use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
@@ -31,9 +33,10 @@ class TransaksiController extends Controller
     public function create(){
         $title= "Add Transaksi";
         $siswa = Siswa::get();
+        $kelas = Kelas::get();
         $menu = 'Pembayaran';
         return view('data_keuangan.tambah_transaksi',compact(
-            'title','siswa','menu'
+            'title','siswa','menu', 'kelas'
         ));
     }
 
@@ -64,12 +67,15 @@ class TransaksiController extends Controller
             'keterangan'=>'required',
             'date' => 'required|date_format:Y-m-d',
             'nominal'=>'required',
+            'file'=>'required|image',
         ];
 
         $customMessages = [
             'keterangan.required' => 'Keterangan Harus Diisi',
             'date.required' => 'Tanggal Harus Diisi',
-            'nominal.required' => 'Nominal Harus Diisi'
+            'nominal.required' => 'Nominal Harus Diisi',
+            'file.required' => 'File Harus Diisi',
+            'file.image' => 'File Harus Berupa Gambar',
         ];
 
         $this->validate($request, $rules, $customMessages);
@@ -79,40 +85,33 @@ class TransaksiController extends Controller
             $random .= mt_rand(0, 9);
         }
         $code = date("ymd") . $random;
-        // $image = $request->file('file');
-        // $path = public_path('/img/payment/');
-        // $imageName = $image->getClientOriginalName();
-        // $imageLinkTree = $image->getClientOriginalExtension();
-        // // $imageName = $this->newName($imageName, 'bukti_tf_');
-        // $image->move(($path), $imageName);
         $type = $request->type;
+        $image = $request->file('file');
+        $path = public_path('/img/payment/');
+        $imageName = $image->getClientOriginalName();
+        $extensi = $image->getClientOriginalExtension();
+        $image->move(($path), $imageName);
+        if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
+            $notification=array(
+                'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
+                'alert-type'=>'danger',
+            );
+            return back()->with($notification);
+        }
 
 
         $cek_tagihan = Tagihan::where('id_siswa',  $request->siswa)->first();
         if ($cek_tagihan) {
-            $image = $request->file('file');
-            // $path = public_path('/img/payment/');
-            $imageName = $image->getClientOriginalName();
-            // $extensi = $image->getClientOriginalExtension();
-            // $image->move(($path), $imageName);
-            // if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
-            //     $notification=array(
-            //         'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
-            //         'alert-type'=>'danger',
-            //     );
-            //     return back()->with($notification);
-            // }
-
-            $code = date("d") . $random;
+            $code = date("Ymd") . $random;
             $transaksi = New Transaksi();
             $transaksi->no_transaksi = $code;
             $transaksi->status_transaksi = 2;
             $transaksi->tgl = date('Y-m-d');
             $transaksi->nominal_transaksi = $request->nominal;
-            $transaksi->keterangan = $request->keterangan ? : 'Pembayaran Spp';
+            $transaksi->keterangan = $request->keterangan ? : 'Transaksi Pembayaran SPP oleh Bendahara';
             $transaksi->bukti_transaksi = $imageName;
             $transaksi->tag_id = $cek_tagihan->tag_id;
-            // $transaksi->token = $otp;
+            $transaksi->token = '-';
             $transaksi->save();
 
             // dd($transaksi->tagihan->siswa->no_tlp);
@@ -138,14 +137,14 @@ class TransaksiController extends Controller
 
             // }
 
-            $notification=array(
-                'message'=>"Maaf, Tagihan Anda Belum Terdaftar. Silahkan Hubungi Petugas",
-                'alert-type'=>'popup',
-            );
             // $notification=array(
-            //     'message'=>"Pembayaran Berhasil",
-            //     'alert-type'=>'success',
+            //     'message'=>"Maaf, Tagihan Anda Belum Terdaftar. Silahkan Hubungi Petugas",
+            //     'alert-type'=>'popup',
             // );
+            $notification=array(
+                'message'=>"Pembayaran Berhasil",
+                'alert-type'=>'success',
+            );
         } else {
             $notification=array(
                 'message'=>"Maaf, Tagihan Anda Belum Terdaftar. Silahkan Hubungi Petugas",
@@ -322,6 +321,24 @@ class TransaksiController extends Controller
      */
     public function destroy(Request $request)
     {
+    }
+
+    public function getSiswa(Request $request) {
+        $id_kelas = $request->id;
+        $siswa = Siswa::where('kelas', $id_kelas)->get();
+        if (count($siswa) > 0 ) {
+            return response()->json(['status' => 'success','data' => $siswa]);
+        } else {
+            return response()->json(['status' => 'failed', 'message' => 'Data not found']);;
+        }
+    }
+
+    public function Riwayat() {
+        $title = "Transaksi";
+        $transaksi = Transaksi::orderBy('created_at', 'desc')->where('status_transaksi', 1)->get();
+        $menu = 'Pembayaran';
+
+        return view('data_keuangan.riwayat', compact('title', 'transaksi','menu'));
     }
 
 

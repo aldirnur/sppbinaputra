@@ -2,16 +2,45 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jurusan;
+use App\Models\Kelas;
 use App\Models\Keuangan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $title = "Laporan";
+
+        $kls = $request->kelas ? $request->kelas : 0;
+        $jrsn = $request->jurusan? $request->jurusan : 0;
+        $from_date = $request->from_date? $request->from_date : date('Y-m-d');
+        $to_date = $request->to_date? $request->to_date : date('Y-m-d');
+
+        $kelas = Kelas::get();
+        $jurusan = Jurusan::get();
         $keuangan = Keuangan::get();
-        $uang_masuk = Keuangan::where('nominal_kas' ,'!=' ,'0' )->get();
+        $uang_masuk = Keuangan::with('transaksi.siswa')
+        ->where('nominal_kas' ,'!=' ,'0' )
+        ->where(function($query) use ($from_date, $to_date){
+            $query->whereBetween('tgl', [$from_date, $to_date]);
+        })
+        ->where(function($query) use ($kls){
+            if ($kls) {
+                $query->whereHas('transaksi.siswa', function ($q) use($kls) {
+                    $q->where('kelas', $kls);
+                });
+            }
+        })
+        ->where(function($query) use ($jrsn){
+            if ($jrsn) {
+                $query->whereHas('transaksi.siswa', function ($q) use($jrsn) {
+                    $q->where('jur_id', $jrsn);
+                });
+            }
+        })
+        ->get();
         $total_keluar = $keuangan->sum('nominal_kas');
         $total_cash = $uang_masuk->sum('nominal_kas');
 
@@ -19,7 +48,8 @@ class ReportController extends Controller
         $saldo = $total_cash;
         $title = "Laporan Keuangan";
         $menu = '';
-            return view('data_report.report',compact('uang_masuk','title','total_cash','saldo', 'menu'));
+            return view('data_report.report',compact('uang_masuk','title','total_cash'
+            ,'saldo', 'menu', 'kelas', 'jurusan', 'kls', 'jrsn', 'from_date', 'to_date'));
     }
 
     public function getData(Request $request){

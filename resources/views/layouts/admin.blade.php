@@ -91,6 +91,12 @@
                     <span>Data Tagihan</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('riwayat')}}">
+                    <i class="fas fa-fw fa-credit-card"></i>
+                    <span>Riwayat Pembayaran</span>
+                </a>
+            </li>
         @endif
 
         @if(in_array(auth()->user()->level, [1]))
