@@ -75,17 +75,17 @@ class PembayaranController extends Controller
         $cek_tagihan = Tagihan::where('id_siswa',  $id_siswa)->where('jumlah', '!=', 0)->first();
         if ($cek_tagihan) {
             $image = $request->file('file');
-            // $path = public_path('/img/payment/');
-            // $imageName = $image->getClientOriginalName();
-            // $extensi = $image->getClientOriginalExtension();
-            // $image->move(($path), $imageName);
-            // if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
-            //     $notification=array(
-            //         'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
-            //         'alert-type'=>'danger',
-            //     );
-            //     return back()->with($notification);
-            // }
+            $path = public_path('/img/payment/');
+            $imageName = $image->getClientOriginalName();
+            $extensi = $image->getClientOriginalExtension();
+            $image->move(($path), $imageName);
+            if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
+                $notification=array(
+                    'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
+                    'alert-type'=>'danger',
+                );
+                return back()->with($notification);
+            }
 
             $code = date("d") . $random;
             $transaksi = New Transaksi();
@@ -94,14 +94,14 @@ class PembayaranController extends Controller
             $transaksi->tgl = date('Y-m-d');
             $transaksi->nominal_transaksi = $request->nominal_transaksi;
             $transaksi->keterangan = $request->keterangan ? : 'Pembayaran Spp';
-            $transaksi->bukti_transaksi = 'test';
+            $transaksi->bukti_transaksi = $imageName;
             $transaksi->tag_id = $cek_tagihan->tag_id;
             $transaksi->token = $otp;
             $transaksi->save();
 
             if ($transaksi->token != null) {
                 try {
-                    $basic  = new \Vonage\Client\Credentials\Basic("456e9aaa", "E1uwnwJgPjwQJHbY");
+                    $basic  = new \Vonage\Client\Credentials\Basic("b04f9090", "MDpUY1X6ecKV0GA2");
                     $client = new \Vonage\Client($basic);
 
                     $response = $client->sms()->send(

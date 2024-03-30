@@ -63,7 +63,11 @@ class KeuanganController extends Controller
     public function tagihan(Request $request){
         $title = "Tagihan";
         $tahun = $request->tahun;
-        $tagihan = Tagihan::get();
+        $tagihan = Tagihan::where(function ($q) use ($tahun) {
+            if ($tahun) {
+                $q->where('angkatan', $tahun);
+            }
+        })->get();
         
         $siswa = Siswa::get();
         $spp = Spp::get();
@@ -323,7 +327,7 @@ class KeuanganController extends Controller
        
         try {
 
-            $basic  = new \Vonage\Client\Credentials\Basic("bb2a3868", "V01sfbqj0OueAi2s");
+            $basic  = new \Vonage\Client\Credentials\Basic("b04f9090", "MDpUY1X6ecKV0GA2");
             $client = new \Vonage\Client($basic);
             // dd($basic);
 

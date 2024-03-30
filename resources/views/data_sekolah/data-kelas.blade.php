@@ -37,8 +37,8 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Nama Kelas</th>
-                                    <th>Type</th>
+                                    <th>Angkatan</th>
+                                    <th>Kelas</th>
                                     <th class="action-btn">Action</th>
                                 </tr>
                             </thead>
