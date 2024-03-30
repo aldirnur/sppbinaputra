@@ -97,9 +97,11 @@
                                     <thead>
                                         <tr>
                                             <th>Tanggal Pembayaran</th>
-                                            {{-- <th>Ketegori Keuangan</th> --}}
-                                            <th>Uang Masuk</th>
                                             <th>Nama Siswa</th>
+                                            <th>Kelas</th>
+                                            <th>Jurusan</th>
+                                            <th>Angkatan</th>
+                                            <th>Uang Masuk</th>
                                             <th>Notes</th>
                                         </tr>
                                     </thead>
@@ -107,6 +109,7 @@
                                         @php
                                             $saldo = 0;
                                         @endphp
+                                        
                                         @foreach ($uang_masuk as $item)
 
                                             <?php
@@ -118,8 +121,11 @@
                                                     {{$item->tgl}}
                                                 </td>
                                                 {{-- <td>{{$item->kategori->nama_kategori}}</td> --}}
+                                                <td>{{isset($item->transaksi->siswa) ? $item->transaksi->siswa->nama : '-' }}</td>
+                                                <td>{{isset($item->transaksi->siswa->namaKelas) ? $item->transaksi->siswa->namaKelas->nama_kelas : '-' }}</td>
+                                                <td>{{isset($item->transaksi->siswa->namaKelas) ? $item->transaksi->siswa->jurusan->nama_jurusan : '-' }}</td>
+                                                <td>{{isset($item->transaksi->siswa) ? $item->transaksi->siswa->angkatan : '-' }}</td>
                                                 <td>{{$item->nominal_kas}}</td>
-                                                <td>{{isset($item->transaksi->tagihan->siswa) ? $item->transaksi->tagihan->siswa->nama : '-' }}</td>
                                                 <td>{{$item->notes}}</td>
                                             </tr>
 
@@ -145,21 +151,42 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{route('reports')}}">
+                <form method="get" action="{{route('reports')}}">
                     @csrf
                     <div class="row form-row">
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label>From</label>
-                                        <input type="date" name="from_date" class="form-control">
+                                        <label>Kelas</label>
+                                        <select class="form-control" name="kelas" id="">
+                                            @foreach ($kelas as $klss)
+                                                <option value="{{$klss->id}}" {{$klss->id == $kls ? 'selected' : ''}}>{{$klss->nama_kelas}} - {{$klss->type}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Jurusan</label>
+                                        <select class="form-control" name="jurusan" id="">
+                                            @foreach ($jurusan as $jrs)
+                                                <option value="{{$jrs->jur_id}}" {{$jrs->jur_id == $jrsn ? 'selected' : ''}}>{{$jrs->nama_jurusan}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>Dari</label>
+                                        <input type="date" name="from_date" value="{{$from_date}}" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label>To</label>
-                                        <input type="date" name="to_date" class="form-control">
+                                        <label>Sampai</label>
+                                        <input type="date" name="to_date" value="{{$to_date}}" class="form-control">
                                     </div>
                                 </div>
                             </div>

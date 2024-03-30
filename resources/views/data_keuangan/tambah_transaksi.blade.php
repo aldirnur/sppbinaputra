@@ -25,49 +25,7 @@
 
     <div class="row">
 
-        {{-- <div class="col-lg-4 order-lg-2">
-
-            <div class="card shadow mb-4">
-                <div class="card-profile-image mt-4">
-                    <figure class="rounded-circle avatar avatar font-weight-bold" style="font-size: 60px; height: 180px; width: 180px;" data-initial=""></figure>
-                </div>
-                <div class="card-body">
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="text-center">
-                                <h5 class="font-weight-bold"></h5>
-                                <p>Administrator</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card-profile-stats">
-                                <span class="heading">22</span>
-                                <span class="description">Friends</span>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card-profile-stats">
-                                <span class="heading">10</span>
-                                <span class="description">Photos</span>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card-profile-stats">
-                                <span class="heading">89</span>
-                                <span class="description">Comments</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div> --}}
-
-        <!-- Begin Page Content -->
+        
 <div class="container-fluid">
 
     <!-- Page Heading -->
@@ -92,12 +50,20 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>Nis & Nama Siswa <span class="text-danger">*</span></label>
+                            <label>Kelas <span class="text-danger">*</span></label>
+                            <select class="select2 form-select form-control" name="kelas" id="" onchange="get_siswa(this.value)" required>>
+                                <option value="0">-</option>
+                                @foreach ($kelas as $kls)
+                                    <option value="{{$kls->id}}">{{$kls->nama_kelas}} - {{$kls->type}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Nama Siswa <span class="text-danger">*</span></label>
                             <select class="select2 form-select form-control" name="siswa" id="siswa">
                                 <option value="0">-</option>
-                                @foreach ($siswa as $sis)
-                                    <option value="{{$sis->id_siswa}}">{{$sis->nis}} - {{$sis->nama}}</option>
-                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -112,14 +78,14 @@
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Tanggal Transaksi<span class="text-danger">*</span></label>
-                            <input class="form-control" type="date" id = "date" name="date" value="1"  onchange="getTagihan()"> <i class="fe fe-image"></i>
+                            <input class="form-control" type="date" id = "date" name="date" > <i class="fe fe-image"></i>
                         </div>
                     </div>
 
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Bulan<span class="text-danger">*</span></label>
-                            <input class="form-control" type="number" id = "jumlah" name="Bulan" value="1"  onchange="getTagihan()"> <i class="fe fe-image"></i>
+                            <input class="form-control" type="number" id = "jumlah" name="Bulan" value="0"  onchange="getTagihan()"> <i class="fe fe-image"></i>
                         </div>
                     </div>
 
@@ -212,8 +178,38 @@
                 }
             });
         }
+    function get_siswa(val) {
+        $.ajaxSetup({ 
+        headers: { 
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        }
+        });
+        $.ajax({
+            url : '/get_siswa',
+            type : 'get',
+            dataType : 'JSON',
+            data : {
+                id : val
+            },
+            success : function(data){
+                if(data.status =='success'){
+                    let option = '';
+                    $.each(data.data, function(key, value){
+                        console.log(value)
+                        option += '<option value="'+value.id_siswa+'">'+value.nama+'</option>';
+                        $("#siswa").html(option);
+                    });
+                } else {
+                    Snackbar.show({
+                        text: "Maaf, Data Siswa Tidak Ditemukan",
+                        pos: 'top-right',
+                        actionTextColor: '#fff',
+                        backgroundColor: '#e7515a',
+                    })
+                }
+            }
+        });
+    }  
 </script>
-
-    </div>
 
 @endsection

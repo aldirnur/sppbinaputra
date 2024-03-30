@@ -79,6 +79,12 @@
                 <span>History</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link btn-logout" href="{{route('data-pembayaran',$siswa->id_siswa)}}">
+                <i class="fas fa-fw fa-history"></i>
+                <span>Data Pembayaran</span>
+            </a>
+        </li>
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
 </ul>
@@ -281,6 +287,7 @@ End of Sidebar -->
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" style="text-align: center">Silahkan Masukan Kode OTP</h5>
+                <h5> <span id="countdown_token"></span></h5>
             </div>
             <div class="modal-body">
                 <form method="POST" action="{{route('add-token')}}">
@@ -288,11 +295,11 @@ End of Sidebar -->
                     <div class="row form-row">
                         <div class="col-12">
                             @if(Session::has('message'))
-                                <em class="text-danger">Pastikan OTP Yang Anda Masukan Benar.</em>
+                                <em class="text-danger">{{ Session::get('message') }}</em>
                             @endif
                             <div class="form-group">
                                 <br>
-                                <label style="font-weight: 10px">OTP<span class="text-danger">*</span></label>
+                                <label style="font-weight: 10px">OTP <span class="text-danger">*</span></label>
                                 <input class="form-control" type="number" name="token">
                             </div>
                         </div>
@@ -312,7 +319,6 @@ End of Sidebar -->
 <script src="{{asset('js/datatables-customizer.js')}}"></script>
 <script>
     $(document).ready(function() {
-
         document.addEventListener("keydown", function(event) {
             
             var keyCode = event.keyCode;
@@ -321,7 +327,7 @@ End of Sidebar -->
                 $('#61').removeClass('show').css('display', 'none')
                 break;
             default:
-                console.log("Tombol dengan keyCode " + keyCode + " ditekan.");
+               
                 break;
             }
         });
@@ -367,6 +373,28 @@ End of Sidebar -->
             case 'popup':
                 $('#generate_token').addClass('show').css('display', 'block'),
                 $('#wrapper').css('filter', 'blur(8px)')
+                let deadline = new Date();
+                deadline.setMinutes(deadline.getMinutes() + 5);
+                const deadlineTimestamp = deadline.getTime()/1000;
+
+                let countdown = setInterval(function() {
+
+                const now = Math.floor(Date.now() / 1000);
+                const diff = deadlineTimestamp - now;
+
+                if(diff <= 0) {
+                    clearInterval(countdown);
+                    document.getElementById('countdown_token').innerHTML = 'expired!'; 
+                    return;
+                }
+
+                const minutes = Math.floor(diff / 60);
+                const seconds = Math.floor(diff % 60);
+
+                document.getElementById('countdown_token').innerHTML =  
+                    minutes + ' Menit ' + seconds + ' Detik';
+
+                }, 1000);
             break;
         }
     @endif

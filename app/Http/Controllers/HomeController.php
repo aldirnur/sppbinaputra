@@ -37,8 +37,10 @@ class HomeController extends Controller
         $transaksi = Transaksi::whereNull('token')->get();
         $kas = Keuangan::get();
         $saldo = $kas->sum('nominal_kas');
+        $dataPembayaran = Transaksi::where('status_transaksi', 0)->get()->sum('nominal_transaksi');
+        
         $siswa = Siswa::get();
 
-        return view('home', compact('widget', 'transaksi', 'saldo', 'siswa'));
+        return view('home', compact('widget', 'transaksi', 'saldo', 'siswa', 'dataPembayaran'));
     }
 }

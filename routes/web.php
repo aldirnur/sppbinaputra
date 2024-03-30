@@ -39,6 +39,8 @@ Route::get('/pembayaran',[PembayaranController::class,'index']);
 Route::get('/profile/{nisn}',[PembayaranController::class,'profile'])->name('profile');
 Route::put('/profile', [PembayaranController::class,'update'])->name('profile.update');
 Route::get('history/{id}',[PembayaranController::class,'history'])->name('history');
+Route::get('data-pembayaran/{id}',[PembayaranController::class,'dataPembayaran'])->name('data-pembayaran');
+
 Route::get('tagihan-siswa/{id}',[KeuanganController::class,'tagihan_siswa'])->name('tagihan-siswa');
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::put('/profile', 'ProfileController@update')->name('profile.update');
@@ -46,6 +48,8 @@ Route::get('/pembayaran',[PembayaranController::class,'index']);
 Route::get('/get_pm',[PaymentMethodController::class,'getTagihan']);
 Route::get('/get_tagihan',[PembayaranController::class,'getTagihan']);
 Route::get('/get_spp',[PembayaranController::class,'getSpp']);
+Route::get('get_code',[PembayaranController::class,'getCode']);
+Route::get('simpan_pembayaran',[PembayaranController::class,'simpanPembayaran']);
 // Route::get('pembayaran',[PembayaranController::class,'index'])->name('pembayaran');
 Route::post('/pembayaran/{id}',[PembayaranController::class,'store'])->name('pembayaran');
 Route::post('add-token',[PembayaranController::class,'cekToken'])->name('add-token');
@@ -94,6 +98,8 @@ Route::group(['middleware'=>['auth']],function (){
     Route::post('transaksi/create',[TransaksiController::class,'store']);
     Route::get('transaksi/{transaksi}',[TransaksiController::class,'show'])->name('edit-transaksi');
     Route::post('transaksi/{transaksi}',[TransaksiController::class,'update']);
+    Route::get('riwayat', [TransaksiController::class, 'riwayat'])->name('riwayat');
+    Route::get('get_siswa',[TransaksiController::class,'getSiswa']);
 
     Route::get('/siswa/export_excel', [SekolahController::class,'export_excel']);
     Route::post('/siswa/import_excel', [SekolahController::class,'import_excel'])->name('import-siswa');
