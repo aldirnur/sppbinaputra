@@ -52,6 +52,7 @@
                                         @php 
                                             $jumlah = $item->getJumlahBulan($item->tag_id, $item->nominal_transaksi);
                                             $sisa_tagihan = $item->getSisaTagihan($item->tag_id, $item->nominal_transaksi);
+                                            $sisa_tagihan = isset($sisa_tagihan) ? $sisa_tagihan : 0;
                                         @endphp
                                         <tr>
                                             <td>{{isset($item->tagihan->siswa) ? $item->tagihan->siswa->nama : '-' }}</td>

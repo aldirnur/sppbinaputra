@@ -246,7 +246,7 @@ class SekolahController extends Controller
 
         $siswa->update($request->all());
         $notification = array(
-            'message'=>"Siswa has been updated",
+            'message'=>"Data Siswa Berhasil Di Ubah",
             'alert-type'=>'success',
         );
         return redirect()->route('siswa')->with($notification);
@@ -364,7 +364,7 @@ class SekolahController extends Controller
             }
             $siswa->delete();
             $notification = array(
-                'message'=>"Tentang Sekolah Berhasil Di Rubah",
+                'message'=>"Data Siswa Berhasil Di Hapus",
                 'alert-type'=>'success',
             );
         } else {

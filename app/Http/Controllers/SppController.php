@@ -59,7 +59,7 @@ class SppController extends Controller
             'nominal_spp' => $request->nominal,
         ]);
         $notification = array(
-            'message'=>"Spp Berhasil Ditambahkan",
+            'message'=>"SPP Berhasil Ditambahkan",
             'alert-type'=>'success',
         );
         return redirect()->route('spp')->with($notification);
@@ -106,7 +106,7 @@ class SppController extends Controller
             'nominal'=> $request->nominal,
         ]);
         $notifications = array(
-            'message'=>"Spp has been updated",
+            'message'=>"SPP Berhasil Di Ubah",
             'alert-type'=>'success',
         );
         return redirect()->route('spp')->with($notifications);

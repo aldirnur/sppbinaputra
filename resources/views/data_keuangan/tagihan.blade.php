@@ -45,11 +45,11 @@
                                     <th>Kelas</th>
                                     <th>Jurusan</th>
                                     <th>Nominal SPP</th>
-                                    <th>Jumlah Bulan</th>
-                                    <th>Bulan</th>
+                                    <th>Jumlah Bulan Yang Belum Di Bayarkan</th>
+                                    <th>Bulan Yang Belum Di Bayarkan</th>
                                     <th>Jumlah Tagihan</th>
                                     <th>Status</th>
-                                    <th class="action-btn">Action</th>
+                                    <th class="action-btn">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -94,10 +94,10 @@
                                                     <i class="fe fe-pencil"></i> Edit
                                                 </a>
                                                 <a onclick="preLoad();" class="btn btn-sm btn-danger shadow-sm" href="/delete-tagihan/{{$item->tag_id}}">
-                                                    <i class="fe fe-trash"></i> Delete
+                                                    <i class="fe fe-trash"></i> Hapus
                                                 </a>
                                                 <a  class="btn btn-sm btn-success shadow-sm" href="/kirim-tagihan/{{$item->tag_id}}">
-                                                    <i class="fas fa-fw fa-comments"></i> Kirim Pemberitahuan
+                                                    <i class="fas fa-fw fa-comments"></i> Kirim SMS
                                                 </a>
                                             </div>
                                         </td>

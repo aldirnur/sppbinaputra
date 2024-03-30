@@ -154,7 +154,7 @@ class TransaksiController extends Controller
 
 
         $notification=array(
-            'message'=>"transaksi Berhasil Ditambahkan has been added",
+            'message'=>"Transaksi Berhasil Ditambahkan",
             'alert-type'=>'success',
         );
         return redirect()->route('transaksi')->with($notification);
@@ -305,7 +305,7 @@ class TransaksiController extends Controller
         }
 
         $notification=array(
-            'message'=>"Transaksi has been updated",
+            'message'=>"Transaksi Berhasil Di Ubah",
             'alert-type'=>'success',
         );
         return redirect()->route('transaksi')->with($notification);

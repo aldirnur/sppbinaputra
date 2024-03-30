@@ -43,7 +43,7 @@ class Transaksi extends Model
     public function getSisaTagihan($tag_id, $nominal) {
         $tagihan = Tagihan::where('tag_id', $tag_id)->first();
 
-        $jumlahBulan = 0;
+        $sisa_tagihan = 0;
         if ($tagihan) {
             $sisa_tagihan = (isset($tagihan->spp->nominal_spp) ? $tagihan->spp->nominal_spp : 0) * $tagihan->jumlah;
         }

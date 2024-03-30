@@ -86,8 +86,8 @@
                                     <th scope="col">Tanggal Transaksi</th>
                                     <th scope="col">Nominal</th>
                                     <th scope="col">Bukti Transaksi</th>
-                                    <th scope="col">Notes</th>
-                                    <th class="action-btn">Action</th>
+                                    <th scope="col">Keterangan</th>
+                                    <th class="action-btn">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>

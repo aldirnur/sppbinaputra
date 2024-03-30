@@ -82,7 +82,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Nama Jurusan</th>
-                                    <th class="action-btn">Action</th>
+                                    <th class="action-btn">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -102,7 +102,7 @@
                                             ?>
                                             @if(!$siswa)
                                                 <a onclick="preLoad();" class="btn btn-sm btn-danger shadow-sm" href="#" data-toggle="modal" data-target="#logoutModal" data-id="{{$item->jur_id}}">
-                                                    <i class="fe fe-trash"></i> Delete
+                                                    <i class="fe fe-trash"></i> Hapus
                                                 </a>
                                             @endif
                                             

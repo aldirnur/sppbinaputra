@@ -39,7 +39,7 @@
                                     <th>ID</th>
                                     <th>Angkatan</th>
                                     <th>Kelas</th>
-                                    <th class="action-btn">Action</th>
+                                    <th class="action-btn">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -60,7 +60,7 @@
                                             ?>
                                             @if(!$siswa)
                                                 <a class="btn btn-sm btn-danger shadow-sm" href="#" data-toggle="modal" data-target="#logoutModal" data-id="{{$item->id}}">
-                                                    <i class="fe fe-trash"></i> Delete
+                                                    <i class="fe fe-trash"></i> Hapus
                                                 </a>
                                             @endif
                                         </div>
@@ -79,7 +79,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Tambahkan Jurusan</h5>
+                    <h5 class="modal-title">Tambahkan Kelas</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -90,14 +90,14 @@
                         <div class="row form-row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>Kelas <span class="text-danger">*</span></label>
+                                    <label>Angkatan <span class="text-danger">*</span></label>
                                     <select class="form-control" name="nama_kelas">
                                         <option value="X">X</option>
                                         <option value="XI">XI</option>
                                         <option value="XII">XII</option>
                                     </select>
                                     <br>
-                                    <label>Type Kelas <span class="text-danger">*</span></label>
+                                    <label>Kelas <span class="text-danger">*</span></label>
                                     <select class="form-control" name="type">
                                         <option value="1">1</option>
                                         <option value="2">2</option>

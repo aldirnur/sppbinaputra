@@ -79,11 +79,11 @@
                         <table id="datatable-export" class="table table-hover table-center mb-0">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>Nama</th>
                                     <th>Email</th>
-                                    <th>Level</th>
-                                    <th>Created date</th>
-                                    <th class="text-center action-btn">Actions</th>
+                                    <!-- <th>Level</th> -->
+                                    <th>Tanggal Pembuatan</th>
+                                    <th class="text-center action-btn">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -98,9 +98,9 @@
                                         {{$user->email}}
                                     </td>
                                     {{-- @can('update-role') --}}
-                                    <td id="level_{{$key}}">
+                                    <!-- <td id="level_{{$key}}">
                                         {{$user->level}}
-                                    </td>
+                                    </td> -->
                                     {{-- @endcan --}}
                                     <td>{{date_format(date_create($user->created_at),"d M,Y")}}</td>
 
@@ -110,7 +110,7 @@
                                                 <i class="fe fe-pencil"></i> Edit
                                             </a>
                                             <a data-id="{{$user->id}}" href="javascript:void(0);" class="btn btn-sm btn-danger shadow-sm" data-toggle="modal">
-                                                <i class="fe fe-trash"></i> Delete
+                                                <i class="fe fe-trash"></i> Hapus
                                             </a>
                                         </div>
                                     </td>
@@ -127,7 +127,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add User</h5>
+                    <h5 class="modal-title">Tambah User</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -170,14 +170,14 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label>Confirm Password</label>
+                                            <label>Konfirmasi Password</label>
                                             <input type="password" name="password_confirmation" class="form-control">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+                        <button type="submit" class="btn btn-primary btn-block">Simpan</button>
                     </form>
                 </div>
             </div>
@@ -203,8 +203,8 @@
                             <input type="hidden" name="id" id="edit_id">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>Full Name</label>
-                                    <input type="text" name="name" id="edit_name" class="form-control edit_name" placeholder="John Doe">
+                                    <label>Nama</label>
+                                    <input type="text" name="name" id="edit_name" class="form-control edit_name">
                                 </div>
                             </div>
                             <div class="col-12">
@@ -215,7 +215,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>Level</label>
+                                    <label>Jabatan</label>
                                     <div class="form-group">
                                         <select class="select2 form-select form-control edit_role" name="level">
                                             @foreach ($level as $key => $lvl)
@@ -235,14 +235,14 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label>Confirm Password</label>
+                                            <label>Konfirmasi Password</label>
                                             <input type="password" name="password_confirmation" class="form-control">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+                        <button type="submit" class="btn btn-primary btn-block">Simpan</button>
                     </form>
                 </div>
             </div>

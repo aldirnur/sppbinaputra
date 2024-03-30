@@ -95,7 +95,7 @@
                                     <!-- <th>Jurusan</th> -->
                                     <th>Angkatan</th>
                                     <!-- <th>Nama Wali</th> -->
-                                    <th>No Telfon</th>
+                                    <th>No Telepon</th>
                                     <!-- <th>Agama</th> -->
                                     <!-- <th>Pin</th> -->
                                     <th>Status</th>

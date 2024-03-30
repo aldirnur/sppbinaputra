@@ -102,14 +102,14 @@
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Nominal<span class="text-danger">*</span></label>
-                            <input class="form-control" type="text" name="nominal" value="{{$transaksi->nominal_transaksi}}">
+                            <input class="form-control" type="text" name="nominal" value="{{$transaksi->nominal_transaksi}}" readonly>
                         </div>
                     </div>
 
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>Tanggal<span class="text-danger">*</span></label>
-                            <input class="form-control" type="date" name="date" value="{{$transaksi->tgl}}"> <i class="fe fe-image"></i>
+                            <label>Tanggal Pembayaran<span class="text-danger">*</span></label>
+                            <input class="form-control" type="date" name="date" value="{{$transaksi->tgl}}" readonly> <i class="fe fe-image"></i>
                         </div>
                     </div>
 
@@ -143,7 +143,7 @@
 
 
             <div class="submit-section">
-                <button onclick="preLoad()" class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Submit</button>
+                <button onclick="preLoad()" class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Simpan</button>
             </div>
         </form>
     </div>

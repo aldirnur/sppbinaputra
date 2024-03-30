@@ -102,7 +102,7 @@
                                             <th>Jurusan</th>
                                             <th>Angkatan</th>
                                             <th>Uang Masuk</th>
-                                            <th>Notes</th>
+                                            <th>Keterangan</th>
                                         </tr>
                                     </thead>
                                     <tbody>

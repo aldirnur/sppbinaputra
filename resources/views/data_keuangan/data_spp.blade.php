@@ -39,7 +39,7 @@
                                     <th>ID</th>
                                     <th>Tahun Ajaran</th>
                                     <th>Nominal</th>
-                                    <th class="action-btn">Action</th>
+                                    <th class="action-btn">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>

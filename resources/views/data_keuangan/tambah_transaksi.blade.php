@@ -84,7 +84,7 @@
 
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>Bulan<span class="text-danger">*</span></label>
+                            <label>Bulan Yang Dibayarkan<span class="text-danger">*</span></label>
                             <input class="form-control" type="number" id = "jumlah" name="Bulan" value="0"  onchange="getTagihan()"> <i class="fe fe-image"></i>
                         </div>
                     </div>

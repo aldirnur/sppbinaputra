@@ -66,7 +66,7 @@
 
 
                     <div class="submit-section">
-                        <button class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Submit</button>
+                        <button class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Simpan</button>
                     </div>
                 </form>
             </div>

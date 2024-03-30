@@ -209,7 +209,7 @@ class KeuanganController extends Controller
 
 
         $notification=array(
-            'message'=>"Tagihan has been updated",
+            'message'=>"Tagihan Berhasil Di Ubah",
             'alert-type'=>'success',
         );
         return redirect()->route('tagihan')->with($notification);
@@ -239,7 +239,7 @@ class KeuanganController extends Controller
             'type'=>$type,
         ]);
         $notification=array(
-            'message'=>"Kategori Berhasil Ditambahkan has been added",
+            'message'=>"Kategori Berhasil Ditambahkan",
             'alert-type'=>'success',
         );
         return redirect()->route('kategori')->with($notification);
@@ -290,7 +290,7 @@ class KeuanganController extends Controller
 
 
         $notification=array(
-            'message'=>"Kategori has been updated",
+            'message'=>"Kategori Berhasil Di Ubah",
             'alert-type'=>'success',
         );
         return redirect()->route('kategori')->with($notification);
@@ -345,14 +345,14 @@ class KeuanganController extends Controller
         } catch (Exception $e) {
             dd($e->getMessage());
             $notification=array(
-                'message'=>"Maaf, Mengirim SMS Gagal",
+                'message'=>"SMS Gagal Terkirim",
                 'alert-type'=>'danger',
             );
             return back()->with($notification);
         }
 
         $notification=array(
-            'message'=>"Sukses, Mengirim SMS Berhasil Dilakukan",
+            'message'=>"SMS Berhasil Terkirim",
             'alert-type'=>'success',
         );
 
