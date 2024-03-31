@@ -24,6 +24,11 @@
                       <p class="mb-1"><em class="text-primary">Selamat datang silahkan masuk sebagai</em></p>
                       <!-- <p class="lead text-gray-900 mb-3">SMK BINA PUTRA</p> -->
                       <hr>
+                      @if(session('error'))
+                          <div class="alert alert-danger">
+                              {{ session('error') }}
+                          </div>
+                      @endif
                       <h1 class="h4 text-gray-900">Login Siswa</h1><br>
                     </div>
                     <form class="user" action="/pembayaran" method="get">

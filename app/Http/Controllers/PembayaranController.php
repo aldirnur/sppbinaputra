@@ -25,13 +25,17 @@ class PembayaranController extends Controller
         $title = "pembayaran";
         $nisn = $request->nisn;
         $siswa = Siswa::where('nisn', $request->nisn)->where('nis', $request->nis)->first();
-        $tagihan = 0;
-        $transaksi = [];
-        $metodePembayaran = DB::table('metode_pembayaran')->get();
-        $transaksi = Transaksi::with('metodePembayaran')->where('id_siswa', $siswa->id_siswa)->where('status_transaksi', 0)->whereDate('expired_pembayaran', '>=', now())->first();
-        $expiredTransaksi = Transaksi::where('id_siswa', $siswa->id_siswa)->where('status_transaksi', 0)->whereDate('expired_pembayaran', '<', now())->first();
-        if ($expiredTransaksi) {
-            $expiredTransaksi->delete();
+        if ($siswa) {
+            $tagihan = 0;
+            $transaksi = [];
+            $metodePembayaran = DB::table('metode_pembayaran')->get();
+            $transaksi = Transaksi::with('metodePembayaran')->where('id_siswa', $siswa->id_siswa)->where('status_transaksi', 0)->whereDate('expired_pembayaran', '>=', now())->first();
+            $expiredTransaksi = Transaksi::where('id_siswa', $siswa->id_siswa)->where('status_transaksi', 0)->whereDate('expired_pembayaran', '<', now())->first();
+            if ($expiredTransaksi) {
+                $expiredTransaksi->delete();
+            }
+        } else {
+            return back()->with('error', 'Login Gagal, Silahkan Cek Kembali NISN dan PASSWORD Anda');
         }
        
         return view('halaman_siswa.pembayaran',compact(
@@ -268,16 +272,16 @@ class PembayaranController extends Controller
     
     public function cekToken(Request $request)
     {
-        $rules = [
-            'token'=>'required',
-        ];
 
-        $customMessages = [
-            'token.required' => 'Silahkan Masukan Token',
-        ];
-
-        $this->validate($request, $rules, $customMessages);
-        $cek_transaksi = Transaksi::where('token', $request->token)->first();
+        $otp1 = $request->input('otp1');
+        $otp2 = $request->input('otp2');
+        $otp3 = $request->input('otp3');
+        $otp4 = $request->input('otp4');
+        $otp5 = $request->input('otp5');
+        $otp6 = $request->input('otp6');
+        $otp = $otp1.$otp2.$otp3.$otp4.$otp5.$otp6;
+       
+        $cek_transaksi = Transaksi::where('token', $otp)->first();
         $hash = hash('sha512', $request->token);
         // dd($hash);
         if ($cek_transaksi) {
@@ -290,7 +294,7 @@ class PembayaranController extends Controller
                 );
             } else {
                 $notification=array(
-                    'message'=>"Maaf,Token Yang Anda Masukan Sudah Kadaluarsa. Silahkan Lakukan Refresh Halaman",
+                    'message'=>"Maaf, Token Yang Anda Masukan Sudah Kadaluarsa. Silahkan Lakukan Refresh Halaman",
                     'alert-type'=>'popup',
                 );
 

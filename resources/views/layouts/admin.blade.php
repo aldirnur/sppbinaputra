@@ -135,8 +135,20 @@
                     <span>Data Siswa</span>
                 </a>
             </li> 
-            
+            <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('keuangan')}}">
+                    <i class="fas fa-fw fa-wallet"></i>
+                    <span>Data Keuangan</span>
+                </a>
+            </li>
 
+            <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('riwayat')}}">
+                    <i class="fas fa-fw fa-credit-card"></i>
+                    <span>Riwayat Pembayaran</span>
+                </a>
+            </li>
+            
             <li class="nav-item">
                 <a class="nav-link btn-logout" href="{{route('reports')}}">
                     <i class="fas fa-fw fa-book"></i>

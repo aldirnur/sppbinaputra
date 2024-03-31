@@ -51,6 +51,17 @@
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Kelas <span class="text-danger">*</span></label>
+                            <select class="select2 form-select form-control" name="jur" id="jurusan" required>>
+                                <option value="0">-</option>
+                                @foreach ($jurusan as $jrsn)
+                                    <option value="{{$jrsn->jur_id}}">{{$jrsn->nama_jurusan}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Kelas <span class="text-danger">*</span></label>
                             <select class="select2 form-select form-control" name="kelas" id="" onchange="get_siswa(this.value)" required>>
                                 <option value="0">-</option>
                                 @foreach ($kelas as $kls)
@@ -179,6 +190,8 @@
             });
         }
     function get_siswa(val) {
+
+        let jurusan_id = $("#jurusan").val();
         $.ajaxSetup({ 
         headers: { 
             'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -189,7 +202,8 @@
             type : 'get',
             dataType : 'JSON',
             data : {
-                id : val
+                id : val,
+                jurusan_id : jurusan_id
             },
             success : function(data){
                 if(data.status =='success'){
