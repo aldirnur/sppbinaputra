@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jurusan;
 use App\Models\Kelas;
 use App\Models\Keuangan;
 use App\Models\Siswa;
@@ -34,9 +35,10 @@ class TransaksiController extends Controller
         $title= "Add Transaksi";
         $siswa = Siswa::get();
         $kelas = Kelas::get();
+        $jurusan = Jurusan::get();
         $menu = 'Pembayaran';
         return view('data_keuangan.tambah_transaksi',compact(
-            'title','siswa','menu', 'kelas'
+            'title','siswa','menu', 'kelas', 'jurusan'
         ));
     }
 
@@ -170,7 +172,7 @@ class TransaksiController extends Controller
     public function show(Request $request, $id)
     {
         $title = "Edit Transaksi";
-        $status = [1 => "Diterima" , 2 => 'Verifikasi', 3 => "Ditolak"];
+        $status = [1 => "Verifikasi Diterima" , 2 => 'Verifikasi', 3 => "Verifikasi Ditolak"];
         $transaksi = Transaksi::find($id);
         $menu = 'Pembayaran';
         return view('data_keuangan.edit_transaksi',compact(
@@ -323,7 +325,8 @@ class TransaksiController extends Controller
 
     public function getSiswa(Request $request) {
         $id_kelas = $request->id;
-        $siswa = Siswa::where('kelas', $id_kelas)->get();
+        $jurusan_id = $request->jurusan_id;
+        $siswa = Siswa::where('kelas', $id_kelas)->where('jur_id', $jurusan_id)->get();
         if (count($siswa) > 0 ) {
             return response()->json(['status' => 'success','data' => $siswa]);
         } else {

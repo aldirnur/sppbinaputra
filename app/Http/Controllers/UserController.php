@@ -45,8 +45,18 @@ class UserController extends Controller
             'password.required' => 'Password Harus Diisi',
             'level.required' => 'Silahkan pilih level',
         ];
+
+        
+
+        $user = New User();
+        $user->Create([
+            'name'=> $request->name,
+            'email'=>$request->email,
+            'password'=> Hash::make($request->password),
+            'level' => $request->level,
+        ]);
         $notification =array(
-            'message'=>"User has Berhasil Di Tambahkan!!!",
+            'message'=>"User Berhasil Di Tambahkan!!!",
             'alert-type'=>'success'
         );
         return back()->with($notification);

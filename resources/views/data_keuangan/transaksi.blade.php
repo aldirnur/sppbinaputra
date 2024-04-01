@@ -115,7 +115,7 @@
                                                 <div class="actions">
                                                     @if ($item->status_transaksi != 1)
                                                         <a class="btn btn-sm btn-primary shadow-sm" href="{{route('edit-transaksi',$item->trans_id)}}">
-                                                            <i class="fe fe-pencil"></i> Edit
+                                                            <i class="fe fe-pencil"></i> Verifikasi
                                                         </a>
                                                     @endif
                                                 </div>

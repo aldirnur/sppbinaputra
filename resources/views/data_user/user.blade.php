@@ -109,9 +109,15 @@
                                             <a data-id="{{$user->id}}" data-name="{{$user->name}}" data-email="{{$user->email}}" class="btn btn-sm btn-primary shadow-sm editbtn"  data-toggle="modal" href="#edit_user" onclick="editUser({{$key}});">
                                                 <i class="fe fe-pencil"></i> Edit
                                             </a>
+
                                             <a data-id="{{$user->id}}" href="javascript:void(0);" class="btn btn-sm btn-danger shadow-sm" data-toggle="modal">
                                                 <i class="fe fe-trash"></i> Hapus
                                             </a>
+
+                                            {{-- <a data-id="{{$user->id}}" href="javascript:void(0);" class="btn btn-sm btn-danger shadow-sm" data-toggle="modal">
+                                                <i class="fe fe-trash"></i> Delete
+                                            </a> --}}
+
                                         </div>
                                     </td>
                                 </tr>
