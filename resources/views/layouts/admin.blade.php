@@ -97,6 +97,12 @@
                     <span>Riwayat Pembayaran</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('reports-tagihan')}}">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Report Tagihan</span>
+                </a>
+            </li>
         @endif
 
         @if(in_array(auth()->user()->level, [1]))
@@ -153,6 +159,14 @@
                 <a class="nav-link btn-logout" href="{{route('reports')}}">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Report</span>
+                </a>
+            </li>
+        @endif
+        @if (in_array(auth()->user()->level, [2]))
+            <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('reports-tagihan')}}">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Report Tagihan</span>
                 </a>
             </li>
         @endif

@@ -2,7 +2,7 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Data Report') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Data Report Tagihan') }}</h1>
 
     @if (session('success'))
         <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -29,73 +29,70 @@
         <div class="container-fluid">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Data Pembayaran Siswa</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Data Report Tagihan Siswa</h6>
                     <a class="btn btn-sm btn-primary shadow-sm" href="#generate_report" data-toggle="modal"><i class="fas fa-book fa-sm"></i> Filter Laporan</a>
                 </div>
                 <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Saldo</div>
-                            {{-- <div class="">{{$saldo}}</div> --}}
-
-                            <h3 class="h5 mb-0 font-weight-bold text-gray-800">Rp. {{number_format($saldo,2, ',', '.')}}</h3>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-book fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
-                @isset($uang_masuk)
+                {{-- @isset($siswa) --}}
                     <!--  Sales -->
                     <div class="card shadow mb-4">
 
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="report-export" class="table table-hover table-center mb-0">
+                                <table id="datatable-siswa" class="table table-hover table-center mb-0">
                                     <thead>
                                         <tr>
-                                            <th>Tanggal Pembayaran</th>
+                                            <th>No</th>
                                             <th>Nama Siswa</th>
                                             <th>Kelas</th>
                                             <th>Jurusan</th>
-                                            <th>Angkatan</th>
-                                            <th>Uang Masuk</th>
-                                            <th>Notes</th>
+                                            <th>Tahun Tagihan</th>
+                                            <th>Jumlah Tagihan</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php
-                                            $saldo = 0;
-                                        @endphp
-                                        
-                                        @foreach ($uang_masuk as $item)
-
-                                            <?php
-                                                $saldo += $item->nominal_kas;
-                                                // if($item->kategori->type == 2) $saldo -= $item->uang_keluar;
-                                            ?>
-                                            <tr>
-                                                <td>
-                                                    {{$item->tgl}}
-                                                </td>
-                                                {{-- <td>{{$item->kategori->nama_kategori}}</td> --}}
-                                                <td>{{isset($item->transaksi->siswa) ? $item->transaksi->siswa->nama : '-' }}</td>
-                                                <td>{{isset($item->transaksi->siswa->namaKelas) ? $item->transaksi->siswa->namaKelas->nama_kelas : '-' }}</td>
-                                                <td>{{isset($item->transaksi->siswa->namaKelas) ? $item->transaksi->siswa->jurusan->nama_jurusan : '-' }}</td>
-                                                <td>{{isset($item->transaksi->siswa) ? $item->transaksi->siswa->angkatan : '-' }}</td>
-                                                <td>{{$item->nominal_kas}}</td>
-                                                <td>{{$item->notes}}</td>
-                                            </tr>
-
+                                        @php ($no = 1)
+                                        @php ($sub = 0)
+                                        @foreach ($siswa as $sw)
+                                            @if (count($sw->tagihan) > 0) 
+                                                @foreach ($sw->tagihan as $tag)
+                                                    @for($jmlh =0; $jmlh < $tag->jumlah; $jmlh++)
+                                                    @php ($sub += $tag->spp->nominal_spp)
+                                                        <tr>
+                                                            <td>{{$no++}}</td>
+                                                            <td>
+                                                                {{$sw->nama}}
+                                                            </td>
+                                                            <td>{{$sw->namaKelas->nama_kelas}} - {{$sw->namaKelas->type}}</td>
+                                                            <td>{{$sw->jurusan->nama_jurusan}}</td>
+                                                            <td>{{$tag->angkatan}}</td>
+                                                            <td>{{number_format($tag->spp->nominal_spp,2) }}</td>
+                                                        </tr>
+                                                    @endfor
+                                                @endforeach
+                                            @endif
                                         @endforeach
-
+                                        @php ($saldo = $sub)
                                     </tbody>
                                 </table>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Tagihan</div>
+                                        {{-- <div class="">{{$saldo}}</div> --}}
+            
+                                        <h3 class="h5 mb-0 font-weight-bold text-gray-800">Rp. {{number_format($saldo,2, ',', '.')}}</h3>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-book fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                @endisset
+                {{-- @endisset --}}
         </div>
 
     </div>
@@ -110,7 +107,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="get" action="{{route('reports')}}">
+                <form method="get" action="{{route('reports-tagihan')}}">
                     @csrf
                     <div class="row form-row">
                         <div class="col-12">
@@ -138,23 +135,15 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label>Dari</label>
-                                        <input type="date" name="from_date" value="{{$from_date}}" class="form-control">
+                                        <label for="">Tahun Tagihan</label>
+                                        <select class="form-control" name="angkatan" id="">
+                                            @for($year = date('Y'); $year >= 2017; $year--)
+                                                <option value="{{ $year }}">{{$year}}</option>
+                                            @endfor
+                                           
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label>Sampai</label>
-                                        <input type="date" name="to_date" value="{{$to_date}}" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Resource</label>
-                                <select class="form-control select" name="resource">
-                                    <option value="pemasukan">Pemasukan</option>
-                                    {{-- <option value="pengeluaran">Pengeluaran</option> --}}
-                                </select>
                             </div>
                         </div>
                     </div>

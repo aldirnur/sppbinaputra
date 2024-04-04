@@ -50,7 +50,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label>Kelas <span class="text-danger">*</span></label>
+                            <label>Jurusan <span class="text-danger">*</span></label>
                             <select class="select2 form-select form-control" name="jur" id="jurusan" required>>
                                 <option value="0">-</option>
                                 @foreach ($jurusan as $jrsn)
@@ -190,7 +190,6 @@
             });
         }
     function get_siswa(val) {
-
         let jurusan_id = $("#jurusan").val();
         $.ajaxSetup({ 
         headers: { 

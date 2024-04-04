@@ -154,31 +154,40 @@
                         <div class="row form-row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label>Siswa <span class="text-danger">*</span></label>
-                                    <select class="select2 form-select form-control" name="siswa" onchange="getSpp(this.value)">
-                                        <option value="0">Silahkan pilih siswa</option>
-                                        @foreach ($siswa as $sw)
-                                            <option value="{{$sw->id_siswa}}">{{$sw->nis}} - {{$sw->nama}} - {{$sw->nominal_spp}}</option>
+                                    <label>Jurusan <span class="text-danger">*</span></label>
+                                    <select class="select2 form-select form-control" name="jur" id="jurusan" required>>
+                                        <option value="0">-</option>
+                                        @foreach ($jurusan as $jrsn)
+                                            <option value="{{$jrsn->jur_id}}">{{$jrsn->nama_jurusan}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <label>SPP <br>
-                                {{-- <input type="number" id="nominal" name="nominal" value="0" readonly> --}}
-                                {{-- <input type="hidden" id="id_spp" name="spp"  readonly> --}}
-                                <select class="select2 form-select form-control" name="spp">
-                                    {{-- onchange="getSpp(this.value) --}}
-                                    <option value="0">Silahkan angkatan</option>
-                                    @foreach ($spp as $sp)
-                                        <option value="{{$sp->id_spp}}">{{$sp->tahun_ajaran}}</option>
-                                    @endforeach
-                                </select>
-                                <br>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Kelas <span class="text-danger">*</span></label>
+                                    <select class="select2 form-select form-control" name="kelas" id="" onchange="get_siswa(this.value)" required>>
+                                        <option value="0">-</option>
+                                        @foreach ($kelas as $kls)
+                                            <option value="{{$kls->id}}">{{$kls->nama_kelas}} - {{$kls->type}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-12">
-                                <label>Jumlah <span class="text-danger">*</span></label><br>
-                                <input type="number" name="jumlah" required="required" value="12" readonly>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Nama Siswa <span class="text-danger">*</span></label>
+                                    <select class="select2 form-select form-control" name="siswa" id="siswa">
+                                        <option value="0">-</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Jumlah <span class="text-danger">*</span></label><br>
+                                    <input type="number" name="jumlah" required="required" value="12" readonly>
+                                </div>
                             </div>
                         </div>
                         <br>
@@ -192,35 +201,70 @@
 <script>
 function getSpp(val) {
     event.preventDefault();
-        $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                }
+    $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            }
+        });
+    $.ajax({
+        url: '/get_spp',
+        type: 'get',
+        dataType: 'JSON',
+        data: {
+            id:val
+        },
+        success: function(data) {
+            if (data.status == 'success') {
+                $("#nominal").val(data.nom);
+                $("#id_spp").val(data.id);
+            } else {
+                Snackbar.show({
+                text: data.message,
+                pos: 'top-right',
+                actionTextColor: '#fff',
+                backgroundColor: '#e7515a',
             });
-        $.ajax({
-            url: '/get_spp',
-            type: 'get',
-            dataType: 'JSON',
-            data: {
-                id:val
-            },
-            success: function(data) {
-                if (data.status == 'success') {
-                    $("#nominal").val(data.nom);
-                    $("#id_spp").val(data.id);
-                } else {
-                    Snackbar.show({
-                    text: data.message,
+                $("#nominal").val(data.nom);
+                $("#id_spp").val('');
+
+            }
+        }
+    }); 
+}
+
+function get_siswa(val) {
+    let jurusan_id = $("#jurusan").val();
+    $.ajaxSetup({ 
+    headers: { 
+        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+    }
+    });
+    $.ajax({
+        url : '/get_siswa',
+        type : 'get',
+        dataType : 'JSON',
+        data : {
+            id : val,
+            jurusan_id : jurusan_id
+        },
+        success : function(data){
+            if(data.status =='success'){
+                let option = '';
+                $.each(data.data, function(key, value){
+                    console.log(value)
+                    option += '<option value="'+value.id_siswa+'">'+value.nama+'</option>';
+                    $("#siswa").html(option);
+                });
+            } else {
+                Snackbar.show({
+                    text: "Maaf, Data Siswa Tidak Ditemukan",
                     pos: 'top-right',
                     actionTextColor: '#fff',
                     backgroundColor: '#e7515a',
-                });
-                    $("#nominal").val(data.nom);
-                    $("#id_spp").val('');
-
-                }
+                })
             }
-        });
-}
+        }
+    });
+}  
 
 </script>
