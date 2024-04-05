@@ -24,16 +24,16 @@ class PembayaranController extends Controller
         $title = "pembayaran";
         $nisn = $request->nisn;
 
+        // $siswa = Siswa::where('nis', $request->nis)->where('pin', $request->password)->first();
+        // $tagihan = 0;
+        // $transaksi = [];
+        // $metodePembayaran = DB::table('metode_pembayaran')->get();
+        // $transaksi = Transaksi::with('metodePembayaran')->where('id_siswa', $siswa->id_siswa)->where('status_transaksi', 0)->whereDate('expired_pembayaran', '>=', now())->first();
+        // $expiredTransaksi = Transaksi::where('id_siswa', $siswa->id_siswa)->where('status_transaksi', 0)->whereDate('expired_pembayaran', '<', now())->first();
+        // if ($expiredTransaksi) {
+        //     $expiredTransaksi->delete();
+        // }
         $siswa = Siswa::where('nis', $request->nis)->where('pin', $request->password)->first();
-        $tagihan = 0;
-        $transaksi = [];
-        $metodePembayaran = DB::table('metode_pembayaran')->get();
-        $transaksi = Transaksi::with('metodePembayaran')->where('id_siswa', $siswa->id_siswa)->where('status_transaksi', 0)->whereDate('expired_pembayaran', '>=', now())->first();
-        $expiredTransaksi = Transaksi::where('id_siswa', $siswa->id_siswa)->where('status_transaksi', 0)->whereDate('expired_pembayaran', '<', now())->first();
-        if ($expiredTransaksi) {
-            $expiredTransaksi->delete();
-
-        $siswa = Siswa::where('nisn', $request->nisn)->where('nis', $request->nis)->first();
         if ($siswa) {
             $tagihan = 0;
             $transaksi = [];
@@ -45,7 +45,6 @@ class PembayaranController extends Controller
             }
         } else {
             return back()->with('error', 'Login Gagal, Silahkan Cek Kembali NISN dan PASSWORD Anda');
-
         }
        
         return view('halaman_siswa.pembayaran',compact(
@@ -116,7 +115,7 @@ class PembayaranController extends Controller
                     $client = new \Vonage\Client($basic);
 
                     $response = $client->sms()->send(
-                        new \Vonage\SMS\Message\SMS($transaksi->tagihan->siswa->no_tlp, 'Verif', 'Kode Token Anda Adalah '. $otp. ' ' )
+                        new \Vonage\SMS\Message\SMS($transaksi->tagihan->siswa->no_tlp, 'Verif', 'Kode OTP Anda Adalah '. $otp. ' berlaku unutk 5 menit' )
                     );
 
                     $message = $response->current();
@@ -132,7 +131,7 @@ class PembayaranController extends Controller
             }
            
             $notification=array(
-                'message'=>"Silahkan Masukan Kode Token Yang Telah Dikirim Ke Nomor Anda",
+                'message'=>"Silahkan Masukan Kode OTP Yang Telah Dikirim Ke Nomor Anda",
                 'alert-type'=>'popup'
             );
         } else {
@@ -284,11 +283,6 @@ class PembayaranController extends Controller
     {
 
 
-        $customMessages = [
-            'token.required' => 'Silahkan Masukan Kode OTP',
-        ];
-
-        $this->validate($request, $rules, $customMessages);
         $cek_transaksi = Transaksi::where('token', $request->token)->first();
 
         $otp1 = $request->input('otp1');
