@@ -121,8 +121,8 @@
     
     <li class="nav-item">
         <a class="nav-link btn-logout" href="{{route('history',$siswa->id_siswa)}}">
-            <i class="fas fa-fw fa-history"></i>
-                <span>History</span>
+            <i class="fas fa-fw fa-credit-card"></i>
+                <span>Data Transaksi</span>
             </a>
         </li>
         <li class="nav-item">
@@ -131,6 +131,14 @@
                 <span>Data Pembayaran</span>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link btn-logout" href="{{route('logout')}}" >
+                <i class="fas fa-fw fa-power-off"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+        
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
 </ul>

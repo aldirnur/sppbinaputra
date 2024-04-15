@@ -29,7 +29,7 @@
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Riwayat Pembayaran Siswa</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Data Report Transaksi</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -70,6 +70,17 @@
                                 </tbody>
                             </tbody>
                         </table>
+                        <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Tagihan</div>
+                                        {{-- <div class="">{{$saldo}}</div> --}}
+            
+                                        <h3 class="h5 mb-0 font-weight-bold text-gray-800">Rp. {{number_format($saldo,2, ',', '.')}}</h3>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-book fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
                     </div>
                 </div>
             </div>

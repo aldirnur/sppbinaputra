@@ -73,9 +73,9 @@
                 <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Data Siswa</h6>
                      @if(in_array(auth()->user()->level, [1])) 
-                        <div class="col-sm-12 col">
-                            <a href="#generate_report" data-toggle="modal" class="btn btn-sm btn-primary shadow-sm"> <i class="fas fa-plus fa-sm"></i>Import Siswa</a>
-                            <a class="btn btn-sm btn-primary shadow-sm" href="{{route('add-siswa')}}"><i class="fas fa-download fa-sm"></i> Tambah Siswa</a>
+                        <div class="col-sm-2 col">
+                            <a class="btn btn-sm btn-primary shadow-sm" href="#generate_report" data-toggle="modal" > <i class="fas fa-download fa-sm"></i> Import Siswa</a>
+                            <a class="btn btn-sm btn-primary shadow-sm" href="{{route('add-siswa')}}"><i class="fas fa-plus fa-sm"></i> Tambah Siswa</a>
                         </div>
                      @endif 
                 </div>
@@ -100,7 +100,7 @@
                                     <!-- <th>Pin</th> -->
                                     <th>Status</th>
                                     @if(in_array(auth()->user()->level, [1]))
-                                        <th class="action-btn">Action</th>
+                                        <th class="action-btn">Aksi</th>
                                     @endif
                                 </tr>
                             </thead>

@@ -57,24 +57,11 @@
                     <span>Dashboard</span>
                 </a>
             </li>
+
             <li class="nav-item">
                 <a class="nav-link btn-logout" href="{{route('siswa')}}">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Data Siswa</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link btn-logout" href="{{route('transaksi')}}">
-                    <i class="fas fa-fw fa-vote-yea"></i>
-                    <span>Data Transaksi</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link btn-logout" href="{{route('keuangan')}}">
-                    <i class="fas fa-fw fa-wallet"></i>
-                    <span>Data Report</span>
                 </a>
             </li>
 
@@ -91,12 +78,36 @@
                     <span>Data Tagihan</span>
                 </a>
             </li>
+
             <li class="nav-item">
-                <a class="nav-link btn-logout" href="{{route('riwayat')}}">
+                <a class="nav-link btn-logout" href="{{route('transaksi')}}">
                     <i class="fas fa-fw fa-credit-card"></i>
-                    <span>Riwayat Pembayaran</span>
+                    <span>Data Transaksi</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('reports-tagihan')}}">
+                    <i class="fas fa-fw fa-vote-yea"></i>
+                    <span>Report Tagihan</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('riwayat')}}">
+                    <i class="fas fa-fw fa-vote-yea"></i>
+                    <span>Report Transaksi</span>
+                </a>
+            </li>
+
+            <!-- <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('keuangan')}}">
+                    <i class="fas fa-fw fa-vote-yea"></i>
+                    <span>Data Report</span>
+                </a>
+            </li> -->
+
+            
         @endif
 
         @if(in_array(auth()->user()->level, [1]))
@@ -106,6 +117,13 @@
                     <span>Dashboard</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('siswa')}}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Data Siswa</span>
+                </a>
+            </li> 
 
             <li class="nav-item">
                 <a class="nav-link btn-logout" href="{{route('jurusan')}}">
@@ -139,13 +157,13 @@
 
         @if(in_array(auth()->user()->level, [1,2]))
         
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link btn-logout" href="{{route('siswa')}}">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Data Siswa</span>
                 </a>
-            </li> 
-            <li class="nav-item">
+            </li>  -->
+            <!-- <li class="nav-item">
                 <a class="nav-link btn-logout" href="{{route('keuangan')}}">
                     <i class="fas fa-fw fa-wallet"></i>
                     <span>Data Keuangan</span>
@@ -164,10 +182,32 @@
                     <i class="fas fa-fw fa-book"></i>
                     <span>Report</span>
                 </a>
+            </li> -->
+        @endif
+
+        @if (in_array(auth()->user()->level, [2]))
+            <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('siswa')}}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Data Siswa</span>
+                </a>
+            </li>    
+        
+            <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('reports-tagihan')}}">
+                    <i class="fas fa-fw fa-vote-yea"></i>
+                    <span>Report Tagihan</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link btn-logout" href="{{route('riwayat')}}">
+                    <i class="fas fa-fw fa-vote-yea"></i>
+                    <span>Report Transaksi</span>
+                </a>
             </li>
         @endif
 
-        
         <!-- <li class="nav-item">
             <a class="nav-link btn-logout" href="{{route('payment')}}" >
                 <i class="fas fa-fw fa-credit-card"></i>

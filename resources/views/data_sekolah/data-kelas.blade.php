@@ -29,7 +29,7 @@
                 <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Data Kelas</h6>
                     {{-- <a class="btn btn-sm btn-primary shadow-sm" href=""><i class="fas fa-user-plus fa-sm"></i> Tambah Siswa</a> --}}
-                    <a href="#generate_report" data-toggle="modal" class="btn btn-sm btn-primary shadow-sm" ><i class="fas fa-plus fa-sm"></i>Tambah Data Kelas</a>
+                    <a href="#generate_report" data-toggle="modal" class="btn btn-sm btn-primary shadow-sm" ><i class="fas fa-plus fa-sm"></i> Tambah Data Kelas</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Jurusan;
 use App\Models\Kelas;
 use App\Models\Keuangan;
+use App\Models\Siswa;
+use App\Models\Tagihan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -50,6 +52,42 @@ class ReportController extends Controller
         $menu = '';
             return view('data_report.report',compact('uang_masuk','title','total_cash'
             ,'saldo', 'menu', 'kelas', 'jurusan', 'kls', 'jrsn', 'from_date', 'to_date'));
+    }
+
+    public function reportTagihan(Request $request){
+        $title = "Laporan";
+
+        
+        $kls = $request->kelas ? $request->kelas : 0;
+        $jrsn = $request->jurusan? $request->jurusan : 0;
+        $angkatan = $request->angkatan ? $request->angkatan : null;
+        
+        $kelas = Kelas::get();
+        $jurusan = Jurusan::get();
+        $keuangan = Keuangan::get();
+        $tagihan = Tagihan::with('spp')->where('jumlah', '!=', 0)->get(['id_siswa', 'id_spp', 'tag_id'])->toArray();
+        $siswa = Siswa::with('tagihan')
+        ->where(function($query) use ($kls){
+            if ($kls) {
+                $query->where('kelas', $kls);
+            }
+        })
+        ->where(function($query) use ($jrsn){
+            if ($jrsn) {
+                $query->where('jur_id', $jrsn);
+            }
+        })->where(function($query) use ($angkatan) { 
+            $query->whereHas('tagihan', function ($q) use($angkatan) {
+                $q->where('angkatan', $angkatan);
+            });
+        })->get();
+
+        $total_masuk = $keuangan->sum('nominal_kas');
+        $saldo = 0;
+        $title = "Laporan Keuangan";
+        $menu = '';
+            return view('data_report.report_tagihan',compact('tagihan','siswa'
+            ,'saldo', 'menu', 'kelas', 'jurusan', 'kls', 'jrsn', 'angkatan'));
     }
 
     public function getData(Request $request){

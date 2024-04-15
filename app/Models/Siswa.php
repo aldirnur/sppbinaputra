@@ -20,4 +20,8 @@ class Siswa extends Model
     public function namakelas(){
         return $this->belongsTo(Kelas::class, 'kelas');
     }
+
+    public function tagihan () {
+        return $this->hasMany(Tagihan::class, 'id_siswa');
+    }
 }

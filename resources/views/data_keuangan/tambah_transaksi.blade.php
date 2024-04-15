@@ -49,16 +49,6 @@
             <div class="service-fields mb-3">
                 <div class="row">
                 <div class="col-lg-12">
-                        <div class="form-group">
-                            <label>Kelas <span class="text-danger">*</span></label>
-                            <select class="select2 form-select form-control" name="kelas" id="" onchange="get_siswa(this.value)" required>>
-                                <option value="0">-</option>
-                                @foreach ($kelas as $kls)
-                                    <option value="{{$kls->id}}">{{$kls->nama_kelas}} - {{$kls->type}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Jurusan <span class="text-danger">*</span></label>
@@ -66,6 +56,17 @@
                                 <option value="0">-</option>
                                 @foreach ($jurusan as $jrsn)
                                     <option value="{{$jrsn->jur_id}}">{{$jrsn->nama_jurusan}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Kelas <span class="text-danger">*</span></label>
+                            <select class="select2 form-select form-control" name="kelas" id="" onchange="get_siswa(this.value)" required>>
+                                <option value="0">-</option>
+                                @foreach ($kelas as $kls)
+                                    <option value="{{$kls->id}}">{{$kls->nama_kelas}} - {{$kls->type}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -110,8 +111,6 @@
                 </div>
             </div>
 
-            <div class="service-fields mb-3">
-                <div class="row">
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Keterangan <span class="text-danger">*</span></label>
@@ -119,17 +118,13 @@
                         </div>
                     </div>
 
-                </div>
-            </div>
-
-
             <div class="submit-section">
                 <button onclick="preLoad();" class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Submit</button>
             </div>
         </form>
     </div>
     </div>
-
+</div>
         <!-- akhir form input -->
 
     </div>
@@ -191,7 +186,6 @@
             });
         }
     function get_siswa(val) {
-
         let jurusan_id = $("#jurusan").val();
         $.ajaxSetup({ 
         headers: { 

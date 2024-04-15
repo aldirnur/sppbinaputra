@@ -142,6 +142,7 @@ Route::group(['middleware'=>['auth']],function (){
     Route::delete('users',[UserController::class,'destroy']);
 
     Route::get('reports',[ReportController::class,'index'])->name('reports');
+    Route::get('reports-tagihan',[ReportController::class,'reportTagihan'])->name('reports-tagihan');
     Route::post('reports',[ReportController::class,'getData']);
 
 });
