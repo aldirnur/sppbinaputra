@@ -77,7 +77,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="datatable-export" class="table table-hover table-center mb-0">
+                        <table id="datatable" class="table table-hover table-center mb-0">
                             <thead>
                                 <tr>
                                     <th>ID</th>
