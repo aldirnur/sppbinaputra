@@ -33,6 +33,18 @@ class PembayaranController extends Controller
             $expiredTransaksi = Transaksi::where('id_siswa', $siswa->id_siswa)->where('status_transaksi', 0)->whereDate('expired_pembayaran', '<', now())->first();
             if ($expiredTransaksi) {
                 $expiredTransaksi->delete();
+            } else {
+                $cek_transaksi = Transaksi::where('id_siswa', $siswa->id_siswa)->where('status_transaksi', 2)->first();
+               
+                if ($cek_transaksi){
+                    $notification=array(
+                        'message'=>"Token Kadaluarsa",
+                        'alert-type'=>'popup'
+                    );
+
+                   
+                }   
+                //  return back()->with($notification);
             }
         } else {
             return back()->with('error', 'Login Gagal, Silahkan Cek Kembali NISN dan PASSWORD Anda');
@@ -93,7 +105,7 @@ class PembayaranController extends Controller
                 $transaksi->no_transaksi = $code;
                 $transaksi->status_transaksi = 2;
                 $transaksi->tgl = date('Y-m-d');
-                $transaksi->bukti_transaksi = 'ok';
+                $transaksi->bukti_transaksi = $imageName;
                 $transaksi->expired_token = now()->addMinute(5);
                 $transaksi->token = $otp;
                 $transaksi->save();

@@ -334,7 +334,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" style="text-align: center">Silahkan Masukan Kode OTP</h5>
-                <h5> <span id="countdown_token"></span></h5>
+                
             </div>
             <div class="modal-body">
                 <form method="POST" action="{{route('add-token')}}">
@@ -382,6 +382,9 @@
                         
                                     <button class="btn btn-primary mb-3" onclick="preLoad();" type="submit">
                                         Submit
+                                    </button>
+                                    <button class="btn btn-danger mb-3" id="resend" type="submit" disabled>
+                                        <span id="countdown_token">Kirim Ulang Token</span>
                                     </button>
                                 </div>
                             </div>
@@ -467,7 +470,9 @@
 
                 if(diff <= 0) {
                     clearInterval(countdown);
-                    document.getElementById('countdown_token').innerHTML = 'expired!'; 
+                    document.getElementById('countdown_token').innerHTML = 'Kirim Ulang'; 
+                    $('#resend').addClass('btn btn-primary submit-btn');
+                    $('#resend').prop("disabled", false);
                     return;
                 }
 
