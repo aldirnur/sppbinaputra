@@ -127,8 +127,8 @@
                                 @endforeach
                                 
                             </select>
-                            <br>
-                            <a href="#generate_report" data-toggle="modal">Tata Cara Pembayaran</a>
+                            <!-- <br> -->
+                            <!-- <a href="#generate_report" data-toggle="modal">Tata Cara Pembayaran</a> -->
                         </div>
                     </div>
                     <div class="col-lg-12">
@@ -206,11 +206,11 @@ var transaksi = '{{isset($transaksi->trans_id) ? $transaksi->trans_id : 0}}';
 if(transaksi != 0) {
     NextPage(2)
     let deadline = '{{ isset($transaksi) ? $transaksi->expired_pembayaran : 0 }}';
-    const deadlineTimestamp = new Date(deadline).getTime()/1000;
+    const deadlineTimestamp = new Date(deadline).getTime()/720;
 
     let countdown = setInterval(function() {
       
-    const now = Math.floor(Date.now() / 1000);
+    const now = Math.floor(Date.now() / 720);
 
     const diff = deadlineTimestamp - now;
 

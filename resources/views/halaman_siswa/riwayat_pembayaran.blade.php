@@ -33,7 +33,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="datatable-siswa" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="datatable" width="100%" cellspacing="0">
                             <thead class="text-center thead-light">
                                 <tr>
                                 <tr>
@@ -73,9 +73,7 @@
                         <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Tagihan</div>
-                                        {{-- <div class="">{{$saldo}}</div> --}}
-            
-                                        <h3 class="h5 mb-0 font-weight-bold text-gray-800">Rp. {{number_format($saldo,2, ',', '.')}}</h3>
+                                        
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-book fa-2x text-gray-300"></i>
