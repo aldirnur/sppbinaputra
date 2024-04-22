@@ -76,7 +76,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="datatable-export" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="datatable-siswa" width="100%" cellspacing="0">
                             <thead class="text-center thead-light">
                                 <tr>
                                 <tr>
@@ -91,7 +91,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tbody>
+                                
                                     @foreach ($transaksi as $item)
                                         <tr>
                                             <td>{{isset($item->tagihan->siswa) ? $item->tagihan->siswa->nama : '-' }}</td>
@@ -123,7 +123,7 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
-                            </tbody>
+                            
                         </table>
                     </div>
                 </div>
