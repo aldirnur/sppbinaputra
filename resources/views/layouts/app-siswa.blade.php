@@ -378,6 +378,7 @@
                                         <input type="number" name="otp4" disabled />
                                         <input type="number" name="otp5" disabled />
                                         <input type="number" name="otp6" disabled />
+                                        <input type="hidden" name="nisn" value="{{$nisn}}">
                                     </div>
                         
                                     <button class="btn btn-primary mb-3" onclick="preLoad();" type="submit">
