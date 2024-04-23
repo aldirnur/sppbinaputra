@@ -323,6 +323,13 @@ class PembayaranController extends Controller
                     'alert-type'=>'popup',
                 );
 
+                $otp = '';
+                $limit = 6;
+                for($i = 0; $i < $limit; $i++) {
+                    $otp .= mt_rand(0, 9);
+                }
+
+                $cek_transaksi->token = $otp;
                 $cek_transaksi->expired_token = now()->addMinute(5);
                 $cek_transaksi->save();
             }
