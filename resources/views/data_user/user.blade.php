@@ -79,11 +79,11 @@
                         <table id="datatable" class="table table-hover table-center mb-0">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>Nama</th>
                                     <th>Email</th>
-                                    <th>Level</th>
-                                    <th>Created date</th>
-                                    <th class="text-center action-btn">Actions</th>
+                                    <!-- <th>Level</th> -->
+                                    <th>Tanggal Pembuatan</th>
+                                    <th class="text-center action-btn">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -98,9 +98,9 @@
                                         {{$user->email}}
                                     </td>
                                     {{-- @can('update-role') --}}
-                                    <td id="level_{{$key}}">
+                                    <!-- <td id="level_{{$key}}">
                                         {{$user->level}}
-                                    </td>
+                                    </td> -->
                                     {{-- @endcan --}}
                                     <td>{{date_format(date_create($user->created_at),"d M,Y")}}</td>
 

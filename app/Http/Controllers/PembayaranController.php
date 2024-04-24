@@ -309,6 +309,11 @@ class PembayaranController extends Controller
 
         $hash = hash('sha512', $request->token);
         // dd($hash);
+        $otp = '';
+        $limit = 6;
+        for($i = 0; $i < $limit; $i++) {
+            $otp .= mt_rand(0, 9);
+        }
         if ($cek_transaksi) {
             if ($cek_transaksi->expired_token > date('Y-m-d H:i:s')) {
                 $cek_transaksi->token = $hash;
@@ -322,22 +327,25 @@ class PembayaranController extends Controller
                     'message'=>"Maaf, Token Yang Anda Masukan Sudah Kadaluarsa. Silahkan Lakukan Refresh Halaman",
                     'alert-type'=>'popup',
                 );
-
-                $otp = '';
-                $limit = 6;
-                for($i = 0; $i < $limit; $i++) {
-                    $otp .= mt_rand(0, 9);
-                }
-
                 $cek_transaksi->token = $otp;
                 $cek_transaksi->expired_token = now()->addMinute(5);
                 $cek_transaksi->save();
             }
         } else {
-            $notification=array(
-                'message'=>"Maaf,Token Yang Anda Masukan Salah. Silahkan Cek Kembali OTP Anda",
-                'alert-type'=>'popup',
-            );
+            $siswa = Siswa::where('nisn', $request->nisn)->first();
+            if ($siswa) {
+                $cek_transaksi = Transaksi::where('id_siswa', $siswa->id)->first(); 
+                if ($cek_transaksi) {
+                    $cek_transaksi->token = $otp;
+                    $cek_transaksi->expired_token = now()->addMinute(5);
+                    $cek_transaksi->save();
+                }
+                $notification=array(
+                    'message'=>"Maaf,Token Yang Anda Masukan Salah. Silahkan Cek Kembali OTP Anda",
+                    'alert-type'=>'popup',
+                );
+            }
+            
         }
 
         return back()->with($notification);

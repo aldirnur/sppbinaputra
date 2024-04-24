@@ -43,10 +43,10 @@
                                     <th>Tahun Pembayaran</th>
                                     <th>Nama Siswa</th>
                                     <th>Kelas</th>
-                                    <th>Jurusan</th>
+                                    <!-- <th>Jurusan</th> -->
                                     <th>Nominal SPP</th>
                                     <th>Jumlah Bulan Yang Belum Di Bayarkan</th>
-                                    <th>Bulan Yang Belum Di Bayarkan</th>
+                                    <!-- <th>Bulan Yang Belum Di Bayarkan</th> -->
                                     <th>Jumlah Tagihan</th>
                                     <th>Status</th>
                                     <th class="action-btn">Aksi</th>
@@ -64,14 +64,12 @@
                                             {{isset($item->siswa->nama) ? $item->siswa->nama : ''}}
                                         </td>
                                         <td>
-                                            {{isset($item->siswa->namakelas) ? $item->siswa->namakelas->nama_kelas : ''}} - {{isset($item->siswa->namakelas) ? $item->siswa->namakelas->type : ''}} 
+                                            {{isset($item->siswa->namakelas) ? $item->siswa->namakelas->nama_kelas : ''}} {{isset($item->siswa->jurusan) ? $item->siswa->jurusan->nama_jurusan : ''}} {{isset($item->siswa->namakelas) ? $item->siswa->namakelas->type : ''}} 
                                         </td>
-                                        <td>
-                                            {{isset($item->siswa->jurusan) ? $item->siswa->jurusan->nama_jurusan : ''}}
-                                        </td>
+                                        
                                         <td>Rp. {{number_format($item->spp->nominal_spp,2, ',', '.')}}</td>
                                         <td>{{$item->jumlah}}</td>
-                                        <td>
+                                        <!-- <td>
                                             @php ($bulan = json_decode($item->bulan))@endphp
                                             @php ($namaBulan = $bulan) @endphp
                                             @foreach ($bulan as $index => $value)
@@ -81,7 +79,7 @@
                                                     ,
                                                 @endif
                                             @endforeach
-                                        </td>
+                                        </td> -->
                                         <td>Rp. {{number_format($total,2, ',', '.')}}</td>
                                         @if ($item->status == 1)
                                             <td><span class="btn btn-sm bg-success-light">Lunas</span></td>

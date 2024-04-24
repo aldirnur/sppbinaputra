@@ -82,7 +82,7 @@
                                 <tr>
                                     <th scope="col">Kode Transaksi</th>
                                     <th scope="col">Nama Siswa</th>
-                                    <th scope="col">Kelas</th>
+                                    <!-- <th scope="col">Kelas</th> -->
                                     <th scope="col">Tanggal Transaksi</th>
                                     <!-- <th scope="col">Bulan yang Dibayarkan</th> -->
                                     <th scope="col">Nominal</th>
@@ -97,7 +97,7 @@
                                         <tr>
                                             <td>{{$item->no_transaksi}}</td>
                                             <td>{{isset($item->siswa) ? $item->siswa->nama : '-' }}</td>
-                                            <td>{{isset($item->siswa) ? $item->siswa->namakelas->nama_kelas : '-' }}</td>
+                                            <!-- <td>{{isset($item->siswa) ? $item->siswa->namakelas->nama_kelas : '-' }}</td> -->
                                             <td>{{$item->tgl}}</td>
                                             {{-- <td>{{$item->tagihan->j}}</td> --}}
                                             <td>Rp. {{number_format($item->nominal_transaksi,2, ',', '.')}}</td>

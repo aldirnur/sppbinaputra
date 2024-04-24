@@ -81,8 +81,8 @@
                                     <th>Tahun Ajaran</th>
                                     <th>Nama Siswa</th>
                                     <th>Nominal Spp</th>
-                                    <th>Jumlah Bulan</th>
-                                    <th>Bulan</th>
+                                    <th>Jumlah Bulan yang Belum Dibayarkan</th>
+                                    <th>Bulan yang Belum Dibayarkan</th>
                                     <th>Jumlah Tagihan</th>
                                     <th>Status</th>
                                     {{-- <th class="action-btn">Action</th> --}}

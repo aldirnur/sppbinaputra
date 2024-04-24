@@ -89,7 +89,7 @@
                                     {{-- <th class="action-btn">Action</th> --}}
                                 </tr>
                             </thead>
-                            <tbody>
+                            
                                 <tbody>
                                     @foreach ($transaksi as $item)
 
@@ -111,7 +111,7 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
-                            </tbody>
+                            
                         </table>
                     </div>
                 </div>

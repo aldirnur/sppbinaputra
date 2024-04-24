@@ -149,12 +149,21 @@
                 </div>
                 <div class="row"  style="display:none" id="section-three">
                     <div class="col-lg-12">
-                        <h1><i> Silahkan Lakukan Konfirmasi Pembayaran</i></h1>
+                        <h1><b> Silahkan Lakukan Konfirmasi Pembayaran</b></h1>
                         <br>
                         <h3>No Pembayaran : {{isset($transaksi) ? $transaksi->metodePembayaran->code : 0}} - {{isset($transaksi) ? $siswa->nis : 0}} </h3>
-                        <h3>Total Pembayaran : {{number_format(isset($transaksi) ? $transaksi->nominal_transaksi : 0)}} </h3>
+                        <h3>Total Pembayaran : Rp. {{number_format(isset($transaksi) ? $transaksi->nominal_transaksi : 0)}} </h3>
                         <h3>Batas Waktu Pembayaran : <span id="countdown"></span></h3>
+                        <p>
+                        <h3><b>Petunjuk Transfer</b></h3>    
+                        <h5>Pilih m-Transfer > {{isset($transaksi) ? $transaksi->metodePembayaran->nama : 0}} Virtual Account. </h5>
+                        <h5>Masukkan nomor No Rekening {{isset($transaksi) ? $transaksi->metodePembayaran->code : 0}} - {{isset($transaksi) ? $siswa->nis : 0}} dan pilih send. </h5>
+                        <h5>Periksa informasi yang tertera di layar. Pastikan Nama dan Total Tagihan sudah benar. JIka benar, pilih Ya. </h5>
+                        <h5>Masukan PIN anda dan pilih OK. </h5>
+                        <h5>Jika muncul notifikasi "Transaksi Gagal" mohon ulangi transaksi mengguakan ATM. </h5>
+
                     </div>
+                    <p>
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Bukti Bayar<span class="text-danger">*</span></label>
