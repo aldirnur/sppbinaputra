@@ -86,18 +86,18 @@ class PembayaranController extends Controller
         }
         $cek_tagihan = Tagihan::where('id_siswa',  $id_siswa)->where('jumlah', '!=', 0)->first();
         if ($cek_tagihan) { 
-            $image = $request->file('file');
-            $path = public_path('/img/payment/');
-            $imageName = $image->getClientOriginalName();
-            $extensi = $image->getClientOriginalExtension();
-            $image->move(($path), $imageName);
-            if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
-                $notification=array(
-                    'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
-                    'alert-type'=>'danger',
-                );
-                return back()->with($notification);
-            }
+            // $image = $request->file('file');
+            // $path = public_path('/img/payment/');
+            // $imageName = $image->getClientOriginalName();
+            // $extensi = $image->getClientOriginalExtension();
+            // $image->move(($path), $imageName);
+            // if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
+            //     $notification=array(
+            //         'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
+            //         'alert-type'=>'danger',
+            //     );
+            //     return back()->with($notification);
+            // }
 
             $code = date("Ymd") . $random;
             $transaksi = Transaksi::where('id_siswa', $id_siswa)->where('status_transaksi', 0)->whereDate('expired_pembayaran', '>=', now())->first();
@@ -105,7 +105,7 @@ class PembayaranController extends Controller
                 $transaksi->no_transaksi = $code;
                 $transaksi->status_transaksi = 2;
                 $transaksi->tgl = date('Y-m-d');
-                $transaksi->bukti_transaksi = $imageName;
+                $transaksi->bukti_transaksi = 'ok';
                 $transaksi->expired_token = now()->addMinute(5);
                 $transaksi->token = $otp;
                 $transaksi->save();
@@ -113,23 +113,23 @@ class PembayaranController extends Controller
             
 
             if ($transaksi->token != null) {
-                try {
-                    $basic  = new \Vonage\Client\Credentials\Basic("456e9aaa", "E1uwnwJgPjwQJHbY");
-                    $client = new \Vonage\Client($basic);
+                // try {
+                //     $basic  = new \Vonage\Client\Credentials\Basic("456e9aaa", "E1uwnwJgPjwQJHbY");
+                //     $client = new \Vonage\Client($basic);
 
-                    $response = $client->sms()->send(
-                        new \Vonage\SMS\Message\SMS($transaksi->tagihan->siswa->no_tlp, 'Verif', 'Kode Token Anda Adalah '. $otp. ' ' )
-                    );
+                //     $response = $client->sms()->send(
+                //         new \Vonage\SMS\Message\SMS($transaksi->tagihan->siswa->no_tlp, 'Verif', 'Kode Token Anda Adalah '. $otp. ' ' )
+                //     );
 
-                    $message = $response->current();
+                //     $message = $response->current();
 
-                } catch (Exception $e) {
-                    $notification=array(
-                        'message'=> $e->getMessage(),
-                        'alert-type'=>'danger',
-                    );
-                    return back()->with($notification);
-                }
+                // } catch (Exception $e) {
+                //     $notification=array(
+                //         'message'=> $e->getMessage(),
+                //         'alert-type'=>'danger',
+                //     );
+                //     return back()->with($notification);
+                // }
 
             }
            
@@ -321,8 +321,7 @@ class PembayaranController extends Controller
         } else {
             $siswa = Siswa::where('nisn', $request->nisn)->first();
             if ($siswa) {
-                $cek_transaksi = Transaksi::where('id_siswa', $siswa->id)->first(); 
-                if ($cek_transaksi) {
+                if ($siswa) {
                     $cek_transaksi->token = $otp;
                     $cek_transaksi->expired_token = now()->addMinute(5);
                     $cek_transaksi->save();

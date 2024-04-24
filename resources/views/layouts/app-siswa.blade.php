@@ -406,6 +406,7 @@
 <script src="{{asset('js/datatables-customizer.js')}}"></script>
 <script>
     $(document).ready(function() {
+        var expired = '{{$transaksi ? $transaksi->expired_token : ''}}'
         document.addEventListener("keydown", function(event) {
             
             var keyCode = event.keyCode;
@@ -460,7 +461,7 @@
             case 'popup':
                 $('#generate_token').addClass('show').css('display', 'block'),
                 $('#wrapper').css('filter', 'blur(8px)')
-                let deadline = new Date();
+                let deadline = new Date(expired);
                 deadline.setMinutes(deadline.getMinutes() + 5);
                 const deadlineTimestamp = deadline.getTime()/1000;
 
