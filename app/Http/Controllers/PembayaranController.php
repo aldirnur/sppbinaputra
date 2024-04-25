@@ -346,14 +346,14 @@ class PembayaranController extends Controller
         $siswa = Siswa::find($id);
         $nisn = $siswa->nisn;
         $tagihan = Tagihan::where('id_siswa', $id)->first();
-        $transaksi = [];
+        $history = [];
         if ($tagihan) {
-            $transaksi = Transaksi::with('siswa')->where('tag_id', $tagihan->tag_id)->orderBy('created_at', 'desc')->get();
+            $history = Transaksi::with('siswa')->where('tag_id', $tagihan->tag_id)->orderBy('created_at', 'desc')->get();
         }
 
         $menu = 'Pembayaran';
         return view('halaman_siswa.history',compact(
-            'title','transaksi','menu', 'siswa', 'nisn'
+            'title','history','menu', 'siswa', 'nisn'
         ));
     }
 
@@ -411,14 +411,14 @@ class PembayaranController extends Controller
         $siswa = Siswa::find($id);
         $nisn = $siswa->nisn;
         $tagihan = Tagihan::where('id_siswa', $id)->first();
-        $transaksi = [];
+        $history = [];
         if ($tagihan) {
-            $transaksi = Transaksi::with('siswa')->where('id_siswa', $id)->where('status_transaksi', 1)->orderBy('created_at', 'desc')->get();
+            $history = Transaksi::with('siswa')->where('id_siswa', $id)->where('status_transaksi', 1)->orderBy('created_at', 'desc')->get();
         }
 
         $menu = 'Pembayaran';
         return view('halaman_siswa.riwayat_pembayaran',compact(
-            'title','transaksi','menu', 'siswa', 'nisn'
+            'title','history','menu', 'siswa', 'nisn'
         ));
     }
 }

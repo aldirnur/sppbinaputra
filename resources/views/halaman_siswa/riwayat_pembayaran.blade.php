@@ -48,7 +48,7 @@
                             </thead>
                             <tbody>
                                 <tbody>
-                                    @foreach ($transaksi as $item)
+                                    @foreach ($history as $item)
                                         @php 
                                             $jumlah = $item->getJumlahBulan($item->tag_id, $item->nominal_transaksi);
                                             $sisa_tagihan = $item->getSisaTagihan($item->tag_id, $item->nominal_transaksi);

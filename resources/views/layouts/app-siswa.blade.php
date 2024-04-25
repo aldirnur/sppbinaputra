@@ -406,7 +406,7 @@
 <script src="{{asset('js/datatables-customizer.js')}}"></script>
 <script>
     $(document).ready(function() {
-        var expired = '{{$transaksi ? $transaksi->expired_token : ''}}'
+        var expired = '{{isset($transaksi) ? $transaksi->expired_token : ''}}'
         document.addEventListener("keydown", function(event) {
             
             var keyCode = event.keyCode;
