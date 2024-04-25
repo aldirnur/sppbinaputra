@@ -215,11 +215,11 @@ var transaksi = '{{isset($transaksi->trans_id) ? $transaksi->trans_id : 0}}';
 if(transaksi != 0) {
     NextPage(2)
     let deadline = '{{ isset($transaksi) ? $transaksi->expired_pembayaran : 0 }}';
-    const deadlineTimestamp = new Date(deadline).getTime()/720;
+    const deadlineTimestamp = new Date(deadline).getTime()/1000;
 
     let countdown = setInterval(function() {
       
-    const now = Math.floor(Date.now() / 720);
+    const now = Math.floor(Date.now() / 1000);
 
     const diff = deadlineTimestamp - now;
 

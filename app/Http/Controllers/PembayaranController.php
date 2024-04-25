@@ -341,11 +341,14 @@ class PembayaranController extends Controller
                     $cek_transaksi->save();
                 }
                 $notification=array(
-                    'message'=>"Maaf,Token Yang Anda Masukan Salah. Silahkan Cek Kembali OTP Anda",
+                    'message'=>"Maaf,Token Yang Anda Masukan Sudah Kadaluarsa",
                     'alert-type'=>'popup',
                 );
             }
-            
+                $notification=array(
+                    'message'=>"Maaf,Token Yang Anda Masukan Salah. Silahkan Cek Kembali OTP Anda",
+                    'alert-type'=>'popup',
+                );
         }
 
         return back()->with($notification);

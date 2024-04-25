@@ -2,7 +2,7 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Riwayat Pembayaran Siswa') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Data Report Transaksi') }}</h1>
 
     @if (session('success'))
         <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -71,7 +71,7 @@
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Riwayat Pembayaran Siswa</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Data Report Transaksi Siswa</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -79,10 +79,11 @@
                             <thead class="text-center thead-light">
                                 <tr>
                                 <tr>
+                                    <th scope="col">Kode Transaksi</th>    
                                     <th scope="col">Nama Siswa</th>
-                                    <th scope="col">Kode Transaksi</th>
+                                    <th scope="col">Kelas</th>
                                     <th scope="col">Tanggal Pembayaran</th>
-                                    <th scope="col">Jumlah Bulan</th>
+                                    <th scope="col">Jumlah Bulan yang Dibayarkan</th>
                                     <th scope="col">Jumlah Pembayaran</th>
                                     <th scope="col">Sisa Tagihan</th>
                                     <th scope="col">Notes</th>
@@ -98,8 +99,9 @@
                                             $sisa_tagihan = $item->getSisaTagihan($item->tag_id, $item->nominal_transaksi);
                                         @endphp
                                         <tr>
+                                            <td>{{$item->no_transaksi}}</td>    
                                             <td>{{isset($item->tagihan->siswa) ? $item->tagihan->siswa->nama : '-' }}</td>
-                                            <td>{{$item->no_transaksi}}</td>
+                                            <td>{{isset($item->siswa->namakelas) ? $item->siswa->namakelas->nama_kelas : ''}} {{isset($item->siswa->jurusan) ? $item->siswa->jurusan->nama_jurusan : ''}} {{isset($item->siswa->namakelas) ? $item->siswa->namakelas->type : ''}} </td>
                                             <td>{{$item->tgl}}</td>
                                             <td>{{$jumlah}}</td>
                                             <td>Rp. {{number_format($item->nominal_transaksi,2, ',', '.')}}</td>
