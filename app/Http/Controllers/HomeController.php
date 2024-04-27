@@ -34,10 +34,10 @@ class HomeController extends Controller
             //...
         ];
 
-        $transaksi = Transaksi::whereNull('token')->get();
+        $transaksi = Transaksi::get();
         $kas = Keuangan::get();
         $saldo = $kas->sum('nominal_kas');
-        $dataPembayaran = Transaksi::where('status_transaksi', 0)->get()->sum('nominal_transaksi');
+        $dataPembayaran = Transaksi::where('status_transaksi', 2)->get()->sum('nominal_transaksi');
         
         $siswa = Siswa::get();
 
