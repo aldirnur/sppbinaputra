@@ -94,24 +94,24 @@ class PembayaranController extends Controller
         }
         $cek_tagihan = Tagihan::where('id_siswa',  $id_siswa)->where('jumlah', '!=', 0)->first();
         if ($cek_tagihan) { 
-            // $image = $request->file('file');
-            // $path = public_path('/img/payment/');
-            // $imageName = $image->getClientOriginalName();
-            // $extensi = $image->getClientOriginalExtension();
-            // $image->move(($path), $imageName);
-            // if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
-            //     $notification=array(
-            //         'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
-            //         'alert-type'=>'danger',
-            //     );
-            //     return back()->with($notification);
-            // }
+            $image = $request->file('file');
+            $path = public_path('/img/payment/');
+            $imageName = $image->getClientOriginalName();
+            $extensi = $image->getClientOriginalExtension();
+            $image->move(($path), $imageName);
+            if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
+                $notification=array(
+                    'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
+                    'alert-type'=>'danger',
+                );
+                return back()->with($notification);
+            }
 
             $code = date("Ymd") . $random;
             $transaksi = Transaksi::where('id_siswa', $id_siswa)->where('status_transaksi', 0)->whereDate('expired_pembayaran', '>=', now())->first();
             if ($transaksi) {
                 $transaksi->no_transaksi = $code;
-                $transaksi->status_transaksi = 2;
+                $transaksi->status_transaksi = 0;
                 $transaksi->tgl = date('Y-m-d');
                 $transaksi->bukti_transaksi = $imageName;
                 $transaksi->expired_token = now()->addMinute(5);
@@ -324,8 +324,9 @@ class PembayaranController extends Controller
             $otp .= mt_rand(0, 9);
         }
         if ($cek_transaksi) {
-            if ($cek_transaksi->expired_token > date('Y-m-d H:i:s')) {
+            if ($cek_transaksi->expired_token < date('Y-m-d H:i:s')) {
                 $cek_transaksi->token = $hash;
+                $cek_transaksi->status_transaksi = 2;
                 $cek_transaksi->save();
                 $notification=array(
                     'message'=>"Pembayaran Berhasil, Hubungi Petugas Untuk Melakukan Verifikasi",
@@ -344,9 +345,12 @@ class PembayaranController extends Controller
             $siswa = Siswa::where('nisn', $request->nisn)->first();
             if ($siswa) {
                 if ($siswa) {
-                    $cek_transaksi->token = $otp;
-                    $cek_transaksi->expired_token = now()->addMinute(5);
-                    $cek_transaksi->save();
+                    $transaksi = Transaksi::where('id_siswa', $siswa->id_siswa)->where('status_transaksi', 0)->first();
+                    if ($transaksi->expired_token < date('Y-m-d H:i:s')) {
+                        $transaksi->token = $otp;
+                        $transaksi->expired_token = now()->addMinute(5);
+                        $transaksi->save();
+                    }
                 }
                 $notification=array(
                     'message'=>"Maaf,Token Yang Anda Masukan Sudah Kadaluarsa",

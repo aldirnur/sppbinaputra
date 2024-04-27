@@ -379,6 +379,7 @@ End of Sidebar -->
                                     @endif
                                     
                                     <div class="otp-field mb-4">
+                                        <input type="hidden" id="expied" value="{{ isset($transaksi) ? $transaksi->expired_token : 0 }}">
                                         <input type="number" name="otp1"  />
                                         <input type="number" name="otp2" disabled />
                                         <input type="number" name="otp3" disabled />
@@ -415,6 +416,7 @@ End of Sidebar -->
     var expired = '{{isset($transaksi) ? $transaksi->expired_token : 0}}'
     console.log(expired)
     $(document).ready(function() {
+<<<<<<< HEAD
         addClass('show').css('display', 'block'),
                 $('#wrapper').css('filter', 'blur(8px)')
                 let deadline = new Date(expired);
@@ -442,7 +444,37 @@ End of Sidebar -->
 
                 }, 1000);
         
+=======
+        
+        // $('#generate_token').addClass('show').css('display', 'block'),
+        //         $('#wrapper').css('filter', 'blur(8px)')
+        //         let deadline = new Date(expired);
+        //         deadline.setMinutes(deadline.getMinutes());
+        //         const deadlineTimestamp = deadline.getTime()/1000;
+
+        //         let countdown = setInterval(function() {
+
+        //         const now = Math.floor(Date.now() / 1000);
+        //         const diff = deadlineTimestamp - now;
+
+        //         if(diff <= 0) {
+        //             clearInterval(countdown);
+        //             document.getElementById('countdown_token').innerHTML = 'Kirim Ulang'; 
+        //             $('#resend').addClass('btn btn-primary submit-btn');
+        //             $('#resend').prop("disabled", false);
+        //             return;
+        //         }
+
+        //         const minutes = Math.floor(diff / 60);
+        //         const seconds = Math.floor(diff % 60);
+
+        //         document.getElementById('countdown_token').innerHTML =  
+        //             minutes + ' Menit ' + seconds + ' Detik';
+
+        //         }, 1000);
+>>>>>>> 7e758716332bb0f3878d71aedc93b042da676d5c
         document.addEventListener("keydown", function(event) {
+            
             
             var keyCode = event.keyCode;
             switch (keyCode) {
@@ -496,8 +528,13 @@ End of Sidebar -->
             case 'popup':
                 $('#generate_token').addClass('show').css('display', 'block'),
                 $('#wrapper').css('filter', 'blur(8px)')
+                var expired = $('#expied').val();
                 let deadline = new Date(expired);
+<<<<<<< HEAD
                 deadline.setMinutes(deadline.getMinutes()+5);
+=======
+                deadline.setMinutes(deadline.getMinutes());
+>>>>>>> 7e758716332bb0f3878d71aedc93b042da676d5c
                 const deadlineTimestamp = deadline.getTime()/1000;
 
                 let countdown = setInterval(function() {
