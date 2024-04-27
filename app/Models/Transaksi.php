@@ -21,7 +21,7 @@ class Transaksi extends Model
     }
 
     public function metodePembayaran() {
-        return $this->belongsTo(MetodePembayaran::class, 'metode_pembayaran_id');
+        return $this->belongsTo(MetodePembayaran::class, 'metode_pembayaran_id' , 'id');
     }
 
     public function siswa() {
