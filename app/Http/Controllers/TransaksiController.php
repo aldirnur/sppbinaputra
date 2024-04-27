@@ -92,14 +92,14 @@ class TransaksiController extends Controller
         $path = public_path('/img/payment/');
         $imageName = $image->getClientOriginalName();
         $extensi = $image->getClientOriginalExtension();
-        // $image->move(($path), $imageName);
-        // if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
-        //     $notification=array(
-        //         'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
-        //         'alert-type'=>'danger',
-        //     );
-        //     return back()->with($notification);
-        // }
+        $image->move(($path), $imageName);
+        if (!in_array($extensi, ['jpg', 'jpeg', 'png'])) {
+            $notification=array(
+                'message'=>"Maaf, Format File Harus JPG,JPEG atau PNG",
+                'alert-type'=>'danger',
+            );
+            return back()->with($notification);
+        }
 
 
         $cek_tagihan = Tagihan::where('id_siswa',  $request->siswa)->first();
@@ -111,8 +111,9 @@ class TransaksiController extends Controller
             $transaksi->tgl = date('Y-m-d');
             $transaksi->nominal_transaksi = $request->nominal;
             $transaksi->keterangan = $request->keterangan ? : 'Transaksi Pembayaran SPP oleh Bendahara';
-            $transaksi->bukti_transaksi = 'ok';
+            $transaksi->bukti_transaksi = $imageName;
             $transaksi->tag_id = $cek_tagihan->tag_id;
+            $transaksi->id_siswa = $request->siswa;
             $transaksi->token = '-';
             $transaksi->save();
 
