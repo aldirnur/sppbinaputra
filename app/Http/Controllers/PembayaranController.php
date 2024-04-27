@@ -317,14 +317,13 @@ class PembayaranController extends Controller
         $cek_transaksi = Transaksi::where('token', $otp)->first();
 
         $hash = hash('sha512', $request->token);
-        // dd($hash);
         $otp = '';
         $limit = 6;
         for($i = 0; $i < $limit; $i++) {
             $otp .= mt_rand(0, 9);
         }
         if ($cek_transaksi) {
-            if ($cek_transaksi->expired_token < date('Y-m-d H:i:s')) {
+            if  ($cek_transaksi->expired_token > date('Y-m-d H:i:s')) {
                 $cek_transaksi->token = $hash;
                 $cek_transaksi->status_transaksi = 2;
                 $cek_transaksi->save();
