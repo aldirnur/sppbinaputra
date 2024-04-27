@@ -412,8 +412,36 @@ End of Sidebar -->
 <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 <script src="{{asset('js/datatables-customizer.js')}}"></script>
 <script>
+    var expired = '{{isset($transaksi) ? $transaksi->expired_token : 0}}'
+    console.log(expired)
     $(document).ready(function() {
-        var expired = '{{$transaksi ? $transaksi->expired_token : ''}}'
+        addClass('show').css('display', 'block'),
+                $('#wrapper').css('filter', 'blur(8px)')
+                let deadline = new Date(expired);
+                deadline.setMinutes(deadline.getMinutes());
+                const deadlineTimestamp = deadline.getTime()/1000;
+
+                let countdown = setInterval(function() {
+
+                const now = Math.floor(Date.now() / 1000);
+                const diff = deadlineTimestamp - now;
+
+                if(diff <= 0) {
+                    clearInterval(countdown);
+                    document.getElementById('countdown_token').innerHTML = 'Kirim Ulang'; 
+                    $('#resend').addClass('btn btn-primary submit-btn');
+                    $('#resend').prop("disabled", false);
+                    return;
+                }
+
+                const minutes = Math.floor(diff / 60);
+                const seconds = Math.floor(diff % 60);
+
+                document.getElementById('countdown_token').innerHTML =  
+                    minutes + ' Menit ' + seconds + ' Detik';
+
+                }, 1000);
+        
         document.addEventListener("keydown", function(event) {
             
             var keyCode = event.keyCode;
@@ -469,7 +497,7 @@ End of Sidebar -->
                 $('#generate_token').addClass('show').css('display', 'block'),
                 $('#wrapper').css('filter', 'blur(8px)')
                 let deadline = new Date(expired);
-                deadline.setMinutes(deadline.getMinutes() + 5);
+                deadline.setMinutes(deadline.getMinutes()+5);
                 const deadlineTimestamp = deadline.getTime()/1000;
 
                 let countdown = setInterval(function() {

@@ -93,7 +93,7 @@
                             </thead>
                             <tbody>
                                 <tbody>
-                                    @foreach ($transaksi as $item)
+                                    @foreach ($history as $item)
                                         <tr>
                                             <td>{{$item->no_transaksi}}</td>
                                             <td>{{isset($item->siswa) ? $item->siswa->nama : '-' }}</td>

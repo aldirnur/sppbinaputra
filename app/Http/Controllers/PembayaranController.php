@@ -36,7 +36,6 @@ class PembayaranController extends Controller
         $siswa = Siswa::where('nis', $request->nis)->where('pin', $request->password)->first();
         if ($siswa) {
             $tagihan = 0;
-            $transaksi = [];
             $metodePembayaran = DB::table('metode_pembayaran')->get();
             $transaksi = Transaksi::with('metodePembayaran')->where('id_siswa', $siswa->id_siswa)->where('status_transaksi', 0)->whereDate('expired_pembayaran', '>=', now())->first();
             $expiredTransaksi = Transaksi::where('id_siswa', $siswa->id_siswa)->where('status_transaksi', 0)->whereDate('expired_pembayaran', '<', now())->first();
@@ -114,7 +113,7 @@ class PembayaranController extends Controller
                 $transaksi->no_transaksi = $code;
                 $transaksi->status_transaksi = 2;
                 $transaksi->tgl = date('Y-m-d');
-                $transaksi->bukti_transaksi = 'ok';
+                $transaksi->bukti_transaksi = $imageName;
                 $transaksi->expired_token = now()->addMinute(5);
                 $transaksi->token = $otp;
                 $transaksi->save();
@@ -132,7 +131,7 @@ class PembayaranController extends Controller
                 //     );
 
                 try {
-                    $basic  = new \Vonage\Client\Credentials\Basic("456e9aaa", "E1uwnwJgPjwQJHbY");
+                    $basic  = new \Vonage\Client\Credentials\Basic("b04f9090", "MDpUY1X6ecKV0GA2");
                     $client = new \Vonage\Client($basic);
 
                     $response = $client->sms()->send(
@@ -369,14 +368,14 @@ class PembayaranController extends Controller
         $siswa = Siswa::find($id);
         $nisn = $siswa->nisn;
         $tagihan = Tagihan::where('id_siswa', $id)->first();
-        $transaksi = [];
+        $history = [];
         if ($tagihan) {
-            $transaksi = Transaksi::with('siswa')->where('tag_id', $tagihan->tag_id)->orderBy('created_at', 'desc')->get();
+            $history = Transaksi::with('siswa')->where('tag_id', $tagihan->tag_id)->orderBy('created_at', 'desc')->get();
         }
 
         $menu = 'Pembayaran';
         return view('halaman_siswa.history',compact(
-            'title','transaksi','menu', 'siswa', 'nisn'
+            'title','history','menu', 'siswa', 'nisn'
         ));
     }
 
@@ -434,14 +433,14 @@ class PembayaranController extends Controller
         $siswa = Siswa::find($id);
         $nisn = $siswa->nisn;
         $tagihan = Tagihan::where('id_siswa', $id)->first();
-        $transaksi = [];
+        $history = [];
         if ($tagihan) {
-            $transaksi = Transaksi::with('siswa')->where('id_siswa', $id)->where('status_transaksi', 1)->orderBy('created_at', 'desc')->get();
+            $history = Transaksi::with('siswa')->where('id_siswa', $id)->where('status_transaksi', 1)->orderBy('created_at', 'desc')->get();
         }
 
         $menu = 'Pembayaran';
         return view('halaman_siswa.riwayat_pembayaran',compact(
-            'title','transaksi','menu', 'siswa', 'nisn'
+            'title','history','menu', 'siswa', 'nisn'
         ));
     }
 }
