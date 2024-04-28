@@ -101,6 +101,13 @@
 
                     <div class="col-lg-12">
                         <div class="form-group">
+                            <label>Kode Transaksi<span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" name="nominal" value="{{$transaksi->no_transaksi}}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
                             <label>Nominal<span class="text-danger">*</span></label>
                             <input class="form-control" type="text" name="nominal" value="{{$transaksi->nominal_transaksi}}" readonly>
                         </div>

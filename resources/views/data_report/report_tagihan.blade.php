@@ -48,7 +48,7 @@
                                             <th>No</th>
                                             <th>Nama Siswa</th>
                                             <th>Kelas</th>
-                                            <th>Jurusan</th>
+                                            
                                             <th>Tahun Tagihan</th>
                                             <th>Jumlah Tagihan</th>
                                         </tr>
@@ -66,8 +66,8 @@
                                                             <td>
                                                                 {{$sw->nama}}
                                                             </td>
-                                                            <td>{{$sw->namaKelas->nama_kelas}} - {{$sw->namaKelas->type}}</td>
-                                                            <td>{{$sw->jurusan->nama_jurusan}}</td>
+                                                            <td>{{$sw->namaKelas->nama_kelas}} {{$sw->jurusan->nama_jurusan}} {{$sw->namaKelas->type}}</td>
+                                                            
                                                             <td>{{$tag->angkatan}}</td>
                                                             <td>{{number_format($tag->spp->nominal_spp,2) }}</td>
                                                         </tr>
