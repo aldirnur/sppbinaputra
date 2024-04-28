@@ -116,8 +116,7 @@
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label>Bukti Pembayaran </label> <br>
-                            <a href="#generate_report"  data-toggle="modal">{{$transaksi->bukti_transaksi}}</a>
-                            {{-- <input class="form-control" type="text" name="file" value="{{$transaksi->bukti}}"> <i class="fe fe-image"></i> --}}
+                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="{{asset('img/payment/' .$transaksi->bukti_transaksi )   }}" alt="...">
                         </div>
                     </div>
                     <div class="col-lg-12" style="display: none" id="user_note">
